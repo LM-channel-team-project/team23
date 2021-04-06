@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './Components/Common/Header';
-import Home from './Routes/Home';
-import Login from './Routes/Login';
-import Project from './Routes/Project';
-import People from './Routes/People';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Project from './Pages/Project';
+import People from './Pages/People';
 
 const Router = () => (
   <BrowserRouter>
