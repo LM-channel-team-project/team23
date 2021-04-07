@@ -20,7 +20,8 @@ const Recruitment = styled.div`
   left: 5%;
   padding: 10px 8px 8px 8px;
   border-radius: 8px 8px 8px 8px;
-  box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
   background-color: #eae6e6;
   transition: transform 0.3s ease;
 `;
@@ -33,7 +34,8 @@ const ProjectContent = styled.div`
   margin: 0 auto;
   margin-bottom: 40px;
   border-radius: 8px;
-  box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
   transition: transform 0.3s ease;
   &:hover {
     transform: translateY(-5px);
