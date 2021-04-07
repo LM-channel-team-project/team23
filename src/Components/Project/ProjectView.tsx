@@ -12,15 +12,21 @@ const ProjectGrid = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Recruitment = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  transition: transform 0.1s ease-in-out;
+  width: 90%;
+  height: 50px;
+  bottom: -20px;
+  left: 5%;
+  padding: 10px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
+  background-color: #eae6e6;
+  transition: transform 0.3s ease;
 `;
 
 const ProjectContent = styled.div`
+  position: relative;
   max-width: 384px;
   width: 100%;
   height: 220px;
@@ -30,7 +36,10 @@ const ProjectContent = styled.div`
   box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
   transition: transform 0.3s ease;
   &:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
+    ${Recruitment} {
+      transform: translateY(-5px);
+    }
   }
   @media screen and (max-width: 1150px) {
     width: 330px;
@@ -66,11 +75,19 @@ const ProjectName = styled.div`
   font-size: 1.125rem;
 `;
 
+const Image = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: transform 0.1s ease-in-out;
+`;
+
 const ProjectThumb = styled.div`
   position: relative;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 8px 8px;
   overflow: hidden;
   font-weight: 600;
   color: #fff;
@@ -80,12 +97,6 @@ const ProjectThumb = styled.div`
       transform: scale(1.06);
     }
   }
-`;
-
-const Recruitment = styled.div`
-  padding: 10px 8px 8px 8px;
-  border-radius: 0 0 8px 8px;
-  background-color: #eae6e6;
 `;
 
 const ProjectView = () => (
