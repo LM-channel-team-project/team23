@@ -25,6 +25,8 @@ const ProjectContent = styled.div`
   width: 100%;
   margin: 0 auto;
   margin-bottom: 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
   @media screen and (max-width: 1150px) {
     width: 330px;
   }
