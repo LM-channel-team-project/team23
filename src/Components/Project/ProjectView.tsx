@@ -23,6 +23,7 @@ const Image = styled.img`
 const ProjectContent = styled.div`
   max-width: 384px;
   width: 100%;
+  height: 220px;
   margin: 0 auto;
   margin-bottom: 40px;
   border-radius: 8px;
@@ -67,7 +68,7 @@ const ProjectName = styled.div`
 
 const ProjectThumb = styled.div`
   position: relative;
-  height: 218px;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px 8px 0 0;
   overflow: hidden;
