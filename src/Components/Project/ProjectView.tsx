@@ -13,6 +13,8 @@ const ProjectGrid = styled.div`
 `;
 
 const Recruitment = styled.div`
+  display: flex;
+  align-items: center;
   position: absolute;
   width: 90%;
   height: 50px;
@@ -22,7 +24,7 @@ const Recruitment = styled.div`
   border-radius: 8px 8px 8px 8px;
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
     rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-  background-color: #eae6e6;
+  background-color: #fff;
   transition: transform 0.3s ease;
 `;
 
