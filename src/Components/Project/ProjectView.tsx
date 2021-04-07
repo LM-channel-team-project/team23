@@ -27,6 +27,10 @@ const ProjectContent = styled.div`
   margin-bottom: 40px;
   border-radius: 8px;
   box-shadow: 0 8px 8px rgb(50 50 93 / 25%), 0 1px 3px rgb(0 0 0 / 10%);
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-10px);
+  }
   @media screen and (max-width: 1150px) {
     width: 330px;
   }
@@ -57,7 +61,7 @@ const ProjectName = styled.div`
   align-items: flex-end;
   padding: 46px 20px;
   width: 100%;
-  height: 218px;
+  height: 100%;
   position: absolute;
   left: 0;
   top: 0;
