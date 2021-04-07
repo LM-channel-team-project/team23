@@ -13,7 +13,7 @@ const ProjectHeader = styled.h2`
   flex-direction: column;
   font-weight: 600;
   line-height: 1.5;
-  margin: 15px 0;
+  margin: 35px 0;
 `;
 
 const SmallTittle = styled.span`
