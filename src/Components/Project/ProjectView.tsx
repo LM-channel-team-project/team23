@@ -84,7 +84,7 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   z-index: -1;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 `;
 
 const ProjectThumb = styled.div`
@@ -98,7 +98,7 @@ const ProjectThumb = styled.div`
   cursor: pointer;
   &:hover {
     ${Image} {
-      transform: scale(1.06);
+      transform: scale(1.1);
     }
   }
 `;
@@ -111,6 +111,7 @@ const ProjectView = () => (
         <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
         <ProjectName>간단한 웹 게임</ProjectName>
       </ProjectThumb>
+      <Recruitment>모집인원: 0/4</Recruitment>
     </ProjectContent>
     <ProjectContent>
       <ProjectThumb>
