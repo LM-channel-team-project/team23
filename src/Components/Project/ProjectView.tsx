@@ -62,9 +62,6 @@ const ProjectName = styled.div`
   padding: 46px 20px;
   width: 100%;
   height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
   font-size: 1.125rem;
 `;
 
@@ -98,7 +95,6 @@ const ProjectView = () => (
         <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
         <ProjectName>간단한 웹 게임</ProjectName>
       </ProjectThumb>
-      <Recruitment>모집인원: 0/4</Recruitment>
     </ProjectContent>
     <ProjectContent>
       <ProjectThumb>
