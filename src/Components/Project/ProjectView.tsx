@@ -66,7 +66,11 @@ const ProjectContent = styled.div`
 
 const ProjectCategory = styled.div``;
 
-const RecruitmentStatus = styled.div``;
+const RecruitmentStatus = styled.div`
+  position: absolute;
+  top: 15px;
+  left: 20px;
+`;
 
 const Recruitment = styled.div`
   display: flex;
@@ -108,6 +112,39 @@ const ProjectName = styled.div`
 
 const ProjectView = () => (
   <ProjectGrid>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <Recruitment>모집인원: 0/4</Recruitment>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <Recruitment>모집인원: 0/4</Recruitment>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <Recruitment>모집인원: 0/4</Recruitment>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
     <ProjectContent>
       <ProjectThumb>
         <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
