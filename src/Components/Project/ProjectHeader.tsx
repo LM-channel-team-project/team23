@@ -18,6 +18,9 @@ const SmallTittle = styled.span`
 const BigTitle = styled.span`
   color: #42495b;
   font-size: 1.75rem;
+  @media screen and (max-width: 1024px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const ProjectHeader = () => (

@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 const SearchOption = styled.div`
   margin-top: 36px;
+  @media screen and (max-width: 750px) {
+    display: flex;
+    justify-content: space-around;
+  }
 `;
 
 const Select = styled.select`
