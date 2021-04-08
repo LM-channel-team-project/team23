@@ -14,18 +14,11 @@ const ProjectGrid = styled.div`
 
 const Recruitment = styled.div`
   display: flex;
-  align-items: center;
-  position: absolute;
-  width: 90%;
-  height: 50px;
-  bottom: -20px;
-  left: 5%;
-  padding: 10px 8px 8px 8px;
-  border-radius: 8px 8px 8px 8px;
-  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
-    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-  background-color: #fff;
-  transition: transform 0.3s ease;
+  align-items: flex-end;
+  padding: 46px 20px;
+  width: 100%;
+  height: 100%;
+  font-size: 1.125rem;
 `;
 
 const ProjectContent = styled.div`
@@ -72,11 +65,18 @@ const ProjectCategory = styled.div`
 
 const ProjectName = styled.div`
   display: flex;
-  align-items: flex-end;
-  padding: 46px 20px;
-  width: 100%;
-  height: 100%;
-  font-size: 1.125rem;
+  align-items: center;
+  position: absolute;
+  width: 90%;
+  height: 50px;
+  bottom: -20px;
+  left: 5%;
+  padding: 10px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
+  background-color: #fff;
+  transition: transform 0.3s ease;
 `;
 
 const Image = styled.img`
@@ -109,33 +109,9 @@ const ProjectView = () => (
       <ProjectThumb>
         <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
         <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임</ProjectName>
+        <Recruitment>모집인원: 0/4</Recruitment>
       </ProjectThumb>
-      <Recruitment>모집인원: 0/4</Recruitment>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임</ProjectName>
-      </ProjectThumb>
-      <Recruitment>모집인원: 0/4</Recruitment>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임</ProjectName>
-      </ProjectThumb>
-      <Recruitment>모집인원: 0/4</Recruitment>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임</ProjectName>
-      </ProjectThumb>
-      <Recruitment>모집인원: 0/4</Recruitment>
+      <ProjectName>간단한 웹 게임</ProjectName>
     </ProjectContent>
   </ProjectGrid>
 );
