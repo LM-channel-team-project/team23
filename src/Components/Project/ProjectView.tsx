@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const ProjectGrid = styled.div`
   display: grid;
+  grid-row-gap: 45px;
   grid-template-columns: repeat(3, 1fr);
   @media screen and (max-width: 750px) {
     grid-template-columns: repeat(2, 1fr);
