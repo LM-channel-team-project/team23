@@ -63,6 +63,9 @@ const ProjectContent = styled.div`
   @media screen and (max-width: 600px) {
     width: 500px;
   }
+  @media screen and (max-width: 420px) {
+    width: 340px;
+  }
 `;
 
 const ProjectCategory = styled.div``;
