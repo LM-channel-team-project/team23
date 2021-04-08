@@ -144,6 +144,54 @@ const ProjectBox = () => (
         <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
       </ProjectTitle>
     </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <ProjectInfo>
+          <Recruitment>모집인원: 0/4</Recruitment>
+          <Description>
+            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
+          </Description>
+        </ProjectInfo>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <ProjectInfo>
+          <Recruitment>모집인원: 0/4</Recruitment>
+          <Description>
+            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
+          </Description>
+        </ProjectInfo>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <RecruitmentStatus>모집중</RecruitmentStatus>
+        <ProjectInfo>
+          <Recruitment>모집인원: 0/4</Recruitment>
+          <Description>
+            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
+          </Description>
+        </ProjectInfo>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
   </ProjectGrid>
 );
 
