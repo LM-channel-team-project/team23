@@ -114,7 +114,7 @@ const ProjectName = styled.div`
   margin: 8px 0;
 `;
 
-const ProjectView = () => (
+const ProjectBox = () => (
   <ProjectGrid>
     <ProjectContent>
       <ProjectThumb>
@@ -163,4 +163,4 @@ const ProjectView = () => (
   </ProjectGrid>
 );
 
-export default ProjectView;
+export default ProjectBox;
