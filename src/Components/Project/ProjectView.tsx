@@ -66,6 +66,7 @@ const ProjectCategory = styled.div`
 const ProjectName = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   position: absolute;
   width: 90%;
   height: 50px;
