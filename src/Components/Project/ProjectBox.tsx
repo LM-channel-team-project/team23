@@ -106,7 +106,7 @@ const ProjectThumb = styled.div`
 `;
 
 const ProjectName = styled.div`
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 8px 0;
 `;
