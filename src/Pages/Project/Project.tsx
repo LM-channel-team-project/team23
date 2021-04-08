@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProjectView from '../../Components/Project/ProjectView';
+import ProjectBox from '../../Components/Project/ProjectBox';
 
 const Container = styled.section`
   max-width: 1200px;
@@ -32,7 +32,7 @@ const Project = () => (
       <SmallTittle>Study with us!</SmallTittle>
       <BigTitle>함께 할 프로젝트 살펴보기</BigTitle>
     </ProjectHeader>
-    <ProjectView />
+    <ProjectBox />
   </Container>
 );
 
