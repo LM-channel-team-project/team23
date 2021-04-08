@@ -77,6 +77,7 @@ const ProjectName = styled.div`
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
     rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
   background-color: #fff;
+  font-weight: 600;
   transition: transform 0.3s ease;
 `;
 
