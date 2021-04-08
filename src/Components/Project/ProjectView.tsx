@@ -12,15 +12,23 @@ const ProjectGrid = styled.div`
   }
 `;
 
-const Recruitment = styled.div`
+const ProjectName = styled.div`
   display: flex;
-  align-items: flex-end;
-  padding: 46px 20px;
-  width: 100%;
-  height: 100%;
-  font-size: 1.125rem;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 90%;
+  height: 50px;
+  bottom: -20px;
+  left: 5%;
+  padding: 10px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
+  background-color: #fff;
+  font-weight: 600;
+  transition: transform 0.3s ease;
 `;
-
 const ProjectContent = styled.div`
   position: relative;
   max-width: 384px;
@@ -34,7 +42,7 @@ const ProjectContent = styled.div`
   transition: transform 0.3s ease;
   &:hover {
     transform: translateY(-5px);
-    ${Recruitment} {
+    ${ProjectName} {
       transform: translateY(-5px);
     }
   }
@@ -63,22 +71,13 @@ const ProjectCategory = styled.div`
   padding: 12px 20px;
 `;
 
-const ProjectName = styled.div`
+const Recruitment = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  width: 90%;
-  height: 50px;
-  bottom: -20px;
-  left: 5%;
-  padding: 10px 8px 8px 8px;
-  border-radius: 8px 8px 8px 8px;
-  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
-    rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-  background-color: #fff;
-  font-weight: 600;
-  transition: transform 0.3s ease;
+  align-items: flex-end;
+  padding: 46px 20px;
+  width: 100%;
+  height: 100%;
+  font-size: 1.125rem;
 `;
 
 const Image = styled.img`
@@ -107,6 +106,22 @@ const ProjectThumb = styled.div`
 
 const ProjectView = () => (
   <ProjectGrid>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <Recruitment>모집인원: 0/4</Recruitment>
+      </ProjectThumb>
+      <ProjectName>간단한 웹 게임</ProjectName>
+    </ProjectContent>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+        <Recruitment>모집인원: 0/4</Recruitment>
+      </ProjectThumb>
+      <ProjectName>간단한 웹 게임</ProjectName>
+    </ProjectContent>
     <ProjectContent>
       <ProjectThumb>
         <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
