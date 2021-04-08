@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Project from './Pages/Project';
 import People from './Pages/People';
+import Footer from './Components/Common/Footer';
 
 const Router = () => (
   <BrowserRouter>
@@ -16,6 +17,7 @@ const Router = () => (
       <Route path="/people" component={People} />
       <Redirect path="*" to="/" />
     </Switch>
+    <Footer />
   </BrowserRouter>
 );
 
