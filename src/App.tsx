@@ -5,8 +5,8 @@ import GlobalStyles from './Components/Common/GlobalStyles';
 function App() {
   return (
     <>
-      <Router />
       <GlobalStyles />
+      <Router />
     </>
   );
 }
