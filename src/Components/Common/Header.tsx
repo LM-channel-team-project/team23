@@ -95,7 +95,7 @@ function Header() {
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
         <LoginStyle>
-          <AtagStyle to="/join">가입</AtagStyle>/
+          <AtagStyle to="/signup">가입</AtagStyle>/
           <AtagStyle to="/login">로그인</AtagStyle>
         </LoginStyle>
       </Web>

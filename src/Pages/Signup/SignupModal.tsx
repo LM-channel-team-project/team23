@@ -38,7 +38,7 @@ const ModalContent = styled.div`
     font-family: 'Noto Sans KR', sans-serif;
   }
 
-  & > .loginBtn {
+  & > .signupBtn {
     position: relative;
     max-width: 324px;
     width: 100%;
@@ -62,15 +62,15 @@ const ModalContent = styled.div`
     }
   }
 
-  & > .loginBtn.google {
+  & > .signupBtn.google {
     background: #f44336;
   }
 
-  & > .loginBtn.github {
+  & > .signupBtn.github {
     background: #2b3137;
   }
 
-  & > .signupBtn {
+  & > .loginBtn {
     position: absolute;
     bottom: 30px;
     left: 50%;
@@ -82,28 +82,44 @@ const ModalContent = styled.div`
       cursor: pointer;
     }
   }
+
+  & > .info {
+    a {
+      text-decoration: none;
+      color: red;
+    }
+    font-size: 11px;
+    margin-top: 12px;
+    line-height: 1.5;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
 `;
 
-const Login: React.FC = () => {
+const SignupModal: React.FC = () => {
   return (
     <>
       <ModalWrapper>
         <ModalContent>
           <MdClose />
-          <p className="modalTit">로그인</p>
-          <button className="loginBtn google">
+          <p className="modalTit">회원 가입하기</p>
+          <button className="signupBtn google">
             <FaGoogle />
-            <span>구글 계정으로 로그인</span>
+            <span>구글 계정으로 가입</span>
           </button>
-          <button className="loginBtn github">
+          <button className="signupBtn github">
             <FaGithub />
-            <span>깃허브 계정으로 로그인</span>
+            <span>깃허브 계정으로 가입</span>
           </button>
-          <div className="signupBtn">회원 가입하기</div>
+          <div className="info">
+            소셜 로그인으로 가입 시 <a href="">이용약관</a>,{' '}
+            <a href="">개인정보처리방침</a>, <a href="">전자금융거래약관</a>에
+            동의함으로 처리됩니다
+          </div>
+          <div className="loginBtn">로그인</div>
         </ModalContent>
       </ModalWrapper>
     </>
   );
 };
 
-export default Login;
+export default SignupModal;

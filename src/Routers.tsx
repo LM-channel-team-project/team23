@@ -7,6 +7,7 @@ import Login from './Pages/Login';
 import Project from './Pages/Project';
 import People from './Pages/People';
 import Footer from './Components/Common/Footer';
+import Signup from './Pages/Signup';
 
 const Style = styled.div`
   padding-top: 75px;
@@ -20,6 +21,7 @@ const Router = () => (
         <Route path="/" exact component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/project" component={Project} />
+        <Route path="/signup" component={Signup} />
         <Route path="/people" component={People} />
         <Redirect path="*" to="/" />
       </Switch>
