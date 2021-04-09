@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from '../../Components/Title';
+import Title from '../../Components/Common/Title';
 import PersonBoxList from '../../Components/PersonBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';

@@ -10,7 +10,7 @@ import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
 
 const Style = styled.div`
-  padding-top: 75px;
+  padding-top: 60px;
 `;
 
 const Router = () => (

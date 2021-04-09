@@ -13,6 +13,6 @@ const BoxListStyle = styled.li`
   width: 100%;
 `;
 
-const PersonBoxList = () => <BoxListStyle></BoxListStyle>;
+const ProjectBoxList = () => <BoxListStyle></BoxListStyle>;
 
-export default PersonBoxList;
+export default ProjectBoxList;

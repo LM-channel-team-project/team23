@@ -2,15 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TitleStyle = styled.div`
-  margin: 0.8rem;
-  margin-left: 0.5rem;
+  margin: 1rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 `;
 
 const SubtitleStyle = styled.h3`
-  font-size: 18px;
   padding: 0.2rem;
   color: #fd6f22;
   font-weight: bolder;
+  font-size: 18px;
 `;
 
 const MaintitleStyle = styled.h2`

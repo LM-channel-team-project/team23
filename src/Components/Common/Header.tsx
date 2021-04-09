@@ -8,7 +8,7 @@ const HeaderStyle = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 75px;
+  height: 60px;
   margin: 0 auto;
   padding: 0.5rem;
   background-color: #fff;
@@ -19,12 +19,13 @@ const HeaderStyle = styled.nav`
   align-items: center;
   width: 100%;
   z-index: 1000;
+  box-shadow: 0 3px 27px 0 rgba(0, 0, 0, 0.02);
 `;
 
 const LogoStyle = styled.img`
   cursor: pointer;
-  width: 167px;
-  height: 40px;
+  width: 140px;
+  height: 35px;
   border-style: none;
   margin-left: 1.8rem;
 `;
@@ -47,8 +48,7 @@ const AtagStyle = styled(Link)`
   text-decoration: none;
   color: #353535;
   &:hover {
-    font-weight: bold;
-    color: black;
+    transform: scale(1.1, 1.1);
   }
 `;
 
@@ -60,6 +60,10 @@ const LoginStyle = styled.div`
   justify-content: space-around;
   padding: 0.5rem;
   margin-right: 2rem;
+`;
+
+const Divider = styled.span`
+  margin: 0 10px;
 `;
 
 const IconStyle = styled(CgMenuGridO)`
@@ -95,7 +99,8 @@ function Header() {
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
         <LoginStyle>
-          <AtagStyle to="/signup">가입</AtagStyle>/
+          <AtagStyle to="/signup">가입</AtagStyle>
+          <Divider>/</Divider>
           <AtagStyle to="/login">로그인</AtagStyle>
         </LoginStyle>
       </Web>
