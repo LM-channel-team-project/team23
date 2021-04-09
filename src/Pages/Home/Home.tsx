@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from '../../Components/Title';
 import PersonBoxList from '../../Components/PersonBoxList';
-import ProjectBoxList from '../../Components/PrjojectBoxList';
+import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
 
@@ -14,12 +14,11 @@ const Home = () => (
     <Info />
     <div className="new_project">
       <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
-      <ProjectBoxList />
+      <ProjectBox />
     </div>
     <div className="join_project">
       <Title subtitle="Study With Us" title="모집중인 프로젝트를 둘러봐요" />
-      <ProjectBoxList />
-      <ProjectBoxList />
+      <ProjectBox />
     </div>
     <div className="new_user">
       <Title subtitle="New Co-Worker" title="가입을 축하드려요" />

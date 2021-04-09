@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectBox from './ProjectBox';
+import ProjectBox from '../PersonBox';
 import styled from 'styled-components';
 
 const BoxListStyle = styled.li`
@@ -13,12 +13,6 @@ const BoxListStyle = styled.li`
   width: 100%;
 `;
 
-const PersonBoxList = () => (
-  <BoxListStyle>
-    <ProjectBox />
-    <ProjectBox />
-    <ProjectBox />
-  </BoxListStyle>
-);
+const PersonBoxList = () => <BoxListStyle></BoxListStyle>;
 
 export default PersonBoxList;
