@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
+import { CgMenuGridO } from 'react-icons/cg';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -41,7 +43,7 @@ const MenuStyle = styled.div`
   font-size: 1rem;
 `;
 
-const AtagStyle = styled.a`
+const AtagStyle = styled(Link)`
   text-decoration: none;
   color: #353535;
   &:hover {
@@ -60,19 +62,44 @@ const LoginStyle = styled.div`
   margin-right: 2rem;
 `;
 
-const Header = () => (
-  <HeaderStyle>
-    <a href="/">
-      <LogoStyle src={logo} alt="logo" />
-    </a>
-    <MenuStyle>
-      <AtagStyle href="/project">Project</AtagStyle>
-      <AtagStyle href="/people">Co-Worker</AtagStyle>
-    </MenuStyle>
-    <LoginStyle>
-      <AtagStyle href="/join">가입</AtagStyle>/
-      <AtagStyle href="/login">로그인</AtagStyle>
-    </LoginStyle>
-  </HeaderStyle>
-);
+const IconStyle = styled(CgMenuGridO)`
+  cursor: pointer;
+  visibility: hidden;
+  &:hover {
+    width: 28px;
+    height: 28px;
+    color: black;
+  }
+`;
+
+const Web = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: column;
+`;
+
+function Header() {
+  const [open, setOpen] = useState(false);
+  const onToggle = () => {
+    setOpen((open) => (open = !open));
+  };
+  return (
+    <HeaderStyle>
+      <Link to="/">
+        <LogoStyle src={logo} alt="logo" />
+      </Link>
+      <Web>
+        <MenuStyle>
+          <AtagStyle to="project">Project</AtagStyle>
+          <AtagStyle to="/people">Co-Worker</AtagStyle>
+        </MenuStyle>
+        <LoginStyle>
+          <AtagStyle to="/join">가입</AtagStyle>/
+          <AtagStyle to="/login">로그인</AtagStyle>
+        </LoginStyle>
+      </Web>
+    </HeaderStyle>
+  );
+}
 export default Header;
