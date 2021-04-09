@@ -1,5 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
+
+interface ProjectProps {
+  id: number;
+  name: string;
+  skill: string[];
+  state: boolean;
+}
 
 const PersonBox = () => (
   <div className="personBox">

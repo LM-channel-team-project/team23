@@ -10,6 +10,7 @@ const BoxListStyle = styled.li`
   align-items: center;
   flex-wrap: wrap;
   margin: 0 -10px;
+  width: 100%;
 `;
 
 const PersonBoxList = () => (

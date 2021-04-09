@@ -6,12 +6,14 @@ const HeaderStyle = styled.nav`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 15%;
+  height: 75px;
   margin: 0 auto;
   padding: 0.5rem;
   background-color: #fff;
-  position: sticky;
-  max-width: 1200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   align-items: center;
   width: 100%;
   z-index: 1000;
@@ -60,7 +62,9 @@ const LoginStyle = styled.div`
 
 const Header = () => (
   <HeaderStyle>
-    <LogoStyle src={logo} alt="logo" />
+    <a href="/">
+      <LogoStyle src={logo} alt="logo" />
+    </a>
     <MenuStyle>
       <AtagStyle href="/project">Project</AtagStyle>
       <AtagStyle href="/people">Co-Worker</AtagStyle>

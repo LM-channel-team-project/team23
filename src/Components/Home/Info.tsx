@@ -5,7 +5,7 @@ const TitleStyle = styled.div`
   background-repeat: no-repeat;
   background-image: url('https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_1280.jpg');
   width: 100%;
-  height: 385px;
+  height: 365px;
   background-size: cover;
 `;
 

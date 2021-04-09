@@ -1,5 +1,10 @@
 import React from 'react';
 
+interface ProjectProps {
+  id: number;
+  title: string;
+  skill: string[];
+}
 const ProjectBox = () => (
   <div>
     <div className="use_skill">skill_list</div>
