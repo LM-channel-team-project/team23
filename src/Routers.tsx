@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Project from './Pages/Project';
 import People from './Pages/People';
+import Signup from './Pages/Signup';
 
 const Router = () => (
   <BrowserRouter>
@@ -14,6 +15,7 @@ const Router = () => (
       <Route path="/login" component={Login} />
       <Route path="/project" component={Project} />
       <Route path="/people" component={People} />
+      <Route path="/signup" component={Signup} />
       <Redirect path="*" to="/" />
     </Switch>
   </BrowserRouter>
