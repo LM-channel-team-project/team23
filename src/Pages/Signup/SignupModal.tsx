@@ -35,7 +35,6 @@ const ModalContent = styled.div`
     margin-bottom: 32px;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
   }
 
   & > .signupBtn {
@@ -77,7 +76,6 @@ const ModalContent = styled.div`
     transform: translate(-50%, 0);
     color: #8e8ea2;
     font-size: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
     &:hover {
       cursor: pointer;
     }
@@ -91,7 +89,6 @@ const ModalContent = styled.div`
     font-size: 11px;
     margin-top: 12px;
     line-height: 1.5;
-    font-family: 'Noto Sans KR', sans-serif;
   }
 `;
 

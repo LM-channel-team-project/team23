@@ -16,7 +16,6 @@ const H1 = styled.h1`
 
   .smText {
     color: #ea6560;
-    font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     font-weight: bold;
     display: block;
@@ -24,7 +23,6 @@ const H1 = styled.h1`
 
   .bigText {
     color: #42495b;
-    font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
     line-height: 1.5;
     font-weight: bold;
@@ -33,7 +31,6 @@ const H1 = styled.h1`
 `;
 
 const SignupForm = styled.ul`
-  font-family: 'Noto Sans KR', sans-serif;
   li {
     display: flex;
     margin-bottom: 10px;

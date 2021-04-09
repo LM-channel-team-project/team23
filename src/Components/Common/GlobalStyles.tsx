@@ -10,6 +10,10 @@ const globalStyle = createGlobalStyle`
         font-family: 'Noto Sans', sans-serif;
         font-family: 'Noto Sans KR', sans-serif;
     }
+    a {
+        text-decoration: none;
+        color:inherit;
+    }
 `;
 
 export default globalStyle;
