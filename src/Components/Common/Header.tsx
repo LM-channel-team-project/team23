@@ -41,7 +41,7 @@ const MenuStyle = styled.div`
 
 const AtagStyle = styled.a`
   text-decoration: none;
-  color: #614822;
+  color: #353535;
   &:hover {
     font-weight: bold;
     color: black;
