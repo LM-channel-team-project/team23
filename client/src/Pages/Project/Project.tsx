@@ -6,7 +6,7 @@ import ProjectBox from '../../Components/Project/ProjectBox';
 const Container = styled.section`
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 30px auto;
 `;
 
 const Project = () => (

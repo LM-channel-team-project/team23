@@ -10,7 +10,7 @@ const Main = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  padding: 40px 5px 0 5px;
+  padding: 35px 5px 0 5px;
   z-index: -1;
 `;
 
@@ -20,19 +20,19 @@ const SelectOptions = styled.div`
   margin-bottom: 20px;
 `;
 const SelectOption = styled.select`
-  width: 130px;
-  height: 35px;
-  appearance: none;
-  border-radius: 3px;
-  padding-left: 15px;
-  font-size: 0.6em;
+  max-width: 140px;
+  width: 100%;
+  height: 40px;
+  padding-left: 20px;
+  background-color: ${(props) => props.theme.palette.white};
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
+  border-radius: 4px;
+  font-size: 0.6875rem;
   &:not(:last-child) {
-    margin-right: 10px;
+    margin-right: 20px;
   }
 `;
-const Option = styled.option`
-  font-size: 0.6em;
-`;
+const Option = styled.option``;
 const Optgroup = styled.optgroup``;
 
 // Recommend tab
