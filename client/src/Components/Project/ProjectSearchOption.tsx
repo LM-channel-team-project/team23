@@ -12,7 +12,7 @@ const Select = styled.select`
   max-width: 140px;
   width: 100%;
   height: 40px;
-  padding-left: 20px;
+  padding-left: 10px;
   background-color: ${(props) => props.theme.palette.white};
   border: 1px solid ${(props) => props.theme.palette.lightGray};
   border-radius: 4px;
