@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TitleStyle = styled.div`
-  margin: 1rem 1.8rem;
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
   line-height: 1.2;
