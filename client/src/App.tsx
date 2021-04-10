@@ -9,9 +9,10 @@ function App() {
         palette: {
           white: '#ffffff',
           darkblue: '#00112d',
-          gray: '#353535',
+          gray: '#2b3137',
           black: '#000000',
           orange: '#fd6f22',
+          red: '#f44336',
         },
       }}
     >
