@@ -7,19 +7,19 @@ const FooterContainer = styled.div`
   bottom: 0;
   width: 100%;
   padding: 10px 0;
-  background-color: #00112d;
+  background-color: ${(props) => props.theme.palette.darkblue};
 `;
 const FooterInfo = styled.div`
   text-align: flex-start;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
 `;
 const FooterNavTop = styled.div`
   padding: 20px 0;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid ${(props) => props.theme.palette.white};
 `;
 const NavItem = styled(Link)`
-  color: #ffffff;
+  color: ${(props) => props.theme.palette.white};
   font-size: 0.6em;
   &:not(:last-child) {
     margin-right: 15px;
@@ -31,7 +31,7 @@ const FooterNavBottom = styled.div`
 
 const Column = styled.div`
   font-size: 0.6em;
-  color: #ffffff;
+  color: ${(props) => props.theme.palette.white};
   &:not(:last-child) {
     margin-bottom: 13px;
   }

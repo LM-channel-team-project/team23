@@ -34,8 +34,9 @@ const ProjectTitle = styled.div`
   border-radius: 8px 8px 8px 8px;
   box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
     rgb(0 0 0 / 10%) 0px 20px 25px -5px, rgb(0 0 0 / 4%) 0px 10px 10px -5px;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.palette.white};
   transition: transform 0.3s ease;
+  color: ${(props) => props.theme.palette.black};
 `;
 
 const ProjectContent = styled.div`
@@ -112,8 +113,8 @@ const ProjectThumb = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px 8px 8px 8px;
   overflow: hidden;
-  font-weight: 600;
-  color: #fff;
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.white};
   &:hover {
     ${Image} {
       transform: scale(1.1);
@@ -129,7 +130,7 @@ const ProjectThumb = styled.div`
 
 const ProjectName = styled.div`
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: bold;
   margin: 8px 0;
 `;
 
