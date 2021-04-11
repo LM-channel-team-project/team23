@@ -118,16 +118,21 @@ const ProjectName = styled.div`
 interface IProjectProps {
   title: string;
   description: string;
-  state: boolean;
+  state: Array<number>;
+  category: string;
 }
 
-const ProjectBox = ({ title, description, state }: IProjectProps) => (
+const ProjectBox = ({ title, description, state, category }: IProjectProps) => (
   <ProjectContent>
     <ProjectThumb>
       <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-      <RecruitmentStatus>{state ? '모집중' : '모집완료'}</RecruitmentStatus>
+      <RecruitmentStatus>
+        {state[0] >= state[1] ? '모집완료' : '모집중'}
+      </RecruitmentStatus>
       <ProjectInfo>
-        <Recruitment>모집인원: 0/4</Recruitment>
+        <Recruitment>
+          모집인원: {state[0]}/{state[1]}
+        </Recruitment>
         <Description>
           {description.length > 40
             ? `${description.substring(0, 40)}...`
@@ -136,7 +141,7 @@ const ProjectBox = ({ title, description, state }: IProjectProps) => (
       </ProjectInfo>
     </ProjectThumb>
     <ProjectTitle>
-      <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+      <ProjectCategory>[포트폴리오] {category}</ProjectCategory>
       <ProjectName>{title}</ProjectName>
     </ProjectTitle>
   </ProjectContent>

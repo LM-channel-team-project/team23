@@ -19,22 +19,26 @@ const Project = () => (
       <ProjectBox
         title="간단한 웹 게임 사이드 프로젝트"
         description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
-        state={true}
+        state={[1, 4]}
+        category="게임"
       />
       <ProjectBox
         title="간단한 웹 게임 사이드 프로젝트"
         description="안녕하세요! 팀원 모집하고 있습니다!!"
-        state={true}
+        state={[3, 5]}
+        category="게임"
       />
       <ProjectBox
         title="간단한 웹 게임 사이드 프로젝트"
         description="안녕하세요! 팀원 모집하고 있습니다!!"
-        state={true}
+        state={[4, 4]}
+        category="게임"
       />
       <ProjectBox
         title="간단한 웹 게임 사이드 프로젝트"
         description="안녕하세요! 팀원 모집하고 있습니다!!"
-        state={true}
+        state={[3, 3]}
+        category="게임"
       />
     </ProjectBoxList>
   </Container>

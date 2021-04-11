@@ -27,22 +27,24 @@ const Home = () => (
       <div className="new_project content">
         <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
         <ProjectBoxList>
-        <ProjectBox
-          title="간단한 웹 게임 사이드 프로젝트"
-          description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
-          state={true}
-        />
-      </ProjectBoxList>
+          <ProjectBox
+            title="간단한 웹 게임 사이드 프로젝트"
+            description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
+            state={[1, 4]}
+            category="게임"
+          />
+        </ProjectBoxList>
       </div>
       <div className="join_project content">
         <Title subtitle="Study With Us" title="모집중인 프로젝트를 둘러봐요" />
         <ProjectBoxList>
-        <ProjectBox
-          title="간단한 웹 게임 사이드 프로젝트"
-          description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
-          state={true}
-        />
-      </ProjectBoxList>
+          <ProjectBox
+            title="채팅 어플 서비스"
+            description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 채팅 어플 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
+            state={[3, 5]}
+            category="엔터테이먼트"
+          />
+        </ProjectBoxList>
       </div>
       <div className="new_user content">
         <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
