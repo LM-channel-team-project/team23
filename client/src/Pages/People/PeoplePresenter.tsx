@@ -8,6 +8,7 @@ const Main = styled.div`
   bottom: 270px;
   max-width: 1200px;
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   margin: 0 auto;
   padding: 35px 5px 0 5px;
@@ -16,10 +17,10 @@ const Main = styled.div`
 
 const Header = styled.header``;
 
-const SelectOptions = styled.div`
+const SearchOption = styled.div`
   margin-bottom: 20px;
 `;
-const SelectOption = styled.select`
+const Select = styled.select`
   max-width: 140px;
   width: 100%;
   height: 40px;
@@ -216,8 +217,8 @@ const PeoplePresenter = () => (
   <Main>
     <Header>
       <Title subtitle="LET`s with" title="멤버 모집하기" />
-      <SelectOptions>
-        <SelectOption>
+      <SearchOption>
+        <Select>
           <Option value="KR00">지역 미지정</Option>
           <Option value="KR01">서울특별시</Option>
           <Option value="KR02">경기도</Option>
@@ -236,8 +237,8 @@ const PeoplePresenter = () => (
           <Option value="KR15">울산광역시</Option>
           <Option value="KR16">제주특별자치도</Option>
           <Option value="KR17">세종특별자치시</Option>
-        </SelectOption>
-        <SelectOption>
+        </Select>
+        <Select>
           <Option value="0000">직무</Option>
           <Optgroup label="기획">
             <Option value="0201">UI/UX기획</Option>
@@ -280,13 +281,13 @@ const PeoplePresenter = () => (
             <Option value="0604">QA</Option>
             <Option value="0605">기타</Option>
           </Optgroup>
-        </SelectOption>
-        <SelectOption>
+        </Select>
+        <Select>
           <Option value="00">프로젝트 소속</Option>
           <Option value="01">미참여 중</Option>
           <Option value="02">참여 중</Option>
-        </SelectOption>
-      </SelectOptions>
+        </Select>
+      </SearchOption>
     </Header>
     <RecommendTab>
       <RecommendTabHeader>
