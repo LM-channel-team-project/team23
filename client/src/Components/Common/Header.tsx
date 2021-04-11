@@ -11,7 +11,7 @@ const HeaderStyle = styled.nav`
   height: 60px;
   margin: 0 auto;
   padding: 0.5rem;
-  background-color: #fff;
+  background-color: ${(props) => props.theme.palette.white};
   position: fixed;
   top: 0;
   left: 0;
@@ -46,7 +46,7 @@ const MenuStyle = styled.div`
 
 const AtagStyle = styled(Link)`
   text-decoration: none;
-  color: #353535;
+  color: ${(props) => props.theme.palette.gray};
   &:hover {
     transform: scale(1.1, 1.1);
   }
@@ -58,6 +58,7 @@ const LoginStyle = styled.div`
   margin-left: auto;
   font-size: 10px;
   justify-content: space-around;
+  align-items: center;
   padding: 0.5rem;
   margin-right: 2rem;
 `;
@@ -72,7 +73,7 @@ const IconStyle = styled(CgMenuGridO)`
   &:hover {
     width: 28px;
     height: 28px;
-    color: black;
+    color: ${(props) => props.theme.palette.black};
   }
 `;
 

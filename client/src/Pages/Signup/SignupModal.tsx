@@ -20,9 +20,8 @@ const ModalContent = styled.div`
   max-width: 384px;
   width: 100%;
   border-radius: 8px;
-  background: white;
+  background: ${(props) => props.theme.palette.white};
   padding: 46px 30px 74px;
-  box-sizing: border-box;
   & > svg {
     width: 36px;
     height: 36px;
@@ -34,7 +33,7 @@ const ModalContent = styled.div`
   & > .modalTit {
     margin-bottom: 32px;
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: bold;
   }
 
   & > .signupBtn {
@@ -46,7 +45,7 @@ const ModalContent = styled.div`
     border-radius: 4px;
     border: none;
     text-align: center;
-    color: white;
+    color: ${(props) => props.theme.palette.white};
     font-size: 12px;
     & > svg {
       position: absolute;
@@ -62,11 +61,11 @@ const ModalContent = styled.div`
   }
 
   & > .signupBtn.google {
-    background: #f44336;
+    background: ${(props) => props.theme.palette.red};
   }
 
   & > .signupBtn.github {
-    background: #2b3137;
+    background: ${(props) => props.theme.palette.gray};
   }
 
   & > .loginBtn {
@@ -74,7 +73,7 @@ const ModalContent = styled.div`
     bottom: 30px;
     left: 50%;
     transform: translate(-50%, 0);
-    color: #8e8ea2;
+    color: ${(props) => props.theme.palette.gray};
     font-size: 12px;
     &:hover {
       cursor: pointer;
@@ -83,8 +82,7 @@ const ModalContent = styled.div`
 
   & > .info {
     a {
-      text-decoration: none;
-      color: red;
+      color: ${(props) => props.theme.palette.red};
     }
     font-size: 11px;
     margin-top: 12px;

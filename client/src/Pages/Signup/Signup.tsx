@@ -1,6 +1,7 @@
 import React from 'react';
 import SignupModal from './SignupModal';
 import styled from 'styled-components';
+import Title from '../../Components/Common/Title';
 
 const SignupSection = styled.section`
   .signupWrapper {
@@ -8,29 +9,16 @@ const SignupSection = styled.section`
     width: 100%;
     max-width: 530px;
     padding: 80px 0 140px;
-  }
-`;
 
-const H1 = styled.h1`
-  margin-bottom: 28px;
-
-  .smText {
-    color: #ea6560;
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-  }
-
-  .bigText {
-    color: #42495b;
-    font-size: 28px;
-    line-height: 1.5;
-    font-weight: bold;
-    display: block;
+    .formWrapper {
+      margin-top: 28px;
+    }
   }
 `;
 
 const SignupForm = styled.ul`
+  padding: 0.2rem;
+
   li {
     display: flex;
     margin-bottom: 10px;
@@ -40,53 +28,55 @@ const SignupForm = styled.ul`
     padding-top: 10px;
     font-size: 11px;
     width: 95px;
-    color: #696980;
+    color: ${(props) => props.theme.palette.gray};
     line-height: 1.5;
   }
 
   li .inputWrapper {
     padding-bottom: 20px;
     width: 414px;
+
     #email {
       width: 49%;
       height: 40px;
-      padding: 1px;
+      padding-left: 10px;
       border-radius: 3px;
-      border: 1px solid gray;
+      border: 1px solid ${(props) => props.theme.palette.lightGray};
     }
 
     .btnAuth {
-      color: white;
-      background: #b9bac3;
+      color: ${(props) => props.theme.palette.white};
+      background: ${(props) => props.theme.palette.lightGray};
       border-radius: 3px;
       border: none;
       font-size: 0.75rem;
       height: 40px;
       margin: 0 6px;
       width: 31%;
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     #nickname {
       width: 100%;
       height: 40px;
-      padding: 1px;
+      padding-left: 10px;
       border-radius: 3px;
-      border: 1px solid gray;
+      border: 1px solid ${(props) => props.theme.palette.lightGray};
     }
 
     .resultText {
       font-size: 10px;
-      color: #8e8ea2;
+      color: ${(props) => props.theme.palette.lightGray};
     }
 
     select {
-      padding-left: 6px;
+      padding-left: 10px;
       margin-right: 10px;
       width: 30%;
       height: 40px;
       border-radius: 3px;
-      border: 1px solid gray;
-      font-size: 11px;
+      border: 1px solid ${(props) => props.theme.palette.lightGray};
+      font-size: 0.6875rem;
     }
   }
 
@@ -98,8 +88,9 @@ const SignupForm = styled.ul`
     width: 240px;
     height: 35px;
     padding: 11px 35px;
-    background: #ea6560;
-    color: white;
+    background: ${(props) => props.theme.palette.orange};
+    font-family: 'Noto Sans KR', sans-serif;
+    color: ${(props) => props.theme.palette.white};
     font-size: 12px;
     border-radius: 3px;
     border: none;
@@ -112,12 +103,9 @@ const SignupForm = styled.ul`
 function Signup() {
   return (
     <SignupSection>
-      <SignupModal />
+      {/* <SignupModal /> */}
       <div className="signupWrapper">
-        <H1>
-          <span className="smText">본 캐릭터 설정</span>
-          <span className="bigText">회원 가입이 바로 완료됩니다</span>
-        </H1>
+        <Title subtitle="본 캐릭터 설정" title="회원 가입이 바로 완료됩니다" />
         <div className="formWrapper">
           <SignupForm>
             <li>
@@ -188,7 +176,7 @@ function Signup() {
               </div>
             </li>
             <div className="btnWrapper">
-              <button>가입완료</button>
+              <button>가입 완료</button>
             </div>
           </SignupForm>
         </div>

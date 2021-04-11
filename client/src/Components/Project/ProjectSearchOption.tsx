@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SearchOption = styled.div`
-  margin-top: 36px;
   @media screen and (max-width: 750px) {
     display: flex;
     justify-content: space-around;
@@ -13,9 +12,9 @@ const Select = styled.select`
   max-width: 140px;
   width: 100%;
   height: 40px;
-  padding-left: 20px;
-  background-color: #fff;
-  border: 1px solid #bcbccb;
+  padding-left: 10px;
+  background-color: ${(props) => props.theme.palette.white};
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
   border-radius: 4px;
   font-size: 0.6875rem;
   &:not(:last-child) {
