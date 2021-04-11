@@ -1,25 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface ProjectProps {
-  id: number;
-  name: string;
-  skill: string[];
-  state: boolean;
-}
-
-const ProjectGrid = styled.div`
-  display: grid;
-  grid-row-gap: 45px;
-  grid-template-columns: repeat(3, 1fr);
-  @media screen and (max-width: 750px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media screen and (max-width: 600px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-`;
-
 const ProjectTitle = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,73 +114,31 @@ const ProjectName = styled.div`
   margin: 8px 0;
 `;
 
-const ProjectBox = () => (
-  <ProjectGrid>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <RecruitmentStatus>모집중</RecruitmentStatus>
-        <ProjectInfo>
-          <Recruitment>모집인원: 0/4</Recruitment>
-          <Description>
-            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
-          </Description>
-        </ProjectInfo>
-      </ProjectThumb>
-      <ProjectTitle>
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
-      </ProjectTitle>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <RecruitmentStatus>모집중</RecruitmentStatus>
-        <ProjectInfo>
-          <Recruitment>모집인원: 0/4</Recruitment>
-          <Description>
-            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
-          </Description>
-        </ProjectInfo>
-      </ProjectThumb>
-      <ProjectTitle>
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
-      </ProjectTitle>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <RecruitmentStatus>모집중</RecruitmentStatus>
-        <ProjectInfo>
-          <Recruitment>모집인원: 0/4</Recruitment>
-          <Description>
-            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
-          </Description>
-        </ProjectInfo>
-      </ProjectThumb>
-      <ProjectTitle>
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
-      </ProjectTitle>
-    </ProjectContent>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
-        <RecruitmentStatus>모집중</RecruitmentStatus>
-        <ProjectInfo>
-          <Recruitment>모집인원: 0/4</Recruitment>
-          <Description>
-            안녕하세요! 웹 게임 사이드 프로젝트를 같이 할 팀원을 구하고 있습니다
-          </Description>
-        </ProjectInfo>
-      </ProjectThumb>
-      <ProjectTitle>
-        <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
-        <ProjectName>간단한 웹 게임 사이드 프로젝트</ProjectName>
-      </ProjectTitle>
-    </ProjectContent>
-  </ProjectGrid>
+interface IProjectProps {
+  title: string;
+  description: string;
+  state: boolean;
+}
+
+const ProjectBox = ({ title, description, state }: IProjectProps) => (
+  <ProjectContent>
+    <ProjectThumb>
+      <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+      <RecruitmentStatus>{state ? '모집중' : '모집완료'}</RecruitmentStatus>
+      <ProjectInfo>
+        <Recruitment>모집인원: 0/4</Recruitment>
+        <Description>
+          {description.length > 40
+            ? `${description.substring(0, 40)}...`
+            : description}
+        </Description>
+      </ProjectInfo>
+    </ProjectThumb>
+    <ProjectTitle>
+      <ProjectCategory>[포트폴리오] 게임</ProjectCategory>
+      <ProjectName>{title}</ProjectName>
+    </ProjectTitle>
+  </ProjectContent>
 );
 
 export default ProjectBox;
