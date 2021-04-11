@@ -13,11 +13,11 @@ const ProjectBoxGrid = styled.li`
   }
 `;
 
-interface IProjexBoxList {
+interface IProjetBoxList {
   children: React.ReactNode;
 }
 
-const ProjectBoxList = ({ children }: IProjexBoxList) => (
+const ProjectBoxList = ({ children }: IProjetBoxList) => (
   <ProjectBoxGrid>{children}</ProjectBoxGrid>
 );
 
