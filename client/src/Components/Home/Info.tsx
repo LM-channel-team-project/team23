@@ -16,14 +16,14 @@ const TextStyle = styled.div`
 `;
 
 const MainTitle = styled.h1`
-  color: white;
+  color: ${(props) => props.theme.palette.white};
   padding: 0.4rem;
   font-size: 60px;
   font-weight: bolder;
 `;
 
 const InfoStyle = styled.p`
-  color: #fd6f22;
+  color: ${(props) => props.theme.palette.orange};
   font-size: 1.2rem;
   padding: 0.2rem;
 `;

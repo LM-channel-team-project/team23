@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Title from '../../Components/Common/Title';
 
 const Main = styled.div`
   display: relative;
@@ -7,54 +8,38 @@ const Main = styled.div`
   bottom: 270px;
   max-width: 1200px;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   margin: 0 auto;
-  padding: 40px 5px 0 5px;
+  padding: 35px 5px 0 5px;
   z-index: -1;
 `;
 
 const Header = styled.header``;
-const HeaderTXT = styled.div`
-  margin-bottom: 30px;
-`;
-const PageSubTitle = styled.h3`
-  font-size: 0.8em;
-  font-weight: 600;
-  color: #e26964;
-  margin-bottom: 10px;
-`;
-const PageTitle = styled.h1`
-  font-weight: 600;
-  font-size: 1.3em;
-`;
 
-const SelectOptions = styled.div`
+const SearchOption = styled.div`
   margin-bottom: 20px;
 `;
-const SelectOption = styled.select`
-  width: 130px;
-  height: 35px;
-  appearance: none;
-  background: url('https://www.flaticon.com/svg/vstatic/svg/60/60995.svg?token=exp=1617882874~hmac=4b2aab83f07822d07112fa16cfcc35d3');
-  background-size: 0.7em;
-  background-repeat: no-repeat;
-  background-position: 95% 50%;
-  border-radius: 3px;
-  padding-left: 15px;
-  font-size: 0.6em;
+const Select = styled.select`
+  max-width: 140px;
+  width: 100%;
+  height: 40px;
+  padding-left: 10px;
+  background-color: ${(props) => props.theme.palette.white};
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
+  border-radius: 4px;
+  font-size: 0.6875rem;
   &:not(:last-child) {
-    margin-right: 10px;
+    margin-right: 20px;
   }
 `;
-const Option = styled.option`
-  font-size: 0.6em;
-`;
+const Option = styled.option``;
 const Optgroup = styled.optgroup``;
 
 // Recommend tab
 const RecommendTab = styled.div`
   width: 100%;
-  border: 1px solid #b6d2d8;
+  border: 1px solid ${(props) => props.theme.palette.jade};
   margin-bottom: 20px;
   & > * {
     padding: 0 15px;
@@ -65,15 +50,13 @@ const RecommendTabHeader = styled.div`
   height: 50px;
   display: flex;
   align-items: center;
-  background-color: #eff7f9;
-  color: #4d9bb0;
-  font-weight: 600;
+  background-color: ${(props) => props.theme.palette.lightJade};
+  color: ${(props) => props.theme.palette.jade};
+  font-weight: bold;
 `;
 const RecommendList = styled.ul`
   width: 100%;
   display: flex;
-  // display: grid;
-  // grid: auto-flow / repeat(4, 1fr);
 `;
 const RecommendOne = styled.li`
   width: 100%;
@@ -87,7 +70,7 @@ const RecommendOneTop = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 15px 0;
-  border-bottom: 1px solid #d5cfcf;
+  border-bottom: 1px solid ${(props) => props.theme.palette.gray};
 `;
 const RecommendOneImg = styled.img`
   width: 60px;
@@ -96,34 +79,34 @@ const RecommendOneImg = styled.img`
 `;
 const RecommendOnedetail = styled.div``;
 const RecommendOneUsername = styled.p`
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 5px;
 `;
 const RecommendOneLV = styled.div`
   display: inline-block;
-  border: 1px solid red;
+  border: 1px solid ${(props) => props.theme.palette.red};
   border-radius: 10px;
   font-size: 0.8em;
   padding: 4px 13px;
   margin-right: 8px;
-  color: red;
+  color: ${(props) => props.theme.palette.red};
 `;
 const RecommendOneInterest = styled.p`
-  color: #a0a0a0;
+  color: ${(props) => props.theme.palette.lightGray};
   font-size: 0.7em;
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 5px;
 `;
 const RecommendOneStack = styled.p`
-  color: #a0a0a0;
+  color: ${(props) => props.theme.palette.lightGray};
   font-size: 0.7em;
-  font-weight: 600;
+  font-weight: bold;
 `;
 const RecommendOnebottom = styled.div`
   width: 100%;
   height: 40px;
   font-size: 0.7em;
-  color: #4f4d4d;
+  color: ${(props) => props.theme.palette.gray};
   display: flex;
   align-items: center;
 `;
@@ -131,12 +114,12 @@ const RecommendOnebottom = styled.div`
 const FriendsList = styled.section`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  // display: flex;
-  // flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
+  margin: 30px 0;
+  width: 100%;
 `;
 const Friend = styled.div`
-  width: 230px;
+  width: 100%;
   height: 190px;
   position: relative;
   padding: 10px;
@@ -150,14 +133,14 @@ const FriendTag = styled.div`
   width: 10px;
   height: 10px;
   border-bottom: 30px solid transparent;
-  border-left: 30px solid #a06cff;
+  border-left: 30px solid ${(props) => props.theme.palette.purple};
 `;
 const FriendTagSpan = styled.span`
   position: absolute;
   top: 3px;
   left: 3px;
   font-size: 0.4em;
-  color: #ffffff;
+  color: ${(props) => props.theme.palette.white};
 `;
 const FriendTop = styled.div`
   display: flex;
@@ -171,17 +154,17 @@ const FriendImg = styled.img`
 `;
 const FriendUsername = styled.div`
   width: 100%;
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 5px;
 `;
 const FriendLV = styled.p`
   width: 45px;
-  border: 1px solid red;
+  border: 1px solid ${(props) => props.theme.palette.red};
   border-radius: 10px;
   font-size: 0.8em;
   text-align: center;
   padding: 4px 0;
-  color: red;
+  color: ${(props) => props.theme.palette.red};
   margin-bottom: 5px;
 `;
 
@@ -190,7 +173,7 @@ const FriendMid = styled.div`
   grid: 1fr 1fr / auto-flow;
   grid-row-gap: 5px;
   padding-bottom: 10px;
-  border-bottom: 0.5px solid rgba(142, 138, 138, 0.3);
+  border-bottom: 0.5px solid ${(props) => props.theme.palette.lightGray};
 `;
 const Major = styled.span`
   font-size: 0.7em;
@@ -198,11 +181,11 @@ const Major = styled.span`
   justify-content: space-between;
 `;
 const MajorTitle = styled.p`
-  font-weight: 600;
+  font-weight: bold;
 `;
 const MajorLV = styled.p`
-  font-weight: 600;
-  color: #8e8a8a;
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.lightGray};
 `;
 const Minor = styled.span`
   font-size: 0.7em;
@@ -210,11 +193,11 @@ const Minor = styled.span`
   justify-content: space-between;
 `;
 const MinorTitle = styled.p`
-  font-weight: 600;
+  font-weight: bold;
 `;
 const MinorLV = styled.p`
-  font-weight: 600;
-  color: #8e8a8a;
+  font-weight: bold;
+  color: ${(props) => props.theme.palette.lightGray};
 `;
 
 const FriendBottom = styled.div`
@@ -233,12 +216,9 @@ const Like = styled.span``;
 const PeoplePresenter = () => (
   <Main>
     <Header>
-      <HeaderTXT>
-        <PageSubTitle>LET`s with</PageSubTitle>
-        <PageTitle>멤버 모집하기</PageTitle>
-      </HeaderTXT>
-      <SelectOptions>
-        <SelectOption>
+      <Title subtitle="LET`s with" title="멤버 모집하기" />
+      <SearchOption>
+        <Select>
           <Option value="KR00">지역 미지정</Option>
           <Option value="KR01">서울특별시</Option>
           <Option value="KR02">경기도</Option>
@@ -257,8 +237,8 @@ const PeoplePresenter = () => (
           <Option value="KR15">울산광역시</Option>
           <Option value="KR16">제주특별자치도</Option>
           <Option value="KR17">세종특별자치시</Option>
-        </SelectOption>
-        <SelectOption>
+        </Select>
+        <Select>
           <Option value="0000">직무</Option>
           <Optgroup label="기획">
             <Option value="0201">UI/UX기획</Option>
@@ -301,13 +281,13 @@ const PeoplePresenter = () => (
             <Option value="0604">QA</Option>
             <Option value="0605">기타</Option>
           </Optgroup>
-        </SelectOption>
-        <SelectOption>
+        </Select>
+        <Select>
           <Option value="00">프로젝트 소속</Option>
           <Option value="01">미참여 중</Option>
           <Option value="02">참여 중</Option>
-        </SelectOption>
-      </SelectOptions>
+        </Select>
+      </SearchOption>
     </Header>
     <RecommendTab>
       <RecommendTabHeader>

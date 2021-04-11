@@ -20,7 +20,7 @@ const ModalContent = styled.div`
   max-width: 384px;
   width: 100%;
   border-radius: 8px;
-  background: white;
+  background: ${(props) => props.theme.palette.white};
   padding: 46px 30px 74px;
   box-sizing: border-box;
   & > svg {
@@ -35,7 +35,7 @@ const ModalContent = styled.div`
     margin-bottom: 32px;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family: 'Noto Sans KR', sans-serif;
+    color: ${(props) => props.theme.palette.black};
   }
 
   & > .loginBtn {
@@ -47,7 +47,7 @@ const ModalContent = styled.div`
     border-radius: 4px;
     border: none;
     text-align: center;
-    color: white;
+    color: ${(props) => props.theme.palette.white};
     font-size: 12px;
     & > svg {
       position: absolute;
@@ -63,11 +63,11 @@ const ModalContent = styled.div`
   }
 
   & > .loginBtn.google {
-    background: #f44336;
+    background: ${(props) => props.theme.palette.red};
   }
 
   & > .loginBtn.github {
-    background: #2b3137;
+    background: ${(props) => props.theme.palette.gray};
   }
 
   & > .signupBtn {
@@ -75,9 +75,8 @@ const ModalContent = styled.div`
     bottom: 30px;
     left: 50%;
     transform: translate(-50%, 0);
-    color: #8e8ea2;
+    color: ${(props) => props.theme.palette.gray};
     font-size: 12px;
-    font-family: 'Noto Sans KR', sans-serif;
     &:hover {
       cursor: pointer;
     }

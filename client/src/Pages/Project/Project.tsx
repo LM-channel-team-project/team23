@@ -7,7 +7,9 @@ import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 const Container = styled.section`
   max-width: 1200px;
   width: 100%;
-  margin: 0 auto;
+  margin: 30px auto;
+  height: 100%;
+  min-height: 100vh;
 `;
 
 const Project = () => (
