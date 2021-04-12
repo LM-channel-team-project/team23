@@ -118,14 +118,21 @@ const ProjectName = styled.div`
 interface IProjectProps {
   title: string;
   description: string;
+  image: string;
   state: Array<number>;
   category: string;
 }
 
-const ProjectBox = ({ title, description, state, category }: IProjectProps) => (
+const ProjectBox = ({
+  title,
+  description,
+  image,
+  state,
+  category,
+}: IProjectProps) => (
   <ProjectContent>
     <ProjectThumb>
-      <Image src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png" />
+      <Image src={image} />
       <RecruitmentStatus>
         {state[0] >= state[1] ? '모집완료' : '모집중'}
       </RecruitmentStatus>
