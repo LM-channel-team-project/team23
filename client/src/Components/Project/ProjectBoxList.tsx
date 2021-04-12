@@ -1,18 +1,24 @@
 import React from 'react';
-import ProjectBox from '../PersonBox';
 import styled from 'styled-components';
 
-const BoxListStyle = styled.li`
-  padding: 0.5rem;
-  display: flex;
-  list-style-type: none;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 -10px;
-  width: 100%;
+const ProjectBoxGrid = styled.li`
+  display: grid;
+  grid-row-gap: 45px;
+  grid-template-columns: repeat(3, 1fr);
+  @media screen and (max-width: 750px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
-const ProjectBoxList = () => <BoxListStyle></BoxListStyle>;
+interface IProjetBoxList {
+  children: React.ReactNode;
+}
+
+const ProjectBoxList = ({ children }: IProjetBoxList) => (
+  <ProjectBoxGrid>{children}</ProjectBoxGrid>
+);
 
 export default ProjectBoxList;
