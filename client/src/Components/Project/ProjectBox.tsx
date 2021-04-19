@@ -170,7 +170,7 @@ const ProjectBox = ({
 }: IProjectProps) => (
   <ProjectContent>
     <ProjectThumb>
-      <Image src={image} />
+      <Image src={image} alt="project" />
       <RecruitmentStatus>
         {state[0] >= state[1] ? '모집완료' : '모집중'}
       </RecruitmentStatus>
