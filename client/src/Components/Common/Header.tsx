@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
 import { CgMenuGridO } from 'react-icons/cg';
+import ProfileModal from './ProfileModal';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -144,6 +145,7 @@ function Header() {
           />
         </SigninStyle>
       </Web>
+      <ProfileModal />
     </HeaderStyle>
   );
 }
