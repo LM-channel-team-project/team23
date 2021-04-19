@@ -60,11 +60,43 @@ const LoginStyle = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 0.5rem;
-  margin-right: 2rem;
+  margin-right: 9rem;
+  display: none;
 `;
 
 const Divider = styled.span`
   margin: 0 10px;
+`;
+
+const SigninStyle = styled.div`
+  width: 20%;
+  margin-left: auto;
+  margin-right: 9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // display: none;
+`;
+
+const ProjectButton = styled.button`
+  width: 160px;
+  height: 35px;
+  padding: 11px 20px;
+  background: ${(props) => props.theme.palette.orange};
+  font-family: 'Noto Sans KR', sans-serif;
+  color: ${(props) => props.theme.palette.white};
+  font-size: 12px;
+  margin-right: 3rem;
+  border-radius: 3px;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const UserImg = styled.img`
+  width: 35px;
+  height: 35px;
 `;
 
 const IconStyle = styled(CgMenuGridO)`
@@ -104,6 +136,13 @@ function Header() {
           <Divider>/</Divider>
           <AtagStyle to="/login">로그인</AtagStyle>
         </LoginStyle>
+        <SigninStyle>
+          <ProjectButton>프로젝트 생성</ProjectButton>
+          <UserImg
+            src="http://kawala.in/assets/global/images/avatars/avatar1.png"
+            alt="Avatar"
+          />
+        </SigninStyle>
       </Web>
     </HeaderStyle>
   );
