@@ -191,7 +191,7 @@ const ProjectBox = ({
       </ProjectInfo>
     </ProjectThumb>
     <ProjectTitle>
-      <ProjectCategory>[포트폴리오] {category}</ProjectCategory>
+      <ProjectCategory>[{category}]</ProjectCategory>
       <ProjectName>{title}</ProjectName>
     </ProjectTitle>
   </ProjectContent>
