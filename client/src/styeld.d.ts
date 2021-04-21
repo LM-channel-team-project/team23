@@ -13,6 +13,7 @@ declare module 'styled-components' {
       jade: string;
       lightJade: string;
       purple: string;
+      ivory: string;
     };
   }
 }
