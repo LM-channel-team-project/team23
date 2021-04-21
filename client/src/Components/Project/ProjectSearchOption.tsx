@@ -21,10 +21,7 @@ const Select = styled.select`
   }
 `;
 
-const Option = styled.option`
-  display: flex;
-  align-items: center;
-`;
+const Option = styled.option``;
 
 const Label = styled.label`
   display: inline-flex;
