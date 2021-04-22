@@ -20,7 +20,7 @@ const Optgroup = styled.optgroup``;
 
 const PeopleSearchOption = () => (
   <SearchOption>
-    <Select>
+    <Select id="location">
       <Option value="KR00">지역 미지정</Option>
       <Option value="KR01">서울특별시</Option>
       <Option value="KR02">경기도</Option>
@@ -40,52 +40,20 @@ const PeopleSearchOption = () => (
       <Option value="KR16">제주특별자치도</Option>
       <Option value="KR17">세종특별자치시</Option>
     </Select>
-    <Select>
+    <Select id="job">
       <Option value="0000">직무</Option>
-      <Optgroup label="기획">
-        <Option value="0201">UI/UX기획</Option>
-        <Option value="0202">게임기획</Option>
-        <Option value="0203">프로젝트 매니저</Option>
-        <Option value="0204">하드웨어(제품) 기획</Option>
-      </Optgroup>
-      <Optgroup label="디자인">
-        <Option value="0301">그래픽디자인</Option>
-        <Option value="0302">UI/UX디자인</Option>
-        <Option value="0303">3D디자인</Option>
-        <Option value="0304">하드웨어(제품) 디자인</Option>
-        <Option value="0305">기타</Option>
-      </Optgroup>
-      <Optgroup label="프론트엔드 개발">
-        <Option value="0401">IOS</Option>
-        <Option value="0402">안드로이드</Option>
-        <Option value="0403">웹프론트엔드</Option>
-        <Option value="0404">웹퍼블리셔</Option>
-        <Option value="0405">크로스플랫폼</Option>
-      </Optgroup>
-      <Optgroup label="백엔드 개발">
-        <Option value="0501">웹 서버</Option>
-        <Option value="0504">블록체인</Option>
-        <Option value="0505">AI</Option>
-        <Option value="0503">DB/빅데이터/DS</Option>
-        <Option value="0502">게임 서버</Option>
-      </Optgroup>
-      <Optgroup label="사업">
-        <Option value="0101">사업기획/개발</Option>
-        <Option value="0102">마케팅</Option>
-        <Option value="0103">재무/회계</Option>
-        <Option value="0104">영업</Option>
-        <Option value="0105">사업(그외)</Option>
-      </Optgroup>
-      <Optgroup label="기타">
-        <Option value="0601">사운드</Option>
-        <Option value="0602">영상</Option>
-        <Option value="0603">운영</Option>
-        <Option value="0604">QA</Option>
-        <Option value="0605">기타</Option>
-      </Optgroup>
+      <Option value="0401">IOS</Option>
+      <Option value="0402">안드로이드</Option>
+      <Option value="0403">웹프론트엔드</Option>
+      <Option value="0405">크로스플랫폼</Option>
+      <Option value="0406">웹 서버</Option>
+      <Option value="0407">블록체인</Option>
+      <Option value="0408">AI</Option>
+      <Option value="0409">DB/빅데이터</Option>
+      <Option value="0410">게임</Option>
     </Select>
-    <Select>
-      <Option value="00">프로젝트 소속</Option>
+    <Select id="project-state">
+      <Option value="00">프로젝트 상태</Option>
       <Option value="01">미참여 중</Option>
       <Option value="02">참여 중</Option>
     </Select>
