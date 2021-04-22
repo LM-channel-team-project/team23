@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProfileModalWrapper = styled.div`
+  display: none;
   position: fixed;
   right: 10rem;
   top: 52px;

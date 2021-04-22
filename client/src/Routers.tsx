@@ -5,6 +5,7 @@ import Header from './Components/Common/Header';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Project from './Pages/Project';
+import ProjectDetail from './Pages/ProjectDetail';
 import People from './Pages/People';
 import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
@@ -21,7 +22,8 @@ const Router = () => (
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={Login} />
-        <Route path="/project" component={Project} />
+        <Route path="/project" exact component={Project} />
+        <Route path="/project/1" component={ProjectDetail} />
         <Route path="/signup" component={Signup} />
         <Route path="/people" component={People} />
         <Route path="/buildProject" component={BuildProject} />
