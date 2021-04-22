@@ -179,7 +179,9 @@ function ProfileModal() {
         </InfoWrapper>
       </ProfileWrapper>
       <BtnWrapper>
-        <MyInfoBtn>내 정보</MyInfoBtn>
+        <MyInfoBtn>
+          <a href="/my">내 정보</a>
+        </MyInfoBtn>
         <NoticeBtn>알림상세</NoticeBtn>
         <SubscribeBtn>구독</SubscribeBtn>
       </BtnWrapper>
