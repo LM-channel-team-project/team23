@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import PeopleRecommend from '../../Components/People/PeopleRecommend';
+import PeopleRecommendTable from '../../Components/People/Recommend/PeopleRecommendTable';
 import PeopleHeader from '../../Components/People/PeopleHeader';
 import PeopleList from '../../Components/People/PeopleList';
 
@@ -16,7 +16,7 @@ const Container = styled.div`
 const PeoplePresenter = () => (
   <Container>
     <PeopleHeader />
-    <PeopleRecommend />
+    <PeopleRecommendTable />
     <PeopleList />
   </Container>
 );
