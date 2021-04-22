@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import users from '../userDB';
 import RecommendUser from './PeopleRecommendUser';
 
 const RecommendTab = styled.div`
@@ -32,12 +33,15 @@ const PeopleRecommendTable = () => (
     </RecommendTabHeader>
 
     <RecommendList>
-      <RecommendUser
-        avatarImg="http://kawala.in/assets/global/images/avatars/avatar1.png"
-        username="allmie"
-        userJob="프론트엔드"
-        userStack={['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버']}
-      />
+      {users.map((user, index) => (
+        <RecommendUser
+          key={index}
+          avatarImg={user.avatarImg}
+          username={user.username}
+          userJob={user.userJob}
+          userStack={user.userStack}
+        />
+      ))}
     </RecommendList>
   </RecommendTab>
 );

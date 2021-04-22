@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PeopleListItem from './PeopleListItem';
+import users from './userDB';
 
 const List = styled.section`
   display: grid;
@@ -12,7 +13,18 @@ const List = styled.section`
 
 const PeopleList = () => (
   <List>
-    <PeopleListItem></PeopleListItem>
+    {users.map((user, index) => (
+      <PeopleListItem
+        key={index}
+        joinDate={user.joinDate}
+        avatarImg={user.avatarImg}
+        username={user.username}
+        userJob={user.userJob}
+        learningDate={user.learningDate}
+        userStack={user.userStack}
+        likeCount={user.likeCount}
+      />
+    ))}
   </List>
 );
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Friend = styled.div`
+const User = styled.div`
   width: 100%;
+  min-width: 280px;
   height: 190px;
   position: relative;
   padding: 10px;
   box-shadow: 0 3px 24px 0 rgba(0, 0, 0, 0.06);
   border-top-left-radius: 20px;
 `;
-const FriendTag = styled.div`
+const UserTag = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -18,40 +19,30 @@ const FriendTag = styled.div`
   border-bottom: 30px solid transparent;
   border-left: 30px solid ${(props) => props.theme.palette.purple};
 `;
-const FriendTagSpan = styled.span`
+const UserTagSpan = styled.span`
   position: absolute;
   top: 3px;
   left: 3px;
   font-size: 0.4em;
   color: ${(props) => props.theme.palette.white};
 `;
-const FriendTop = styled.div`
+const UserTop = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 `;
-const FriendImg = styled.img`
+const UserImg = styled.img`
   width: 55px;
   height: 55px;
   margin-right: 15px;
 `;
-const FriendUsername = styled.div`
+const Username = styled.div`
   width: 100%;
   font-weight: bold;
   margin-bottom: 5px;
 `;
-const FriendLV = styled.p`
-  width: 45px;
-  border: 1px solid ${(props) => props.theme.palette.red};
-  border-radius: 10px;
-  font-size: 0.8em;
-  text-align: center;
-  padding: 4px 0;
-  color: ${(props) => props.theme.palette.red};
-  margin-bottom: 5px;
-`;
 
-const FriendMid = styled.div`
+const UserMid = styled.div`
   display: grid;
   grid: 1fr 1fr / auto-flow;
   grid-row-gap: 5px;
@@ -59,7 +50,7 @@ const FriendMid = styled.div`
   border-bottom: 0.5px solid ${(props) => props.theme.palette.lightGray};
 `;
 const Major = styled.span`
-  font-size: 0.7em;
+  font-size: 0.8em;
   display: flex;
   justify-content: space-between;
 `;
@@ -70,59 +61,65 @@ const MajorLV = styled.p`
   font-weight: bold;
   color: ${(props) => props.theme.palette.lightGray};
 `;
-const Minor = styled.span`
-  font-size: 0.7em;
-  display: flex;
-  justify-content: space-between;
-`;
-const MinorTitle = styled.p`
-  font-weight: bold;
-`;
-const MinorLV = styled.p`
-  font-weight: bold;
-  color: ${(props) => props.theme.palette.lightGray};
-`;
 
-const FriendBottom = styled.div`
+const UserBottom = styled.div`
   padding: 10px 0;
-  font-size: 0.7em;
+  font-size: 0.8em;
 `;
-const CurrentProject = styled.p`
-  margin-bottom: 15px;
+const UserStackList = styled.div`
+  color: ${(props) => props.theme.palette.darkblue};
+  font-size: 0.9em;
+  margin-bottom: 10px;
 `;
-const FriendFooter = styled.div``;
+const UserStack = styled.span`
+  margin-right: 5px;
+  line-height: 1.4em;
+`;
+const UserFooter = styled.div``;
 const Like = styled.span``;
 
-const PeopleListItem = () => (
-  <Friend>
-    <FriendTag></FriendTag>
-    <FriendTagSpan>N</FriendTagSpan>
-    <FriendTop>
-      <FriendImg
-        src="http://kawala.in/assets/global/images/avatars/avatar9.png"
-        alt="Avatar"
-      />
-      <FriendUsername>
-        <FriendLV>L6</FriendLV>a
-      </FriendUsername>
-    </FriendTop>
-    <FriendMid>
+interface User {
+  joinDate?: number;
+  avatarImg: string;
+  username: string;
+  userJob: string;
+  learningDate: string;
+  userStack: string[];
+  likeCount: number;
+}
+
+const PeopleListItem = ({
+  joinDate,
+  avatarImg,
+  username,
+  userJob,
+  learningDate,
+  userStack,
+  likeCount,
+}: User) => (
+  <User>
+    <UserTag></UserTag>
+    <UserTagSpan>N</UserTagSpan>
+
+    <UserTop>
+      <UserImg src={avatarImg} alt="Avatar" />
+      <Username>{username}</Username>
+    </UserTop>
+    <UserMid>
       <Major>
-        <MajorTitle>[본캐] UI/UX 기획</MajorTitle>
-        <MajorLV>중수</MajorLV>
+        <MajorTitle>[직무] {userJob}</MajorTitle>
+        <MajorLV>{learningDate}</MajorLV>
       </Major>
-      <Minor>
-        <MinorTitle>[부캐] UI/UX 디자인</MinorTitle>
-        <MinorLV>초보</MinorLV>
-      </Minor>
-    </FriendMid>
-    <FriendBottom>
-      <CurrentProject>진행중인 프로젝트가 0개 있습니다.</CurrentProject>
-      <FriendFooter>
-        <Like>♥0</Like>
-      </FriendFooter>
-    </FriendBottom>
-  </Friend>
+    </UserMid>
+    <UserBottom>
+      <UserStackList>
+        {userStack.map((stack, index) => (
+          <UserStack key={index}>{stack}</UserStack>
+        ))}
+      </UserStackList>
+      <Like>♥ {likeCount}</Like>
+    </UserBottom>
+  </User>
 );
 
 export default PeopleListItem;
