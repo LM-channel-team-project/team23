@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const User = styled.li`
@@ -28,9 +29,34 @@ const Userdetail = styled.div`
   width: 100%;
   min-width: 120px;
 `;
-const Username = styled.p`
+// const Username = styled.p``;
+const Menu = styled.ul`
+  width: 80px;
+  height: 80px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 18px;
+  left: 0px;
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.2);
+  background-color: ${(props) => props.theme.palette.white};
+`;
+const MenuItem = styled.li`
+  font-size: 0.6em;
+`;
+const ToProfile = styled(Link)``;
+const Username = styled.div`
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+  margin-bottom: 5px;
   font-weight: bold;
   margin: 5px 0 8px 0;
+  &:hover ${Menu} {
+    cursor: pointer;
+    display: grid;
+  }
 `;
 const UserStackList = styled.p`
   color: ${(props) => props.theme.palette.lightGray};
@@ -62,7 +88,16 @@ const RecommendUser = ({ avatarImg, username, userStack, userJob }: User) => (
     <UserTop>
       <UserImg src={avatarImg} alt="Avatar" />
       <Userdetail>
-        <Username>{username}</Username>
+        <Username>
+          {username}
+          <Menu>
+            <MenuItem>
+              <ToProfile to={`/people/${username}`}>프로필</ToProfile>
+            </MenuItem>
+            <MenuItem>1:1 대화</MenuItem>
+            <MenuItem>프로젝트 초대</MenuItem>
+          </Menu>
+        </Username>
         <UserStackList>
           {userStack.map((stack, index) => (
             <UserStack key={index}>{stack}</UserStack>
