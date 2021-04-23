@@ -25,11 +25,9 @@ const Contents = styled.div`
 const ProjectDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
 
-  const handleChangeTab = () => {
-    if (currentTab === 1) {
-      setCurrentTab(0);
-    } else {
-      setCurrentTab(1);
+  const handleChangeTab = (index: number) => {
+    if (currentTab !== index) {
+      setCurrentTab(index);
     }
   };
 
