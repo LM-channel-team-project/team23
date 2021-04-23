@@ -54,6 +54,14 @@ const Info = () => {
         <Reference link="github.com" />
         <Reference link="www.facebook.com" />
       </Section>
+      <Section>
+        <TabTitle>리더</TabTitle>
+        123213
+      </Section>
+      <Section>
+        <TabTitle>멤버</TabTitle>
+        214214
+      </Section>
     </Container>
   );
 };

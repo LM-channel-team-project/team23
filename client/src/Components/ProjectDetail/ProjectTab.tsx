@@ -43,10 +43,10 @@ const ProjectTab = ({ current, onClick }: IProps) => {
     <>
       <Menu>
         <Ul>
-          <Li current={current === 0} onClick={() => onClick()}>
+          <Li current={current === 0} onClick={onClick}>
             <Tab>정보</Tab>
           </Li>
-          <Li current={current === 1} onClick={() => onClick()}>
+          <Li current={current === 1} onClick={onClick}>
             <Tab>질문</Tab>
           </Li>
         </Ul>
