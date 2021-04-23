@@ -10,5 +10,6 @@ export default {
     jade: '#4D9BB0',
     lightJade: '#EFF7F9',
     purple: '#a06cff',
+    ivory: '#ffefd5',
   },
 };
