@@ -9,6 +9,7 @@ import ProjectDetail from './Pages/ProjectDetail';
 import People from './Pages/People';
 import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
+import Mypage from './Pages/Mypage';
 import BuildProject from './Pages/BuildProject';
 
 const Style = styled.div`
@@ -26,6 +27,7 @@ const Router = () => (
         <Route path="/project/1" component={ProjectDetail} />
         <Route path="/signup" component={Signup} />
         <Route path="/people" component={People} />
+        <Route path="/my" component={Mypage} />
         <Route path="/buildProject" component={BuildProject} />
         <Redirect path="*" to="/" />
       </Switch>
