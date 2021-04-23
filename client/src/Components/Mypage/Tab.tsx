@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const TabStyle = styled.div`
   width: 100%;
@@ -53,47 +54,47 @@ function Tab({ info, project, favorite, alarm }: Itab) {
       <ul>
         {info ? (
           <ActiveStyle>
-            <a href="?tab=info">
+            <Link to="?tab=info">
               <li>정보</li>
-            </a>
+            </Link>
           </ActiveStyle>
         ) : (
-          <a href="?tab=info">
+          <Link to="?tab=info">
             <li>정보</li>
-          </a>
+          </Link>
         )}
         {project ? (
           <ActiveStyle>
-            <a href="?tab=project">
+            <Link to="?tab=project">
               <li>프로젝트</li>
-            </a>
+            </Link>
           </ActiveStyle>
         ) : (
-          <a href="?tab=project">
+          <Link to="?tab=project">
             <li>프로젝트</li>
-          </a>
+          </Link>
         )}
         {favorite ? (
           <ActiveStyle>
-            <a href="?tab=favorite">
+            <Link to="?tab=favorite">
               <li>구독</li>
-            </a>
+            </Link>
           </ActiveStyle>
         ) : (
-          <a href="?tab=favorite">
+          <Link to="?tab=favorite">
             <li>구독</li>
-          </a>
+          </Link>
         )}
         {alarm ? (
           <ActiveStyle>
-            <a href="?tab=alarm">
+            <Link to="?tab=alarm">
               <li>알람</li>
-            </a>
+            </Link>
           </ActiveStyle>
         ) : (
-          <a href="?tab=alarm">
+          <Link to="?tab=alarm">
             <li>알람</li>
-          </a>
+          </Link>
         )}
       </ul>
     </TabStyle>
