@@ -4,6 +4,7 @@ import ProjectDtailHeader from '../../Components/ProjectDetail/ProjectDtailHeade
 import ProjectTab from '../../Components/ProjectDetail/ProjectTab';
 import Info from '../../Components/ProjectDetail/Info';
 import Question from '../../Components/ProjectDetail/Question';
+import RightMenu from '../../Components/ProjectDetail/RightMenu';
 
 const Container = styled.section``;
 
@@ -40,6 +41,7 @@ const ProjectDetail = () => {
           {currentTab === 0 && <Info />}
           {currentTab === 1 && <Question />}
         </Contents>
+        <RightMenu />
       </ProjectPageWrap>
     </Container>
   );
