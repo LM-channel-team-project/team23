@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Project from './Pages/Project';
 import People from './Pages/People';
+import PeopleDetail from './Pages/People/PeopleDetail';
 import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
 import Mypage from './Pages/Mypage';
@@ -24,7 +25,8 @@ const Router = () => (
         <Route path="/login" component={Login} />
         <Route path="/project" component={Project} />
         <Route path="/signup" component={Signup} />
-        <Route path="/people" component={People} />
+        <Route path="/people" exact component={People} />
+        <Route path="/people/:username" component={PeopleDetail} />
         <Route path="/my" component={Mypage} />
         <Route path="/buildProject" component={BuildProject} />
         <Redirect path="*" to="/" />

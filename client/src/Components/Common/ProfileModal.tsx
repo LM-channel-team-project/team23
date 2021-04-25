@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const ProfileModalWrapper = styled.div`
   position: fixed;
@@ -180,9 +179,7 @@ function ProfileModal() {
         </InfoWrapper>
       </ProfileWrapper>
       <BtnWrapper>
-        <MyInfoBtn>
-          <Link to="/my">내 정보</Link>
-        </MyInfoBtn>
+        <MyInfoBtn>내 정보</MyInfoBtn>
         <NoticeBtn>알림상세</NoticeBtn>
         <SubscribeBtn>구독</SubscribeBtn>
       </BtnWrapper>
