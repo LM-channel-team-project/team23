@@ -60,6 +60,7 @@ const Button = styled.button`
   border-radius: 4px;
   font-family: 'Noto Sans', sans-serif;
   font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
 `;
 
 const Question = () => {
