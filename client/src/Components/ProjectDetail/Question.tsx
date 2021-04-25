@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Comment from './Comment';
 
 const Container = styled.div``;
 
 const InputSection = styled.div`
   width: 100%;
+  margin-bottom: 5px;
   padding: 26px 40px 24px;
   background-color: ${(props) => props.theme.palette.faintGray};
   font-family: 'Noto Sans', sans-serif;
@@ -82,6 +84,7 @@ const Question = () => {
           <Button>등록</Button>
         </ButtonWrapper>
       </InputSection>
+      <Comment />
     </Container>
   );
 };
