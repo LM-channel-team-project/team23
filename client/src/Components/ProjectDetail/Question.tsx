@@ -1,3 +1,4 @@
+import { PromiseProvider } from 'mongoose';
 import React from 'react';
 import styled from 'styled-components';
 import Comment from './Comment';
@@ -55,7 +56,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.button`
   background-color: #42495b;
-  color: #fff;
+  color: ${(props) => props.theme.palette.white};
   border: 1px solid #42495b;
   width: auto;
   padding: 8px 29px !important;
