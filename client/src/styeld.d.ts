@@ -7,12 +7,14 @@ declare module 'styled-components' {
       darkblue: string;
       gray: string;
       lightGray: string;
+      faintGray: string;
       black: string;
       orange: string;
       red: string;
       jade: string;
       lightJade: string;
       purple: string;
+      ivory: string;
     };
   }
 }

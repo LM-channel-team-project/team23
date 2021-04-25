@@ -6,7 +6,7 @@ import Title from '../Common/Title';
 const HeaderContainer = styled.h2`
   display: flex;
   flex-direction: column;
-  margin: 35px 0;
+  padding: 40px 10px 24px;
 `;
 
 const ProjectHeader = () => (
