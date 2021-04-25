@@ -24,7 +24,7 @@ const Router = () => (
         <Route path="/project" component={Project} />
         <Route path="/signup" component={Signup} />
         <Route path="/people" exact component={People} />
-        <Route path="/people/:id" component={PeopleDetail} />
+        <Route path="/people/:username" component={PeopleDetail} />
         <Redirect path="*" to="/" />
       </Switch>
       <Footer />

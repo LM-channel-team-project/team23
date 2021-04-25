@@ -7,6 +7,7 @@ const users = [
     userStack: ['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버'],
     joinDate: 210102,
     likeCount: 3,
+    shortIntro: '안녕하세요1',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar4.png',
@@ -16,6 +17,7 @@ const users = [
     userStack: ['#WEB', '#서버'],
     joinDate: 210302,
     likeCount: 5,
+    shortIntro: '안녕하세요2',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar6.png',
@@ -25,6 +27,7 @@ const users = [
     userStack: ['#Django', '#서버', '#WEB', '#백엔드', '#NodeJS'],
     joinDate: 200102,
     likeCount: 0,
+    shortIntro: '안녕하세요3',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar9.png',
@@ -41,6 +44,7 @@ const users = [
     ],
     joinDate: 210303,
     likeCount: 0,
+    shortIntro: '안녕하세요5',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
@@ -50,6 +54,7 @@ const users = [
     userStack: ['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버'],
     joinDate: 210123,
     likeCount: 11,
+    shortIntro: '안녕하세요8',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar4.png',
@@ -59,6 +64,7 @@ const users = [
     userStack: ['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버'],
     joinDate: 210211,
     likeCount: 22,
+    shortIntro: '안녕하세요1',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar6.png',
@@ -68,6 +74,7 @@ const users = [
     userStack: ['#Django', '#서버', '#WEB', '#백엔드', '#NodeJS'],
     joinDate: 210401,
     likeCount: 43,
+    shortIntro: '안녕하세요33',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar9.png',
@@ -84,6 +91,7 @@ const users = [
     ],
     joinDate: 210402,
     likeCount: 31,
+    shortIntro: '안녕하세요00',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
@@ -93,6 +101,7 @@ const users = [
     userStack: ['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버'],
     joinDate: 210422,
     likeCount: 13,
+    shortIntro: '안녕하세요5',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar4.png',
@@ -102,6 +111,7 @@ const users = [
     userStack: ['#JAVA', '#서버', '#WEB', '#서버', '#WEB', '#서버'],
     joinDate: 210311,
     likeCount: 26,
+    shortIntro: '안녕하세요2',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar6.png',
@@ -111,6 +121,7 @@ const users = [
     userStack: ['#Django', '#서버', '#WEB', '#백엔드', '#NodeJS'],
     joinDate: 210228,
     likeCount: 0,
+    shortIntro: '안녕하세요ㅁㅁ',
   },
   {
     avatarImg: 'http://kawala.in/assets/global/images/avatars/avatar9.png',
@@ -127,6 +138,7 @@ const users = [
     ],
     joinDate: 210102,
     likeCount: 0,
+    shortIntro: '안녕하세요ㄴ',
   },
 ];
 
