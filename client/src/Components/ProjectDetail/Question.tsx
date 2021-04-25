@@ -38,7 +38,7 @@ const Image = styled.img`
 const TextInput = styled.textarea`
   width: 100%;
   padding: 13px 16px;
-  border: 1px solid #c9c9d9;
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
   font-size: 0.8rem;
   border-radius: 4px;
   resize: none;
