@@ -8,12 +8,14 @@ declare module 'styled-components' {
       gray: string;
       lightGray: string;
       morelightGray: string;
+      faintGray: string;
       black: string;
       orange: string;
       red: string;
       jade: string;
       lightJade: string;
       purple: string;
+      ivory: string;
     };
   }
 }
