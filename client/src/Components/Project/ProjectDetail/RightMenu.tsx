@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import emptyHeart from '../../img/empty-heart.svg';
-import borderHeart from '../../img/border-heart.svg';
-import CheckIcon from '../../img/check_icon.svg';
+import emptyHeart from '../../../img/empty-heart.svg';
+import borderHeart from '../../../img/border-heart.svg';
+import CheckIcon from '../../../img/check_icon.svg';
 
 const Container = styled.div`
   max-width: 280px;
