@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ProjectDtailHeader from '../../Components/ProjectDetail/ProjectDtailHeader';
-import ProjectTab from '../../Components/ProjectDetail/ProjectTab';
-import Info from '../../Components/ProjectDetail/Info';
-import Question from '../../Components/ProjectDetail/Question';
-import RightMenu from '../../Components/ProjectDetail/RightMenu';
+import ProjectDtailHeader from '../../../Components/Project/ProjectDetail/ProjectDtailHeader';
+import ProjectTab from '../../../Components/Project/ProjectDetail/ProjectTab';
+import Info from '../../../Components/Project/ProjectDetail/Info';
+import Question from '../../../Components/Project/ProjectDetail/Question';
+import RightMenu from '../../../Components/Project/ProjectDetail/RightMenu';
 
 const Container = styled.section``;
 

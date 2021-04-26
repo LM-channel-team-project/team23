@@ -5,7 +5,7 @@ import Header from './Components/Common/Header';
 import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Project from './Pages/Project';
-import ProjectDetail from './Pages/ProjectDetail';
+import ProjectDetail from './Pages/Project/ProjectDetail';
 import People from './Pages/People';
 import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
