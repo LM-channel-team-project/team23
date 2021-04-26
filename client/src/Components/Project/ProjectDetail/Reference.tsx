@@ -11,7 +11,7 @@ const A = styled.a`
   &:not(:last-child) {
     margin-bottom: 10px;
   }
-`; //나중에 Link로 변경
+`;
 
 const Li = styled.li`
   display: contents;
