@@ -129,7 +129,7 @@ function Header() {
       </Link>
       <Web>
         <MenuStyle>
-          <AtagStyle to="project">Project</AtagStyle>
+          <AtagStyle to="/project">Project</AtagStyle>
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
         <LoginStyle>
