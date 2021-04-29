@@ -21,7 +21,7 @@ const Router = () => (
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="/" exact component={Home} />        
+        <Route path="/" exact component={Home} />
         <Route path="/project" exact component={Project} />
         <Route path="/project/:id" component={ProjectDetail} />
         <Route path="/project" component={Project} />
