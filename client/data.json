@@ -12,5 +12,21 @@
     "portfolio": ["Url1", "Url2"],
     "role": ["key1", "key2"],
     "token": "Token"
+  },
+  "login": {
+    "success": true,
+    "error": "error msg"
+  },
+  "logout": {
+    "success": true,
+    "error": "error msg"
+  },
+  "signup": {
+    "success": true,
+    "error": "error msg"
+  },
+  "auth": {
+    "success": true,
+    "error": "error msg"
   }
 }
