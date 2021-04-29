@@ -1,7 +1,7 @@
 import React from 'react';
 import querystring from 'query-string';
 import Title from '../../Components/Common/Title';
-import Tab from '../../Components/Mypage/Tab';
+import MypageTab from '../../Components/Mypage/Tab';
 import InfoBox from '../../Components/Mypage/InfoBox';
 import styled from 'styled-components';
 import ProfilePage from '../../Components/Mypage/ProfilePage';
@@ -39,7 +39,7 @@ function Mypage() {
   return (
     <Container>
       <Title subtitle="LET`s study" title="마이페이지" />
-      <Tab
+      <MypageTab
         info={type.info}
         project={type.project}
         favorite={type.favorite}

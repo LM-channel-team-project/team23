@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import ImgInfo from '../People/ImgInfo';
+import ImgInfo from './ImgInfo';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Container = styled.div`
   width: 95%;
@@ -181,22 +183,23 @@ function ProfilePage() {
           <RowArea>
             <h3>직무/능력치</h3>
             <SelectArea>
-              <Select>
-                <Option>ios</Option>
-                <Option>안드로이드</Option>
-                <Option>FE</Option>
-                <Option>크로스플랫폼</Option>
-                <Option>웹서버</Option>
-                <Option>블록체인</Option>
-                <Option>AI</Option>
-                <Option>DB/빅데이터</Option>
-                <Option>게임</Option>
+              <Select name="pos">
+                <Option value="ios">ios</Option>
+                <Option value="android">안드로이드</Option>
+                <Option value="frontend">FE</Option>
+                <Option value="crossplatform">크로스플랫폼</Option>
+                <Option value="backend">웹서버</Option>
+                <Option value="blockchain">블록체인</Option>
+                <Option value="ai">AI</Option>
+                <Option value="data">DB/빅데이터</Option>
+                <Option value="game">게임</Option>
               </Select>
-              <Select>
+              <Select name="skill">
                 <Option>초보</Option>
                 <Option>중수</Option>
                 <Option>고수</Option>
               </Select>
+              <p>6개월 미만 공부했어요.</p>
             </SelectArea>
           </RowArea>
           <RowArea>
