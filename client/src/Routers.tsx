@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './Components/Common/Header';
 import Home from './Pages/Home';
-import Login from './Pages/Login';
 import Project from './Pages/Project';
 import ProjectDetail from './Pages/Project/ProjectDetail';
 import People from './Pages/People';
@@ -22,10 +21,10 @@ const Router = () => (
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" component={Login} />
+        <Route path="/" exact component={Home} />        
         <Route path="/project" exact component={Project} />
         <Route path="/project/:id" component={ProjectDetail} />
+        <Route path="/project" component={Project} />
         <Route path="/signup" component={Signup} />
         <Route path="/people" exact component={People} />
         <Route path="/people/:username" component={PeopleDetail} />
