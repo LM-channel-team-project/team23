@@ -1,0 +1,16 @@
+{
+  "users": {
+    "avartar": "Url",
+    "nickName": "NickName" ,
+    "email": "Email",
+    "job": "Job",
+    "learning": "Learning",
+    "area": "Area",
+    "skill": ["Skill1","Skill2"],
+    "joinDate": "JobDate",
+    "intro": "Intro",
+    "portfolio": ["Url1", "Url2"],
+    "role": ["key1", "key2"],
+    "token": "Token"
+  }
+}
