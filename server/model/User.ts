@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   jobLevel: String,
 
   availableLocation: String,
-  availableWeeik: String,
+  availableWeek: String,
   availableTime: String,
   learningPeriod: String,
 
