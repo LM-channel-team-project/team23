@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ProjectDtailHeader from '../../../Components/Project/ProjectDetail/ProjectDtailHeader';
+import ProjectDtailHeader from '../../../Components/Project/ProjectDetail/ProjectDetailHeader';
 import ProjectTab from '../../../Components/Project/ProjectDetail/ProjectTab';
 import Info from '../../../Components/Project/ProjectDetail/Info';
 import Question from '../../../Components/Project/ProjectDetail/Question';
