@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
   //     ref: 'Project',
   //   },
   // ],
+  // receivedLike: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Like',
+  // },
   token: String,
 });
 
