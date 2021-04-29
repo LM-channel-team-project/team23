@@ -1,5 +1,14 @@
 import express from 'express';
 import './db';
+import User from './model/User';
+
+const createUser = async () => {
+  await User.create({
+    nickname: 'test2',
+    email: 'test2@google.com',
+  });
+};
+createUser();
 
 const app = express();
 app.use(express.json());
