@@ -1,5 +1,4 @@
 import React from 'react';
-import SignupModal from './SignupModal';
 import styled from 'styled-components';
 import Title from '../../Components/Common/Title';
 
