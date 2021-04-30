@@ -1,44 +1,54 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  avartarImg: String,
-  nickname: {
-    type: String,
-    required: 'Nickname is required.',
-  },
-  email: {
-    type: String,
-    required: 'Email is required.',
-  },
-  tel: String,
-  job: String,
-  jobLevel: String,
+const userSchema = new mongoose.Schema(
+  {
+    avartarImg: String,
+    nickname: {
+      type: String,
+      required: 'Nickname is required.',
+      trim: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: 'Email is required.',
+      trim: true,
+      unique: true,
+    },
+    tel: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
+    job: String,
+    jobLevel: String,
 
-  availableLocation: String,
-  availableWeek: String,
-  availableTime: String,
-  learningPeriod: String,
+    availableLocation: String,
+    availableWeek: String,
+    availableTime: String,
+    learningPeriod: String,
 
-  interestSkills: [String],
-  joinDate: {
-    type: Date,
-    default: Date.now,
+    interestSkills: [String],
+
+    intro: String,
+    portfolio: [String],
+
+    role: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+      },
+    ],
+    receivedLike: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Like',
+    },
+    token: String,
   },
-  intro: String,
-  portfolio: [String],
-
-  // role: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'Project',
-  //   },
-  // ],
-  // receivedLike: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Like',
-  // },
-  token: String,
-});
+  {
+    timestamps: true,
+  }
+);
 
 const model = mongoose.model('User', userSchema);
 
