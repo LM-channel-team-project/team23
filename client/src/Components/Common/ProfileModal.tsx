@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const ProfileModalWrapper = styled.div`
+  display: none;
   position: fixed;
   right: 10rem;
   top: 52px;
