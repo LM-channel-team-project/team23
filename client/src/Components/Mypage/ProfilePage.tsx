@@ -88,7 +88,7 @@ const SelectArea = styled.div`
   width: 100%;
   height: 42px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 `;
 
@@ -195,9 +195,9 @@ function ProfilePage() {
                 <Option value="game">게임</Option>
               </Select>
               <Select name="skill">
-                <Option>초보</Option>
-                <Option>중수</Option>
-                <Option>고수</Option>
+                <Option value="skill_C">초보</Option>
+                <Option value="skill_B">중수</Option>
+                <Option value="skill_A">고수</Option>
               </Select>
               <p>6개월 미만 공부했어요.</p>
             </SelectArea>

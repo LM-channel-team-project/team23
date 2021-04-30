@@ -34,4 +34,19 @@ router.get("/", (req: Request, res: Response, next:NextFunction) => {
   ]);
 });
 
+router.post("/nickname", (req: Request, res: Response) => {
+  //req.body.nickname이 현재 DB에 user.nickname에 있는지 확인
+  res.status(200).json({
+    success: true,
+    nickname: req.body.nickname
+  });
+});
+
+router.post("/signup", (req: Request, res: Response) => {
+  //console.log(req.body);
+  //create user model 로 받아온 정보를 DB에 저장후 Success 리턴
+  res.status(200).json({
+    success: true,
+  });
+});
 module.exports =router;
