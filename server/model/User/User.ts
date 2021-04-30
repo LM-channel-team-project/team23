@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import IUser from './UserInterface';
 
-const userSchema = new mongoose.Schema(
+const userSchema: mongoose.Schema = new mongoose.Schema(
   {
     avartarImg: String,
     nickname: {
@@ -50,6 +51,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const model = mongoose.model('User', userSchema);
+const model: mongoose.Model<IUser> = mongoose.model('User', userSchema);
 
 export default model;

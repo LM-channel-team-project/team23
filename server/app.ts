@@ -1,6 +1,6 @@
 import express from 'express';
 import './db';
-import User from './model/User';
+import User from './model/User/User';
 
 const app = express();
 app.use(express.json());

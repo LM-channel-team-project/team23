@@ -1,29 +1,29 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://127.0.0.1:27017/study-with', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+const connect = mongoose
+  .connect('mongodb://127.0.0.1:27017/study-with', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log('MongoDB Connected'))
+  .catch((err: any) => console.log(err));
 
-const studyWithDB = mongoose.connection;
+// mongoose.connect('mongodb://127.0.0.1:27017/study-with', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false,
+// });
 
-const handleOpen = () => {
-  console.log('Connected to Study-with DB!!');
-};
-const handleError = (error: any) =>
-  console.log(`Error on DB connection: ${error}`);
+// const studyWithDB = mongoose.connection;
 
-studyWithDB.once('open', handleOpen);
-studyWithDB.on('error', handleError);
+// const handleOpen = () => {
+//   console.log('Connected to Study-with DB!!');
+// };
+// const handleError = (error: any) =>
+//   console.log(`Error on DB connection: ${error}`);
 
-// const connect = mongoose
-//   .connect('mongodb://127.0.0.1:27017/study-with', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true,
-//     useFindAndModify: false,
-//   })
-//   .then(() => console.log('MongoDB Connected..'))
-//   .catch((err: any) => console.log(err));
+// studyWithDB.once('open', handleOpen);
+// studyWithDB.on('error', handleError);
