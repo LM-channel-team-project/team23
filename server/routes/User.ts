@@ -49,4 +49,16 @@ router.post("/signup", (req: Request, res: Response) => {
     success: true,
   });
 });
+
+router.post("/api/users/info", (req: Request, res: Response) => {
+  console.log(req.body);
+  //req.body.userId 로 DB에서 해당 정보 찾기
+  res.status(200).json({
+    success: true,
+    email: 'abc@naver.com',
+    nickname: '개발이',
+    pos: 'FE',
+    level: 'level1',
+  });
+});
 module.exports =router;
