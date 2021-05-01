@@ -1,12 +1,15 @@
 import mongoose from 'mongoose';
 
 const connect = mongoose
-  .connect('mongodb://127.0.0.1:27017/study-with', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
+  .connect(
+    'mongodb+srv://admin:1234@cluster0.dkkrg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    }
+  )
   .then(() => console.log('MongoDB Connected'))
   .catch((err: any) => console.log(err));
 
