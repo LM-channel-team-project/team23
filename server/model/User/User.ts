@@ -19,7 +19,6 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
     tel: {
       type: String,
       trim: true,
-      unique: true,
     },
     position: String,
     positionLevel: String,
@@ -31,7 +30,6 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
     receivedLike: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Like',
-      default: 0,
     },
     join: [
       {

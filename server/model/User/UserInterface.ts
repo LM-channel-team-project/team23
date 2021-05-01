@@ -4,7 +4,6 @@ export default interface IUser extends Document {
   avartarImg: string;
   nickname: string;
   email: string;
-  tel: string;
   position: string;
   positionLevel: string;
   availableLocation: string;
@@ -15,6 +14,7 @@ export default interface IUser extends Document {
   receivedLike: number;
   createdAt: Date;
   updatedAt: Date;
+  tel?: string;
   join?: string;
   role?: string[];
   portfolio?: string[];
