@@ -1,21 +1,22 @@
-import { Date, Document } from 'mongoose';
+import { Date, Document, Schema } from 'mongoose';
 
 export default interface IUser extends Document {
   avartarImg: string;
   nickname: string;
   email: string;
   tel: string;
-  job: string;
-  jobLevel: string;
+  position: string;
+  positionLevel: string;
   availableLocation: string;
   availableWeek: string;
   availableTime: string;
-  learningPeriod: string;
   interestSkills: string[];
-  portfolio: string[];
-  receivedLike: number;
   token: string;
-  timestamps: Date;
+  receivedLike: number;
+  createdAt: Date;
+  updatedAt: Date;
+  join?: string;
+  role?: string[];
+  portfolio?: string[];
   intro?: string;
-  role?: string;
 }

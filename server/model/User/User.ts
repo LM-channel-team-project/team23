@@ -21,30 +21,32 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
-    job: String,
-    jobLevel: String,
-
+    position: String,
+    positionLevel: String,
     availableLocation: String,
     availableWeek: String,
     availableTime: String,
-    learningPeriod: String,
-
     interestSkills: [String],
-
-    intro: String,
-    portfolio: [String],
-
+    token: String,
+    receivedLike: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Like',
+      default: 0,
+    },
+    join: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+      },
+    ],
     role: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
       },
     ],
-    receivedLike: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Like',
-    },
-    token: String,
+    portfolio: [String],
+    intro: String,
   },
   {
     timestamps: true,
