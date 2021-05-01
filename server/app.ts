@@ -1,4 +1,5 @@
 import express from 'express';
+import { SERVER_PORT } from './config/env';
 import './db';
 import User from './model/User/User';
 
@@ -18,7 +19,6 @@ const ProjectRouter = require('./routes/Project');
 app.use('/api/users', UserRouter);
 app.use('/api/project', ProjectRouter);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server listnening on ${port}`);
+app.listen(SERVER_PORT, () => {
+  console.log(`Server listnening on ${SERVER_PORT}`);
 });
