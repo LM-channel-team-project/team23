@@ -104,6 +104,7 @@ const ProjectButton = styled.button`
 const UserImg = styled.img`
   width: 35px;
   height: 35px;
+  cursor: pointer;
 `;
 
 const IconStyle = styled(CgMenuGridO)`
@@ -127,13 +128,13 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
-  const checkLoginSignup = (login: boolean) => {
+  const switchLoginSignup = (login: boolean) => {
     setIsLogin(login);
   };
 
   const onToggle = (login: boolean) => {
-    checkLoginSignup(login);
-    setOpen((open) => (open = !open));
+    switchLoginSignup(login);
+    setOpen((open) => !open);
   };
 
   return (
@@ -154,7 +155,7 @@ function Header() {
         <LoginAndSignupModal
           open={open}
           onToggle={onToggle}
-          checkLoginSignup={checkLoginSignup}
+          switchLoginSignup={switchLoginSignup}
           isLogin={isLogin}
         />
         <SigninStyle>

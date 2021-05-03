@@ -100,14 +100,14 @@ const SMdClose = styled(MdClose)`
 interface IProps {
   open: boolean;
   onToggle: (login: boolean) => void;
-  checkLoginSignup: (login: boolean) => void;
+  switchLoginSignup: (login: boolean) => void;
   isLogin: boolean;
 }
 
 const LoginAndSignUpModal = ({
   open,
   onToggle,
-  checkLoginSignup,
+  switchLoginSignup,
   isLogin,
 }: IProps) => {
   return (
@@ -131,11 +131,11 @@ const LoginAndSignUpModal = ({
           </div>
         )}
         {isLogin ? (
-          <div className="signupBtn" onClick={() => checkLoginSignup(false)}>
+          <div className="signupBtn" onClick={() => switchLoginSignup(false)}>
             회원 가입하기
           </div>
         ) : (
-          <div className="signupBtn" onClick={() => checkLoginSignup(true)}>
+          <div className="signupBtn" onClick={() => switchLoginSignup(true)}>
             로그인
           </div>
         )}
