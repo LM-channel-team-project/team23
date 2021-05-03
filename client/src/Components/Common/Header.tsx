@@ -127,6 +127,7 @@ const Web = styled.div`
 function Header() {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
 
   const switchLoginSignup = (login: boolean) => {
     setIsLogin(login);
@@ -163,10 +164,11 @@ function Header() {
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"
+            onClick={() => setOpenProfile((open) => !open)}
           />
+          {openProfile && <ProfileModal />}
         </SigninStyle>
       </Web>
-      <ProfileModal />
     </HeaderStyle>
   );
 }
