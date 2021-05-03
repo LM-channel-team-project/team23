@@ -125,7 +125,7 @@ const Web = styled.div`
 `;
 
 function Header() {
-  const [open, setOpen] = useState(false);
+  const [openLoginSignup, setOpenLoginSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -135,7 +135,7 @@ function Header() {
 
   const onToggle = (login: boolean) => {
     switchLoginSignup(login);
-    setOpen((open) => !open);
+    setOpenLoginSignup((open) => !open);
   };
 
   return (
@@ -154,7 +154,7 @@ function Header() {
           <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
         </LoginStyle>
         <LoginAndSignupModal
-          open={open}
+          openLoginSignup={openLoginSignup}
           onToggle={onToggle}
           switchLoginSignup={switchLoginSignup}
           isLogin={isLogin}
