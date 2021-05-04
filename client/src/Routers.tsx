@@ -11,6 +11,7 @@ import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
 import Mypage from './Pages/Mypage';
 import BuildProject from './Pages/BuildProject';
+import Auth from './hoc/auth';
 
 const Style = styled.div`
   padding-top: 60px;
@@ -21,14 +22,13 @@ const Router = () => (
     <BrowserRouter>
       <Header />
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/project" component={Project} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/people" exact component={People} />
-        <Route path="/people/:username" component={PeopleDetail} />
-        <Route path="/my" component={Mypage} />
-        <Route path="/buildProject" component={BuildProject} />
+        <Route path="/" exact component={Auth(Home, null)} />
+        <Route path="/project" component={Auth(Project, null)} />
+        <Route path="/signup" component={Auth(Signup, false)} />
+        <Route path="/people" exact component={Auth(People, null)} />
+        <Route path="/people/:username" component={Auth(PeopleDetail, null)} />
+        <Route path="/my" component={Auth(Mypage, true)} />
+        <Route path="/buildProject" component={Auth(BuildProject, true)} />
         <Redirect path="*" to="/" />
       </Switch>
       <Footer />
