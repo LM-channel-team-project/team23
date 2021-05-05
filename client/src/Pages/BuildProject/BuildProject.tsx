@@ -214,7 +214,7 @@ const SubmitBtn = styled.button`
 
 function BuildProject() {
   return (
-    <div>
+    <>
       <Header>
         <Title>프로젝트 생성</Title>
         <SubTitle>
@@ -353,6 +353,17 @@ function BuildProject() {
           </RecruitWrapper>
         </Section>
         <Section>
+          <SectionTitle>(필수) 요구레벨</SectionTitle>
+          <SectionInfo>
+            프로젝트에 필요한 팀원의 레벨을 선택해주세요.
+          </SectionInfo>
+          <Select>
+            <Option>초보</Option>
+            <Option>중수</Option>
+            <Option>고수</Option>
+          </Select>
+        </Section>
+        <Section>
           <SectionTitle>(선택) 참고 자료 (최대 5개)</SectionTitle>
           <SectionInfo>
             * 벤치마킹하는 서비스나, 프로젝트를 정리하신 자료의 웹주소를
@@ -368,7 +379,7 @@ function BuildProject() {
         </Section>
         <SubmitBtn type="submit">작성완료</SubmitBtn>
       </Content>
-    </div>
+    </>
   );
 }
 
