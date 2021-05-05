@@ -22,19 +22,16 @@ export default function AuthHOC(
         console.log('API CALL');
         dispatch(getAuthThunk());
       }
-      if (data && !data.success && option) {
-        setIsRender(false);
-        history.push('/');
-      }
-      if (data && data.success && option === false) {
-        setIsRender(false);
-        history.push('/');
+      if (data) {
+        if ((!data.success && option) || (data.success && option === false)) {
+          setIsRender(false);
+          history.push('/');
+        } else {
+          setIsRender(true);
+        }
       }
       if (error) {
         history.push('/');
-      }
-      if (data) {
-        setIsRender(true);
       }
     }, [data, error]);
 
