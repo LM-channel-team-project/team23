@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../../Components/Common/Title';
 import axios from 'axios';
@@ -125,12 +125,13 @@ const Level = [
 ];
 
 function Signup() {
-  const [email, setEmail] = useState('abc@naver.com');
+  const [email, setEmail] = useState('abc12345@naver.com');
   const [nickname, setNickname] = useState('');
   const [NicknameAvailable, setNicknameAbailable] = useState(false);
   const [pos, setPos] = useState('');
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
+
   const handleChangeNickname = (event: React.FormEvent<HTMLInputElement>) => {
     setNickname(event.currentTarget.value);
   };
@@ -189,8 +190,8 @@ function Signup() {
     const formdata = {
       email: email,
       nickname: nickname,
-      pos: pos,
-      level: level,
+      position: pos,
+      positionLevel: level,
     };
     axios.post('/api/users/signup', formdata).then((response) => {
       if (response.data.success) {

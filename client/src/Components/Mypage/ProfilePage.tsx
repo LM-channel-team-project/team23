@@ -255,19 +255,22 @@ function ProfilePage() {
 
   useEffect(() => {
     //localstorage에 쿠키값 저장 된것 가져오기 => userId
-    axios.post('/api/users/info', { userId: 1234 }).then((response) => {
-      if (response.data.success) {
-        setEmail(response.data.email);
-        setNickname(response.data.nickname);
-        setPos(response.data.pos);
-        setLevel(response.data.level);
-        document.getElementById(pos)?.setAttribute('selected', '');
-        document.getElementById(level)?.setAttribute('selected', '');
-      } else {
-        alert('내 정보를 확인하지 못했습니다.');
-      }
-    });
-  });
+    axios
+      .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data);
+          setEmail(response.data.email);
+          setNickname(response.data.nickname);
+          setPos(response.data.pos);
+          setLevel(response.data.level);
+          document.getElementById(pos)?.setAttribute('selected', '');
+          document.getElementById(level)?.setAttribute('selected', '');
+        } else {
+          alert('내 정보를 확인하지 못했습니다.');
+        }
+      });
+  }, []);
   const CreateBox = () => {
     setboxCount(boxCount + 1);
   };

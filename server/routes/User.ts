@@ -1,64 +1,52 @@
-import express, { NextFunction, Request, Response } from "express";
-
+import express, { Request, Response } from "express";
 const router = express.Router();
-
-interface APIProps {
-  id: number;
-  username: string;
-  skill: string[];
-  state: boolean;
-}
-
-router.get("/", (req: Request, res: Response, next:NextFunction) => {
-  res.json([
-    { id: 1,
-      username: "abc",
-      skill: ["react", "nodeJS", "Javascript"],
-      state: true
-    },
-    { id: 2,
-      username: "def",
-      skill: ["nextJS", "VueJS", "Javascript"],
-      state: true
-    },
-    { id: 3,
-      username: "xyz",
-      skill: ["nextJS", "nodeJS", "JAVA"],
-      state: false
-    },
-    { id: 4,
-      username: "한글",
-      skill: ["reactNative", "Swift", "Python", "C++"],
-      state: true
-    },
-  ]);
-});
+const { User } = require('../models/User');
+import IUser from '../models/User.interface';
 
 router.post("/nickname", (req: Request, res: Response) => {
-  //req.body.nickname이 현재 DB에 user.nickname에 있는지 확인
-  res.status(200).json({
-    success: true,
-    nickname: req.body.nickname
-  });
+  User.findOne({nickname : req.body.nickname}, (err: Error, user:IUser) => {
+    if(err){
+      return res.json({ success: false, err});
+    }
+    if(user != null ){
+      res.json({
+        success: false
+      })
+    } else {
+      res.status(200).json({
+        success: true,
+        nickname: req.body.nickname
+      });
+    }
+  })
 });
 
 router.post("/signup", (req: Request, res: Response) => {
-  //console.log(req.body);
-  //create user model 로 받아온 정보를 DB에 저장후 Success 리턴
-  res.status(200).json({
-    success: true,
-  });
+  const user = new User(req.body);
+  user.save((err: Error|null, doc: IUser) => {
+    if(err) {
+      return res.json({ success: false, err});
+    }
+    return res.status(200).json({
+      success: true,
+      user: doc
+    })
+  })
 });
 
 router.post("/info", (req: Request, res: Response) => {
-  //console.log(req.body);
-  //req.body.userId 로 DB에서 해당 정보 찾기
-  res.status(200).json({
-    success: true,
-    email: 'abc@naver.com',
-    nickname: '개발이',
-    pos: 'backend',
-    level: 'level2',
-  });
+  User.findOne({_id: req.body._id}, (err: Error, user: IUser)=>{
+    if(err){
+      return res.json({success: false, err});
+    }
+    return res.status(200).json({
+      success: true,
+      email: user.email,
+      nickname: user.nickname,
+      pos: user.position,
+      level: user.positionLevel,
+    })
+  })
 });
+
 module.exports =router;
