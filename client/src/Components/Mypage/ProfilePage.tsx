@@ -261,13 +261,18 @@ function ProfilePage() {
         setNickname(response.data.nickname);
         setPos(response.data.pos);
         setLevel(response.data.level);
+        document.getElementById(pos)?.setAttribute('selected', '');
+        document.getElementById(level)?.setAttribute('selected', '');
       } else {
         alert('내 정보를 확인하지 못했습니다.');
       }
     });
-  }, []);
+  });
   const CreateBox = () => {
     setboxCount(boxCount + 1);
+  };
+  const handleChangePos = (event: React.FormEvent<HTMLSelectElement>) => {
+    setPos(event.currentTarget.value);
   };
   const handleChangeLevel = (event: React.FormEvent<HTMLSelectElement>) => {
     setLevel(event.currentTarget.value);
@@ -309,16 +314,16 @@ function ProfilePage() {
           <RowArea>
             <h3>직무/능력치</h3>
             <SelectArea>
-              <Select name="pos" value={pos}>
+              <Select name="pos" onChange={handleChangePos}>
                 {Pos.map((item, index) => (
-                  <Option key={index} value={item.value}>
+                  <Option key={index} value={item.value} id={item.value}>
                     {item.label}
                   </Option>
                 ))}
               </Select>
-              <Select name="level" onChange={handleChangeLevel} value={level}>
+              <Select name="level" onChange={handleChangeLevel}>
                 {Level.map((item, index) => (
-                  <Option key={index} value={item.value}>
+                  <Option key={index} value={item.value} id={item.value}>
                     {item.label}
                   </Option>
                 ))}

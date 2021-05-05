@@ -135,7 +135,6 @@ function Header() {
     checkLoginSignup(login);
     setOpen((open) => (open = !open));
   };
-
   return (
     <HeaderStyle>
       <Link to="/">
@@ -158,7 +157,9 @@ function Header() {
           isLogin={isLogin}
         />
         <SigninStyle>
-          <ProjectButton>프로젝트 생성</ProjectButton>
+          <ProjectButton>
+            <Link to="/BuildProject">프로젝트 생성</Link>
+          </ProjectButton>
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"
