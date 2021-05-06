@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Header = styled.div`
   width: 100%;
@@ -153,6 +156,22 @@ const Select = styled.select`
 const Option = styled.option`
   font-size: 12px;
 `;
+
+const ProjectDateTitle = styled.span`
+  margin-right: 15px;
+`;
+
+const SDatePicker = styled(DatePicker)`
+  margin-top: 1.5rem;
+  width: 300px;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 8px 20px;
+  border-radius: 4px;
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
+  font-size: 12px;
+`;
+
 const RecruitWrapper = styled.div`
   display: flex;
 `;
@@ -196,7 +215,7 @@ const AddBtn = styled.button`
     cursor: pointer;
   }
 `;
-const RefWrapper = styled.div``;
+const Div = styled.div``;
 const SubmitBtn = styled.button`
   color: ${(props) => props.theme.palette.white};
   background: ${(props) => props.theme.palette.red};
@@ -213,6 +232,9 @@ const SubmitBtn = styled.button`
 `;
 
 function BuildProject() {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
   return (
     <>
       <Header>
@@ -364,18 +386,48 @@ function BuildProject() {
           </Select>
         </Section>
         <Section>
+          <SectionTitle>(필수) 프로젝트 기간</SectionTitle>
+          <SectionInfo>프로젝트의 진행 기간을 선택해주세요.</SectionInfo>
+          <Div>
+            <ProjectDateTitle>프로젝트 시작일: </ProjectDateTitle>
+            <SDatePicker
+              locale={ko}
+              dateFormat="yyyy년 MM월 dd일"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              selectsStart
+              minDate={new Date()}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </Div>
+          <Div>
+            <ProjectDateTitle>프로젝트 종료일: </ProjectDateTitle>
+            <SDatePicker
+              locale={ko}
+              dateFormat="yyyy년 MM월 dd일"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+            />
+          </Div>
+        </Section>
+        <Section>
           <SectionTitle>(선택) 참고 자료 (최대 5개)</SectionTitle>
           <SectionInfo>
             * 벤치마킹하는 서비스나, 프로젝트를 정리하신 자료의 웹주소를
             등록해주세요.
           </SectionInfo>
-          <RefWrapper>
+          <Div>
             <Input placeholder="https://letspl.me" />
             <TwoBtnWrapper>
               <RemoveBtn>삭제</RemoveBtn>
               <AddBtn>추가</AddBtn>
             </TwoBtnWrapper>
-          </RefWrapper>
+          </Div>
         </Section>
         <SubmitBtn type="submit">작성완료</SubmitBtn>
       </Content>
