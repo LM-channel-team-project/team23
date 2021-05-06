@@ -35,18 +35,27 @@ router.post("/signup", (req: Request, res: Response) => {
 });
 
 router.post("/info", (req: Request, res: Response) => {
-  User.findOne({_id: req.body._id}, (err: Error, user: IUser)=>{
+  User.findOne({_id: req.body._id}, (err: Error, user: IUser) => {
     if(err){
       return res.json({success: false, err});
     }
     return res.status(200).json({
       success: true,
-      email: user.email,
-      nickname: user.nickname,
-      pos: user.position,
-      level: user.positionLevel,
+      user: user,
     })
   })
 });
+
+router.post("/update",(req: Request, res: Response) => {
+  User.findOneAndUpdate({_id: req.body._id}, User(req.body), (err: Error, user:IUser) => {
+    if(err){
+      return res.json({ success: false, err});
+    };
+    return res.status(200).json({
+      success: true,
+      user: user
+    });
+  })
+})
 
 module.exports =router;

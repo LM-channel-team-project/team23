@@ -4,6 +4,7 @@ import ImgInfo from './ImgInfo';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { string } from 'yup/lib/locale';
 
 const Container = styled.div`
   width: 95%;
@@ -237,10 +238,20 @@ const Time = [
   { value: 'T4', label: '저녁 위주' },
 ];
 
-const PortFolioBox = () => {
+const PortFolioBox = ({ portfolio, change, index }: any) => {
+  const [url, setUrl] = useState(portfolio);
+  const handleChangePortfolio = (event: React.FormEvent<HTMLInputElement>) => {
+    setUrl(event.currentTarget.value);
+    change(index, event.currentTarget.value);
+  };
   return (
     <>
-      <input type="text" placeholder="URL을 입력해주세요" />
+      <input
+        type="text"
+        placeholder="URL을 입력해주세요"
+        onChange={handleChangePortfolio}
+        value={url}
+      />
     </>
   );
 };
@@ -248,10 +259,17 @@ const PortFolioBox = () => {
 function ProfilePage() {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
-  const [pos, setPos] = useState('');
-  const [level, setLevel] = useState('');
+  const [tel, setTel] = useState('');
+  const [pos, setPos] = useState({ value: '' });
+  const [level, setLevel] = useState({ value: '' });
   const [levelText, setLevelText] = useState('');
+  const [availableLocation, setAvailableLocation] = useState('');
+  const [availableWeek, setAvailableWeek] = useState('');
+  const [availableTime, setAvailableTime] = useState('');
+  const [avartarImg, setAvartarImg] = useState('');
   const [boxCount, setboxCount] = useState(1);
+  const [portfolioes, setPortfolioes] = useState(['']);
+  const [intro, setIntro] = useState('');
 
   useEffect(() => {
     //localstorage에 쿠키값 저장 된것 가져오기 => userId
@@ -259,32 +277,89 @@ function ProfilePage() {
       .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
       .then((response) => {
         if (response.data.success) {
-          console.log(response.data);
-          setEmail(response.data.email);
-          setNickname(response.data.nickname);
-          setPos(response.data.pos);
-          setLevel(response.data.level);
-          document.getElementById(pos)?.setAttribute('selected', '');
-          document.getElementById(level)?.setAttribute('selected', '');
+          const user = response.data.user;
+          setEmail(user.email);
+          setNickname(user.nickname);
+          setTel(user.tel);
+          setPos({ value: user.position });
+          setLevel({ value: user.positionLevel });
+          setAvailableLocation(user.availableLocation);
+          setAvailableWeek(user.availableWeek);
+          setAvailableTime(user.availableTime);
+          setIntro(user.intro);
+          setPortfolioes(user.portfolio);
+          const item = Level.find((item) => {
+            if (item.value === level.value) return item;
+          });
+          {
+            item && setLevelText(item.text);
+          }
+          setboxCount(portfolioes.length);
+          console.log(portfolioes);
         } else {
           alert('내 정보를 확인하지 못했습니다.');
         }
       });
   }, []);
+
   const CreateBox = () => {
     setboxCount(boxCount + 1);
+    setPortfolioes([...portfolioes, '']);
+  };
+  const setPortfolio = (index: number, newItem: string) => {
+    const newPortfolioes = portfolioes.map((item, i) => {
+      if (index === i) return newItem;
+      return item;
+    });
+    setPortfolioes(newPortfolioes);
+  };
+  const handleChangeTel = (event: React.FormEvent<HTMLInputElement>) => {
+    setTel(event.currentTarget.value);
   };
   const handleChangePos = (event: React.FormEvent<HTMLSelectElement>) => {
-    setPos(event.currentTarget.value);
+    setPos({ value: event.currentTarget.value });
   };
   const handleChangeLevel = (event: React.FormEvent<HTMLSelectElement>) => {
-    setLevel(event.currentTarget.value);
+    setLevel({ value: event.currentTarget.value });
     const item = Level.find((item) => {
       if (item.value === event.currentTarget.value) return item;
     });
     {
       item && setLevelText(item.text);
     }
+  };
+  const handleChangeLocation = (event: React.FormEvent<HTMLSelectElement>) => {
+    setAvailableLocation(event.currentTarget.value);
+  };
+  const handleChangeWeek = (event: React.FormEvent<HTMLSelectElement>) => {
+    setAvailableWeek(event.currentTarget.value);
+  };
+  const handleChangeTime = (event: React.FormEvent<HTMLSelectElement>) => {
+    setAvailableTime(event.currentTarget.value);
+  };
+  const handleChangeIntro = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    setIntro(event.currentTarget.value);
+  };
+  const onSubmit = () => {
+    const formdata = {
+      _id: '6092bfdf96b9743b04a28c8b',
+      tel: tel,
+      position: pos.value,
+      positionLevel: level.value,
+      availableLocation: availableLocation,
+      availableWeek: availableWeek,
+      availableTime: availableTime,
+      avartarImg: avartarImg,
+      portfolio: portfolioes,
+      intro: intro,
+    };
+    axios.post('/api/users/update', formdata).then((response) => {
+      if (response.data.success) {
+        alert('내 정보를 성공적으로 수정했습니다.');
+      } else {
+        alert('저장에 실패했습니다. 다시 시도해주세요.');
+      }
+    });
   };
   return (
     <Container>
@@ -310,21 +385,30 @@ function ProfilePage() {
             />
           </RowCenterArea>
           <RowArea>
-            <InputStyle type="text" placeholder="010-1234-5667" />
+            <InputStyle
+              type="text"
+              placeholder="010-1234-5667"
+              value={tel}
+              onChange={handleChangeTel}
+            />
           </RowArea>
         </InputArea>
         <InfoArea>
           <RowArea>
             <h3>직무/능력치</h3>
             <SelectArea>
-              <Select name="pos" onChange={handleChangePos}>
+              <Select name="pos" onChange={handleChangePos} value={pos.value}>
                 {Pos.map((item, index) => (
                   <Option key={index} value={item.value} id={item.value}>
                     {item.label}
                   </Option>
                 ))}
               </Select>
-              <Select name="level" onChange={handleChangeLevel}>
+              <Select
+                name="level"
+                onChange={handleChangeLevel}
+                value={level.value}
+              >
                 {Level.map((item, index) => (
                   <Option key={index} value={item.value} id={item.value}>
                     {item.label}
@@ -337,9 +421,15 @@ function ProfilePage() {
           <RowArea>
             <h3>지역 설정</h3>
             <SelectArea>
-              <Select>
-                {City.map((item) => (
-                  <Option key={item.value}>{item.label}</Option>
+              <Select
+                name="location"
+                onChange={handleChangeLocation}
+                value={availableLocation}
+              >
+                {City.map((item, index) => (
+                  <Option key={index} value={item.value}>
+                    {item.label}
+                  </Option>
                 ))}
               </Select>
             </SelectArea>
@@ -347,21 +437,37 @@ function ProfilePage() {
           <RowArea>
             <h3>시간 설정</h3>
             <SelectArea>
-              <Select>
-                {Week.map((item) => (
-                  <Option key={item.value}>{item.label}</Option>
+              <Select
+                name="Week"
+                onChange={handleChangeWeek}
+                value={availableWeek}
+              >
+                {Week.map((item, index) => (
+                  <Option key={index} value={item.value}>
+                    {item.label}
+                  </Option>
                 ))}
               </Select>
-              <Select>
-                {Time.map((item) => (
-                  <Option key={item.value}>{item.label}</Option>
+              <Select
+                name="Time"
+                onChange={handleChangeTime}
+                value={availableTime}
+              >
+                {Time.map((item, index) => (
+                  <Option key={index} value={item.value}>
+                    {item.label}
+                  </Option>
                 ))}
               </Select>
             </SelectArea>
           </RowArea>
           <RowArea>
             <h3>자기 소개</h3>
-            <textarea placeholder="최대 200자까지 작성 가능합니다." />
+            <textarea
+              value={intro}
+              onChange={handleChangeIntro}
+              placeholder="최대 200자까지 작성 가능합니다."
+            />
           </RowArea>
           <RowCenterArea>
             <h3>포트폴리오</h3>
@@ -369,7 +475,11 @@ function ProfilePage() {
               {[...Array(boxCount)].map((n, index) => {
                 return (
                   <span key={index}>
-                    <PortFolioBox />
+                    <PortFolioBox
+                      portfolio={portfolioes[index]}
+                      change={setPortfolio}
+                      index={index}
+                    />
                   </span>
                 );
               })}
@@ -378,8 +488,7 @@ function ProfilePage() {
           </RowCenterArea>
         </InfoArea>
         <ButtonArea>
-          <Button>수정하기</Button>
-          <RedBtton>저장하기</RedBtton>
+          <RedBtton onClick={onSubmit}>저장하기</RedBtton>
         </ButtonArea>
       </FormArea>
     </Container>
