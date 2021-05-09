@@ -2,6 +2,7 @@ import { PromiseProvider } from 'mongoose';
 import React from 'react';
 import styled from 'styled-components';
 import Comment from './Comment';
+import Button from '../../Common/Button';
 
 const Container = styled.div``;
 
@@ -54,18 +55,6 @@ const ButtonWrapper = styled.div`
   margin-left: 60px;
 `;
 
-const Button = styled.button`
-  background-color: #42495b;
-  color: ${(props) => props.theme.palette.white};
-  border: 1px solid #42495b;
-  width: auto;
-  padding: 8px 29px !important;
-  border-radius: 4px;
-  font-family: 'Noto Sans', sans-serif;
-  font-family: 'Noto Sans KR', sans-serif;
-  cursor: pointer;
-`;
-
 const Question = () => {
   return (
     <Container>
@@ -82,7 +71,12 @@ const Question = () => {
           />
         </InputWrap>
         <ButtonWrapper>
-          <Button>등록</Button>
+          <Button
+            ButtonColor="darkblue"
+            ButtonMode="active"
+            ButtonName="등록"
+            ButtonSize="medium"
+          />
         </ButtonWrapper>
       </InputSection>
       <Comment />

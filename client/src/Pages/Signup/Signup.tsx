@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../../Components/Common/Title';
+import SelectBox from '../../Components/Common/SelectBox';
+import Button from '../../Components/Common/Button';
 import axios from 'axios';
 
 const SignupSection = styled.section`
@@ -46,13 +48,6 @@ const SignupForm = styled.form`
       pointer-events: none;
       color: ${(props) => props.theme.palette.lightGray};
     }
-
-    .AfterButton {
-      background: ${(props) => props.theme.palette.lightGray};
-      cursor: default;
-      pointer-events: none;
-    }
-
     #nickname {
       width: 60%;
       height: 40px;
@@ -60,7 +55,6 @@ const SignupForm = styled.form`
       border-radius: 3px;
       border: 1px solid ${(props) => props.theme.palette.lightGray};
     }
-
     #skill {
       width: 95%;
       height: 40px;
@@ -69,21 +63,14 @@ const SignupForm = styled.form`
       border-radius: 3px;
       border: 1px solid ${(props) => props.theme.palette.lightGray};
     }
-
+    .selectArea {
+      display: flex;
+      justify-content: center;
+    }
     .resultText {
       font-size: 10px;
       color: ${(props) => props.theme.palette.orange};
       padding-left: 0.5rem;
-    }
-
-    select {
-      padding-left: 10px;
-      margin-right: 10px;
-      width: 30%;
-      height: 40px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-      font-size: 0.6875rem;
     }
   }
 
@@ -91,38 +78,6 @@ const SignupForm = styled.form`
     text-align: center;
   }
 `;
-const Button = styled.button`
-  font: inherit;
-  padding: 0.8rem 1.4rem;
-  margin-left: 1.5rem;
-  background: ${(props) => props.theme.palette.orange};
-  color: ${(props) => props.theme.palette.white};
-  font-size: 12px;
-  border-radius: 3px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
-  text-align: center;
-`;
-
-const Pos = [
-  { value: 'ios', label: 'ios' },
-  { value: 'android', label: '안드로이드' },
-  { value: 'frontend', label: 'FE' },
-  { value: 'crossplatform', label: '크로스플랫폼' },
-  { value: 'backend', label: '웹서버' },
-  { value: 'blockchain', label: '블록체인' },
-  { value: 'ai', label: 'AI' },
-  { value: 'data', label: 'DB/빅데이터' },
-  { value: 'game', label: '게임' },
-];
-
-const Level = [
-  { value: 'level1', label: '초보', text: '6개월 미만으로 공부했어요.' },
-  { value: 'level2', label: '중수', text: '1년 정도 공부했어요.' },
-  { value: 'level3', label: '고수', text: '2년 이상 공부했어요.' },
-];
 
 function Signup() {
   const [email, setEmail] = useState('abc12345@naver.com');
@@ -135,19 +90,6 @@ function Signup() {
   const handleChangeNickname = (event: React.FormEvent<HTMLInputElement>) => {
     setNickname(event.currentTarget.value);
   };
-  const handleChangePos = (event: React.FormEvent<HTMLSelectElement>) => {
-    setPos(event.currentTarget.value);
-  };
-  const handleChangeLevel = (event: React.FormEvent<HTMLSelectElement>) => {
-    setLevel(event.currentTarget.value);
-    const item = Level.find((item) => {
-      if (item.value === event.currentTarget.value) return item;
-    });
-    {
-      item && setLevelText(item.text);
-    }
-  };
-
   const CheckNickname = () => {
     if (nickname.length == 0) {
       alert('닉네임을 입력해주세요.');
@@ -212,7 +154,12 @@ function Signup() {
               <label htmlFor="email">이메일</label>
               <div className="inputWrapper">
                 <input type="text" id="email" readOnly value={email} />
-                <Button className="AfterButton">인증 완료</Button>
+                <Button
+                  ButtonColor="lightGray"
+                  ButtonMode="disabled"
+                  ButtonName="확인"
+                  ButtonSize="small"
+                />
               </div>
             </li>
             <li>
@@ -235,13 +182,21 @@ function Signup() {
                     />
                   )}
                   {NicknameAvailable ? (
-                    <Button type="button" onClick={resetNickname}>
-                      다시 찾기
-                    </Button>
+                    <Button
+                      ButtonColor="orange"
+                      ButtonMode="active"
+                      ButtonName="다시 찾기"
+                      ButtonSize="medium"
+                      onClick={resetNickname}
+                    />
                   ) : (
-                    <Button type="button" onClick={CheckNickname}>
-                      중복 확인
-                    </Button>
+                    <Button
+                      ButtonColor="orange"
+                      ButtonMode="active"
+                      ButtonName="중복 확인"
+                      ButtonSize="medium"
+                      onClick={CheckNickname}
+                    />
                   )}
                 </div>
                 {NicknameAvailable && (
@@ -254,35 +209,29 @@ function Signup() {
             <li>
               <label>본 캐릭터 설정</label>
               <div className="inputWrapper">
-                <div>
-                  <select name="pos" onChange={handleChangePos}>
-                    <option value="" selected disabled hidden>
-                      분야
-                    </option>
-                    {Pos.map((item, index) => (
-                      <option key={index} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                  <select name="level" onChange={handleChangeLevel}>
-                    <option value="" selected disabled hidden>
-                      실력
-                    </option>
-                    {Level.map((item, index) => (
-                      <option key={index} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="selectArea">
+                  <SelectBox
+                    Mode="pos"
+                    DefaultValue={pos}
+                    SubmitValue={setPos}
+                  />
+                  <SelectBox
+                    Mode="level"
+                    DefaultValue={level}
+                    SubmitValue={setLevel}
+                  />
                 </div>
                 <span className="resultText">{levelText}</span>
               </div>
             </li>
             <div className="btnWrapper">
-              <Button type="button" onClick={onSubmit}>
-                가입 완료
-              </Button>
+              <Button
+                ButtonColor="orange"
+                ButtonMode="active"
+                ButtonName="가입 완료"
+                ButtonSize="medium"
+                onSubmit={onSubmit}
+              />
             </div>
           </SignupForm>
         </div>
