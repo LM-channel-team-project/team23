@@ -215,7 +215,8 @@ const AddBtn = styled.button`
     cursor: pointer;
   }
 `;
-const Div = styled.div``;
+const DateWrapper = styled.div``;
+const RefWrapper = styled.div``;
 const SubmitBtn = styled.button`
   color: ${(props) => props.theme.palette.white};
   background: ${(props) => props.theme.palette.red};
@@ -388,7 +389,7 @@ function BuildProject() {
         <Section>
           <SectionTitle>(필수) 프로젝트 기간</SectionTitle>
           <SectionInfo>프로젝트의 진행 기간을 선택해주세요.</SectionInfo>
-          <Div>
+          <DateWrapper>
             <ProjectDateTitle>프로젝트 시작일: </ProjectDateTitle>
             <SDatePicker
               locale={ko}
@@ -400,8 +401,8 @@ function BuildProject() {
               startDate={startDate}
               endDate={endDate}
             />
-          </Div>
-          <Div>
+          </DateWrapper>
+          <DateWrapper>
             <ProjectDateTitle>프로젝트 종료일: </ProjectDateTitle>
             <SDatePicker
               locale={ko}
@@ -413,7 +414,7 @@ function BuildProject() {
               endDate={endDate}
               minDate={startDate}
             />
-          </Div>
+          </DateWrapper>
         </Section>
         <Section>
           <SectionTitle>(선택) 참고 자료 (최대 5개)</SectionTitle>
@@ -421,13 +422,13 @@ function BuildProject() {
             * 벤치마킹하는 서비스나, 프로젝트를 정리하신 자료의 웹주소를
             등록해주세요.
           </SectionInfo>
-          <Div>
+          <RefWrapper>
             <Input placeholder="https://letspl.me" />
             <TwoBtnWrapper>
               <RemoveBtn>삭제</RemoveBtn>
               <AddBtn>추가</AddBtn>
             </TwoBtnWrapper>
-          </Div>
+          </RefWrapper>
         </Section>
         <SubmitBtn type="submit">작성완료</SubmitBtn>
       </Content>
