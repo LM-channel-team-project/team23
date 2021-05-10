@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../../Components/Common/Title';
+import SelectBox from '../../Components/Common/SelectBox';
+import Button from '../../Components/Common/Button';
+import InputBox from '../../Components/Common/InputBox';
+import { LevelData } from '../../Components/Common/OptionData';
+import axios from 'axios';
 
 const SignupSection = styled.section`
   .signupWrapper {
@@ -15,7 +20,7 @@ const SignupSection = styled.section`
   }
 `;
 
-const SignupForm = styled.ul`
+const SignupForm = styled.form`
   padding: 0.2rem;
 
   li {
@@ -34,75 +39,96 @@ const SignupForm = styled.ul`
   li .inputWrapper {
     padding-bottom: 20px;
     width: 414px;
-
-    #email {
-      width: 49%;
-      height: 40px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
+    .selectArea {
+      display: flex;
+      justify-content: center;
+      margin-left: 0.8rem;
     }
-
-    .btnAuth {
-      color: ${(props) => props.theme.palette.white};
-      background: ${(props) => props.theme.palette.lightGray};
-      border-radius: 3px;
-      border: none;
-      font-size: 0.75rem;
-      height: 40px;
-      margin: 0 6px;
-      width: 31%;
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    #nickname {
-      width: 100%;
-      height: 40px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-    }
-
     .resultText {
       font-size: 10px;
-      color: ${(props) => props.theme.palette.lightGray};
-    }
-
-    select {
-      padding-left: 10px;
-      margin-right: 10px;
-      width: 30%;
-      height: 40px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-      font-size: 0.6875rem;
+      color: ${(props) => props.theme.palette.orange};
+      padding-left: 0.5rem;
     }
   }
 
   .btnWrapper {
     text-align: center;
   }
-
-  .btnWrapper button {
-    width: 240px;
-    height: 35px;
-    padding: 11px 35px;
-    background: ${(props) => props.theme.palette.orange};
-    font-family: 'Noto Sans KR', sans-serif;
-    color: ${(props) => props.theme.palette.white};
-    font-size: 12px;
-    border-radius: 3px;
-    border: none;
-    &:hover {
-      cursor: pointer;
-    }
-  }
 `;
 
 function Signup() {
+  const [email, setEmail] = useState('abc125@naver.com');
+  const [nickname, setNickname] = useState('');
+  const [NicknameAvailable, setNicknameAbailable] = useState(false);
+  const [pos, setPos] = useState('');
+  const [level, setLevel] = useState('');
+  const [levelText, setLevelText] = useState('');
+
+  useEffect(() => {
+    const Item = LevelData.find((item) => item.value === level && item);
+    {
+      Item && setLevelText(Item.text);
+    }
+  }, [level]);
+
+  const CheckNickname = () => {
+    if (nickname.length == 0) {
+      alert('닉네임을 입력해주세요.');
+      return false;
+    }
+    if (nickname.includes(' ')) {
+      alert('닉네임은 뛰어쓰기가 불가능합니다.');
+      return false;
+    }
+    axios
+      .post('/api/users/nickname', { nickname: nickname })
+      .then((response) => {
+        if (response.data.success) {
+          setNicknameAbailable(response.data.nickname);
+        } else {
+          alert('사용 불가능한 닉네임입니다. 다른 닉네임을 입력해주세요.');
+          setNickname('');
+          setNicknameAbailable(false);
+        }
+      });
+  };
+  const resetNickname = () => {
+    setNickname('');
+    setNicknameAbailable(false);
+  };
+
+  const onSubmit = () => {
+    if (!NicknameAvailable) {
+      alert('닉네임 중복 확인을 해주세요.');
+      return false;
+    }
+    if (pos == '') {
+      alert('분야를 선택해주세요.');
+      return false;
+    }
+    if (level == '') {
+      alert('실력을 선택해주세요.');
+      return false;
+    }
+    const formdata = {
+      email: email,
+      nickname: nickname,
+      position: pos,
+      positionLevel: level,
+    };
+    axios.post('/api/users/signup', formdata).then((response) => {
+      if (response.data.success) {
+        alert('회원가입이 성공적으로 이루어졌습니다.');
+        window.location.href = '/';
+      } else {
+        alert('가입에 실패했습니다. 다시 시도해주세요.');
+      }
+    });
+  };
+
+  console.log(nickname);
   return (
     <SignupSection>
-      {/* <SignupModal /> */}
       <div className="signupWrapper">
         <Title subtitle="본 캐릭터 설정" title="회원 가입이 바로 완료됩니다" />
         <div className="formWrapper">
@@ -110,72 +136,98 @@ function Signup() {
             <li>
               <label htmlFor="email">이메일</label>
               <div className="inputWrapper">
-                <input type="text" id="email" />
-                <button className="btnAuth">인증 완료</button>
+                <InputBox
+                  type="text"
+                  InputBoxSize="m"
+                  InputBoxType="disabled"
+                  value={email}
+                  id="email"
+                  SubmitValue={setEmail}
+                  readOnly
+                />
+                <Button
+                  ButtonColor="lightGray"
+                  ButtonMode="disabled"
+                  ButtonName="확인"
+                  ButtonSize="small"
+                />
               </div>
             </li>
             <li>
               <label htmlFor="nickname">닉네임</label>
               <div className="inputWrapper">
-                <input type="text" id="nickname" />
-                <span className="resultText">
-                  사용할 수 있습니다. 좋은 선택이예요!
-                </span>
+                <div className="checkbutton">
+                  {NicknameAvailable ? (
+                    <InputBox
+                      type="text"
+                      id="nickname"
+                      value={nickname}
+                      InputBoxSize="s"
+                      InputBoxType="active"
+                      SubmitValue={setNickname}
+                      readOnly
+                    />
+                  ) : (
+                    <InputBox
+                      type="text"
+                      id="nickname"
+                      value={nickname}
+                      InputBoxSize="s"
+                      InputBoxType="active"
+                      SubmitValue={setNickname}
+                    />
+                  )}
+                  {NicknameAvailable ? (
+                    <Button
+                      ButtonColor="orange"
+                      ButtonMode="active"
+                      ButtonName="다시 찾기"
+                      ButtonSize="medium"
+                      onClick={resetNickname}
+                    />
+                  ) : (
+                    <Button
+                      ButtonColor="orange"
+                      ButtonMode="active"
+                      ButtonName="중복 확인"
+                      ButtonSize="medium"
+                      onClick={CheckNickname}
+                    />
+                  )}
+                </div>
+                {NicknameAvailable && (
+                  <span className="resultText">
+                    사용할 수 있습니다. 좋은 선택이예요!
+                  </span>
+                )}
               </div>
             </li>
             <li>
               <label>본 캐릭터 설정</label>
               <div className="inputWrapper">
-                <select name="pos">
-                  <option value="plan">기획</option>
-                  <option value="design">디자인</option>
-                  <option value="front">프론트엔드 개발</option>
-                  <option value="back">백엔드 개발</option>
-                  <option value="business">사업</option>
-                  <option value="etc">기타</option>
-                </select>
-                <select name="field">
-                  <option value="plan_u">UI/UX 기획</option>
-                  <option value="plan_g">게임 기획</option>
-                  <option value="plan_p">프로젝트 매니저</option>
-                  <option value="plan_h">하드웨어(제품) 기획</option>
-                  <option value="design_g">그래픽 디자인</option>
-                  <option value="design_u">UI/UX 디자인</option>
-                  <option value="design_d">3D 디자인</option>
-                  <option value="design_h">하드웨어(제품) 디자인</option>
-                  <option value="design_e">기타</option>
-                  <option value="front_i">IOS</option>
-                  <option value="front_a">안드로이드</option>
-                  <option value="front_f">웹 프론트엔드</option>
-                  <option value="front_p">웹 퍼블리셔</option>
-                  <option value="front_c">크로스플랫폼</option>
-                  <option value="back_w">웹 서버</option>
-                  <option value="back_b">블록체인</option>
-                  <option value="back_a">AI</option>
-                  <option value="back_d">DB/빅데이터/DS</option>
-                  <option value="back_g">게임 서버</option>
-                  <option value="business_b">사업 기획/개발</option>
-                  <option value="business_m">마케팅</option>
-                  <option value="business_f">재무/회계</option>
-                  <option value="business_s">영업</option>
-                  <option value="business_e">그외</option>
-                  <option value="etc_s">사운드</option>
-                  <option value="etc_v">영상</option>
-                  <option value="etc_o">운영</option>
-                  <option value="etc_q">QA</option>
-                  <option value="etc_e">기타</option>
-                </select>
-                <select name="skill">
-                  <option value="skill_D">초심자</option>
-                  <option value="skill_C">초보</option>
-                  <option value="skill_B">중수</option>
-                  <option value="skill_A">고수</option>
-                  <option value="skill_S">구루</option>
-                </select>
+                <div className="selectArea">
+                  <SelectBox
+                    Mode="pos"
+                    DefaultValue={pos}
+                    SubmitValue={setPos}
+                  />
+                  <SelectBox
+                    Mode="level"
+                    DefaultValue={level}
+                    SubmitValue={setLevel}
+                  />
+                </div>
+                <span className="resultText">{levelText}</span>
               </div>
             </li>
             <div className="btnWrapper">
-              <button>가입 완료</button>
+              <Button
+                ButtonColor="orange"
+                ButtonMode="active"
+                ButtonName="가입 완료"
+                ButtonSize="medium"
+                onClick={onSubmit}
+              />
             </div>
           </SignupForm>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
+import Button from '../../Components/Common/Button';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -26,6 +27,9 @@ const Content = styled.form`
   padding: 40px 120px;
   border-radius: 8px;
   box-shadow: 0px 0px 12px 2px ${(props) => props.theme.palette.lightGray};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 const Section = styled.section`
   margin-bottom: 2rem;
@@ -58,7 +62,7 @@ const ProjectImage = styled.div`
   background: ${(props) => props.theme.palette.lightGray};
   align-items: center;
   justify-content: center;
-  opacity: 70%
+  opacity: 70%;
   width: 385px;
   height: 242px;
   border-radius: 3px;
@@ -106,29 +110,7 @@ const ProjectExplain = styled.textarea`
 const ProjectExplainBtnWrapper = styled.div`
   margin-top: 1.5rem;
 `;
-const InitBtn = styled.button`
-  padding: 8px 29px;
-  margin-right: 12px;
-  color: ${(props) => props.theme.palette.white};
-  background: ${(props) => props.theme.palette.lightGray};
-  border-radius: 3px;
-  font-size: 12px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const InitOnlyContentBtn = styled.button`
-  padding: 8px 29px;
-  color: ${(props) => props.theme.palette.white};
-  background: ${(props) => props.theme.palette.red};
-  border-radius: 3px;
-  font-size: 12px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+
 const FieldWrapper = styled.div`
   margin: 1.5rem 0;
 `;
@@ -262,7 +244,12 @@ function BuildProject() {
               <FaCamera />
             </ProjectImage>
             <UploadWrapper>
-              <ImageUploadBtn>이미지 업로드</ImageUploadBtn>
+              <Button
+                ButtonColor="white"
+                ButtonMode="active"
+                ButtonSize="medium"
+                ButtonName="이미지 업로드"
+              />
               <SectionInfo>
                 * 가로/세로의 비율이 2:1일 때 썸네일이 가장 예쁩니다.
               </SectionInfo>
@@ -309,8 +296,18 @@ function BuildProject() {
           </SectionInfo>
           <ProjectExplain />
           <ProjectExplainBtnWrapper>
-            <InitBtn>초기화</InitBtn>
-            <InitOnlyContentBtn>입력칸만</InitOnlyContentBtn>
+            <Button
+              ButtonColor="lightGray"
+              ButtonSize="medium"
+              ButtonMode="active"
+              ButtonName="초기화"
+            />
+            <Button
+              ButtonColor="red"
+              ButtonSize="medium"
+              ButtonMode="active"
+              ButtonName="입력칸만"
+            />
           </ProjectExplainBtnWrapper>
         </Section>
         <Section>
@@ -370,8 +367,18 @@ function BuildProject() {
               <i>+</i>
             </CountWrapper>
             <TwoBtnWrapper>
-              <RemoveBtn>삭제</RemoveBtn>
-              <AddBtn>추가</AddBtn>
+              <Button
+                ButtonColor="darkblue"
+                ButtonMode="active"
+                ButtonSize="small"
+                ButtonName="삭제"
+              />
+              <Button
+                ButtonColor="white"
+                ButtonMode="active"
+                ButtonSize="small"
+                ButtonName="추가"
+              />
             </TwoBtnWrapper>
           </RecruitWrapper>
         </Section>
@@ -425,12 +432,27 @@ function BuildProject() {
           <RefWrapper>
             <Input placeholder="https://letspl.me" />
             <TwoBtnWrapper>
-              <RemoveBtn>삭제</RemoveBtn>
-              <AddBtn>추가</AddBtn>
+              <Button
+                ButtonColor="darkblue"
+                ButtonMode="active"
+                ButtonSize="small"
+                ButtonName="삭제"
+              />
+              <Button
+                ButtonColor="white"
+                ButtonMode="active"
+                ButtonSize="small"
+                ButtonName="추가"
+              />
             </TwoBtnWrapper>
           </RefWrapper>
         </Section>
-        <SubmitBtn type="submit">작성완료</SubmitBtn>
+        <Button
+          ButtonColor="red"
+          ButtonMode="active"
+          ButtonSize="medium"
+          ButtonName="작성 완료"
+        />
       </Content>
     </>
   );

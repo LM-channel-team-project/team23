@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import ImgInfo from '../People/ImgInfo';
+import ImgInfo from './ImgInfo';
+import axios from 'axios';
+import SelectBox from '../Common/SelectBox';
+import Button from '../Common/Button';
+import InputBox from '../Common/InputBox';
+import { LevelData } from '../../Components/Common/OptionData';
 
 const Container = styled.div`
   width: 95%;
@@ -22,19 +27,10 @@ const FormArea = styled.div`
   width: 100%;
 `;
 
-const InputStyle = styled.input`
-  font-size: 14px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  border-radius: 4px;
-  height: 38px;
-  width: 65%;
-  padding: 0.5rem;
-`;
-
 const RowCenterArea = styled.div`
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.9rem;
   padding: 0.3rem;
   p {
@@ -44,7 +40,8 @@ const RowCenterArea = styled.div`
     font-size: 12px;
     width: 120px;
     line-height: 1.5;
-    padding-top: 10px;
+    padding-top: 1rem;
+    margin-top: 1rem;
   }
 `;
 const RowArea = styled.div`
@@ -86,72 +83,13 @@ const SelectArea = styled.div`
   width: 100%;
   height: 42px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 `;
 
-const Select = styled.select`
-  width: 200px;
-  height: 42px;
-  border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  padding-left: 20px;
-  margin-right: 15px;
-  font-size: 12px;
-  appearance: none;
-  background-size: 10px 5px;
-  background-position: 90%;
-  background-repeat: no-repeat;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNSA1LjI1bC01LTVoMTBsLTUgNXoiIGZpbGw9IiM0MjQ5NUIiLz48L3N2Zz4=);
-`;
-
-const Option = styled.option`
-  text-align: center;
-  margin: 1.2rem;
-  color: ${(props) => props.theme.palette.gray};
-  padding: 0px 2px 1px;
-`;
-
-const Button = styled.button`
-  color: ${(props) => props.theme.palette.white};
-  background-color: ${(props) => props.theme.palette.darkblue};
-  border: 1px solid ${(props) => props.theme.palette.darkblue};
-  margin: 0.6rem;
-  padding: 1rem;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 0.5;
-  width: 110px;
-`;
-
-const RedBtton = styled.button`
-  color: ${(props) => props.theme.palette.white};
-  background-color: ${(props) => props.theme.palette.red};
-  border: 1px solid ${(props) => props.theme.palette.red};
-  margin: 0.6rem;
-  padding: 1rem;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 0.5;
-  width: 110px;
-`;
-
-const MiniButton = styled.button`
-  color: ${(props) => props.theme.palette.white};
-  background-color: ${(props) => props.theme.palette.darkblue};
-  border: 1px solid ${(props) => props.theme.palette.darkblue};
-  margin: 0.6rem;
-  padding: 0.8rem;
-  font-size: 12px;
-  height: 40px;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 0.5;
-  width: 80px;
+const PortFolioArea = styled.div`
+  width: 100%;
+  margin-left: 2rem;
 `;
 
 const ButtonArea = styled.div`
@@ -161,98 +99,208 @@ const ButtonArea = styled.div`
 `;
 
 function ProfilePage() {
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [tel, setTel] = useState('');
+  const [pos, setPos] = useState('');
+  const [level, setLevel] = useState('');
+  const [levelText, setLevelText] = useState('');
+  const [availableLocation, setAvailableLocation] = useState('');
+  const [availableWeek, setAvailableWeek] = useState('');
+  const [availableTime, setAvailableTime] = useState('');
+  const [avartarImg, setAvartarImg] = useState('');
+  const [url, setUrl] = useState('');
+  const [portfolioes, setPortfolioes] = useState([{ id: 1, url: '' }]);
+  const [intro, setIntro] = useState('');
+
+  const nextId = useRef(0);
+  useEffect(() => {
+    axios
+      .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
+      .then((response) => {
+        if (response.data.success) {
+          const user = response.data.user;
+          setAvailableLocation(user.availableLocation);
+          setAvailableTime(user.availableTime);
+          setAvailableWeek(user.availableWeek);
+          setEmail(user.email);
+          setIntro(user.intro);
+          setNickname(user.nickname);
+          const urls = user.portfolio;
+          setPortfolioes(
+            urls.map((item: string, index: number) => {
+              return { id: index, url: item };
+            })
+          );
+          setPos(user.position);
+          setLevel(user.positionLevel);
+          setTel(user.tel);
+        } else {
+          alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+        }
+      });
+  }, []);
+
+  nextId.current += portfolioes.length;
+
+  useEffect(() => {
+    const Item = LevelData.find((item) => item.value === level && item);
+    {
+      Item && setLevelText(Item.text);
+    }
+  }, [level]);
+
+  const CreateBox = () => {
+    const URL = {
+      id: nextId.current,
+      url: url,
+    };
+    setPortfolioes(portfolioes.concat(URL));
+    console.log(URL);
+    console.log(portfolioes);
+    setUrl('');
+    nextId.current += 1;
+  };
+
+  const handleChangeIntro = (event: React.FormEvent<HTMLTextAreaElement>) => {
+    setIntro(event.currentTarget.value);
+  };
+
+  const onSubmit = () => {
+    const urls = portfolioes.map((item, index) => item.url);
+    const formdata = {
+      _id: '6092bfdf96b9743b04a28c8b',
+      tel: tel,
+      position: pos,
+      positionLevel: level,
+      availableLocation: availableLocation,
+      availableWeek: availableWeek,
+      availableTime: availableTime,
+      avartarImg: avartarImg,
+      portfolio: urls,
+      intro: intro,
+    };
+    axios.post('/api/users/update', formdata).then((response) => {
+      if (response.data.success) {
+        alert('내 정보를 성공적으로 수정했습니다.');
+      } else {
+        alert('저장에 실패했습니다. 다시 시도해주세요.');
+      }
+    });
+  };
   return (
     <Container>
       <ImgInfo />
       <FormArea>
         <InputArea>
           <RowArea>
-            <InputStyle type="text" placeholder="abc@naver.com" readOnly />
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="disabled"
+              SubmitValue={setEmail}
+              value={email}
+              readOnly
+            />
           </RowArea>
           <RowCenterArea>
-            <InputStyle type="text" placeholder="닉네임" />
-            <p>사용 가능합니다.</p>
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="disabled"
+              SubmitValue={setNickname}
+              value={nickname}
+              readOnly
+            />
           </RowCenterArea>
           <RowArea>
-            <InputStyle type="text" placeholder="010-1234-5667" readOnly />
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="active"
+              SubmitValue={setTel}
+              value={tel}
+              placeholder="010-1122-3344"
+            />
           </RowArea>
         </InputArea>
         <InfoArea>
           <RowArea>
             <h3>직무/능력치</h3>
             <SelectArea>
-              <Select>
-                <Option>ios</Option>
-                <Option>안드로이드</Option>
-                <Option>FE</Option>
-                <Option>크로스플랫폼</Option>
-                <Option>웹서버</Option>
-                <Option>블록체인</Option>
-                <Option>AI</Option>
-                <Option>DB/빅데이터</Option>
-                <Option>게임</Option>
-              </Select>
-              <Select>
-                <Option>초보</Option>
-                <Option>중수</Option>
-                <Option>고수</Option>
-              </Select>
+              <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
+              <SelectBox
+                Mode="level"
+                DefaultValue={level}
+                SubmitValue={setLevel}
+              />
+              <p>{levelText}</p>
             </SelectArea>
           </RowArea>
           <RowArea>
             <h3>지역 설정</h3>
             <SelectArea>
-              <Select>
-                <Option>지역무관</Option>
-                <Option>서울</Option>
-                <Option>경기</Option>
-                <Option>인천</Option>
-                <Option>대전</Option>
-                <Option>세종</Option>
-                <Option>충남</Option>
-                <Option>충북</Option>
-                <Option>광주</Option>
-                <Option>전남</Option>
-                <Option>전북</Option>
-                <Option>대구</Option>
-                <Option>경북</Option>
-                <Option>부산</Option>
-                <Option>울산</Option>
-                <Option>경남</Option>
-                <Option>강원</Option>
-                <Option>제주</Option>
-              </Select>
+              <SelectBox
+                Mode="location"
+                DefaultValue={availableLocation}
+                SubmitValue={setAvailableLocation}
+              />
             </SelectArea>
           </RowArea>
           <RowArea>
             <h3>시간 설정</h3>
             <SelectArea>
-              <Select>
-                <Option>주중/주말 모두 가능</Option>
-                <Option>주중만 가능</Option>
-                <Option>주말만 가능</Option>
-              </Select>
-              <Select>
-                <Option>상관없음</Option>
-                <Option>오전 위주</Option>
-                <Option>오후 위주</Option>
-                <Option>저녁 위주</Option>
-              </Select>
+              <SelectBox
+                Mode="availableWeek"
+                DefaultValue={availableWeek}
+                SubmitValue={setAvailableWeek}
+              />
+              <SelectBox
+                Mode="availableTime"
+                DefaultValue={availableTime}
+                SubmitValue={setAvailableTime}
+              />
             </SelectArea>
           </RowArea>
           <RowArea>
             <h3>자기 소개</h3>
-            <textarea placeholder="최대 200자까지 작성 가능합니다." />
+            <textarea
+              value={intro}
+              onChange={handleChangeIntro}
+              placeholder="최대 200자까지 작성 가능합니다."
+            />
           </RowArea>
           <RowCenterArea>
             <h3>포트폴리오</h3>
-            <InputStyle type="text" placeholder="URL을 입력해주세요" />
-            <MiniButton>추가</MiniButton>
+            <PortFolioArea>
+              {portfolioes.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <InputBox
+                      InputBoxSize="xl"
+                      InputBoxType="active"
+                      placeholder="URL을 입력헤주세요"
+                      value={item.url}
+                      SubmitValue={setUrl}
+                    />
+                  </div>
+                );
+              })}
+            </PortFolioArea>
+            <Button
+              ButtonColor="darkblue"
+              ButtonSize="small"
+              ButtonName="추가"
+              ButtonMode="active"
+              onClick={CreateBox}
+            />
           </RowCenterArea>
         </InfoArea>
         <ButtonArea>
-          <Button>수정하기</Button>
-          <RedBtton>저장하기</RedBtton>
+          <Button
+            ButtonColor="red"
+            ButtonSize="medium"
+            ButtonMode="active"
+            ButtonName="저장하기"
+            onClick={onSubmit}
+          />
         </ButtonArea>
       </FormArea>
     </Container>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Title from '../../Components/Common/Title';
-import PersonBoxList from '../../Components/PersonBoxList';
 import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
@@ -50,12 +49,9 @@ const Home = () => (
       </div>
       <div className="new_user content">
         <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
-        <PersonBoxList />
       </div>
       <div className="find_coworker content">
         <Title subtitle="Be my Co-Worker" title="동료를 찾아보세요" />
-        <PersonBoxList />
-        <PersonBoxList />
       </div>
     </ContentWrapper>
   </Style>

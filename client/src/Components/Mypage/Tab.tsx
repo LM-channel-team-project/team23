@@ -48,7 +48,6 @@ interface Itab {
 }
 
 function Tab({ info, project, favorite, alarm }: Itab) {
-  console.log(info, project, favorite, alarm);
   return (
     <TabStyle>
       <ul>

@@ -5,6 +5,7 @@ import logo from '../../img/logo.png';
 import { CgMenuGridO } from 'react-icons/cg';
 import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
+import Button from './Button';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -81,24 +82,8 @@ const SigninStyle = styled.div`
   margin-right: 9rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   // display: none;
-`;
-
-const ProjectButton = styled.button`
-  width: 160px;
-  height: 35px;
-  padding: 11px 20px;
-  background: ${(props) => props.theme.palette.orange};
-  font-family: 'Noto Sans KR', sans-serif;
-  color: ${(props) => props.theme.palette.white};
-  font-size: 12px;
-  margin-right: 3rem;
-  border-radius: 3px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 const UserImg = styled.img`
@@ -137,7 +122,6 @@ function Header() {
     switchLoginSignup(login);
     setOpenLoginSignup((open) => !open);
   };
-
   return (
     <HeaderStyle>
       <Link to="/">
@@ -160,7 +144,13 @@ function Header() {
           isLogin={isLogin}
         />
         <SigninStyle>
-          <ProjectButton>프로젝트 생성</ProjectButton>
+          <Button
+            ButtonColor="orange"
+            ButtonMode="active"
+            ButtonName="프로젝트 생성"
+            ButtonSize="large"
+            onClick={() => (window.location.href = '/BuildProject')}
+          />
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"

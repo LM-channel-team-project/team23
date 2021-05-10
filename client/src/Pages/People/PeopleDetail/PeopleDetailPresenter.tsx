@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../../Components/Common/Button';
 
 const UserContainer = styled.div`
   max-width: 1200px;
@@ -38,7 +39,7 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
 `;
-const Button = styled.div`
+const button = styled.div`
   width: 100px;
   height: 30px;
   font-size: 0.7em;
@@ -108,8 +109,18 @@ const PeopleDetailPresenter = () => (
       <UserInfoTop>
         <Username>allmie</Username>
         <ButtonGroup>
-          <Button>1:1 대화</Button>
-          <Button>프로젝트 초대</Button>
+          <Button
+            ButtonColor="red"
+            ButtonMode="active"
+            ButtonSize="medium"
+            ButtonName="1:1 대화"
+          />
+          <Button
+            ButtonColor="darkblue"
+            ButtonMode="active"
+            ButtonSize="medium"
+            ButtonName="프로젝트 초대"
+          />
         </ButtonGroup>
       </UserInfoTop>
       <UserInfoMid>
