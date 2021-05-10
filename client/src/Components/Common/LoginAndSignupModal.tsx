@@ -3,8 +3,8 @@ import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 
-const ModalWrapper = styled.div<{ open: boolean }>`
-  display: ${(props) => (props.open ? 'block' : 'none')};
+const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
+  display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -98,20 +98,20 @@ const SMdClose = styled(MdClose)`
 `;
 
 interface IProps {
-  open: boolean;
+  openLoginSignup: boolean;
   onToggle: (login: boolean) => void;
-  checkLoginSignup: (login: boolean) => void;
+  switchLoginSignup: (login: boolean) => void;
   isLogin: boolean;
 }
 
 const LoginAndSignUpModal = ({
-  open,
+  openLoginSignup,
   onToggle,
-  checkLoginSignup,
+  switchLoginSignup,
   isLogin,
 }: IProps) => {
   return (
-    <ModalWrapper open={open}>
+    <ModalWrapper openLoginSignup={openLoginSignup}>
       <ModalContent>
         <SMdClose onClick={() => onToggle(true)} />
         <p className="modalTit">{isLogin ? '로그인' : '회원 가입하기'}</p>
@@ -131,11 +131,11 @@ const LoginAndSignUpModal = ({
           </div>
         )}
         {isLogin ? (
-          <div className="signupBtn" onClick={() => checkLoginSignup(false)}>
+          <div className="signupBtn" onClick={() => switchLoginSignup(false)}>
             회원 가입하기
           </div>
         ) : (
-          <div className="signupBtn" onClick={() => checkLoginSignup(true)}>
+          <div className="signupBtn" onClick={() => switchLoginSignup(true)}>
             로그인
           </div>
         )}

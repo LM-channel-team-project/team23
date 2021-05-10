@@ -89,6 +89,7 @@ const SigninStyle = styled.div`
 const UserImg = styled.img`
   width: 35px;
   height: 35px;
+  cursor: pointer;
 `;
 
 const IconStyle = styled(CgMenuGridO)`
@@ -109,16 +110,17 @@ const Web = styled.div`
 `;
 
 function Header() {
-  const [open, setOpen] = useState(false);
+  const [openLoginSignup, setOpenLoginSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
 
-  const checkLoginSignup = (login: boolean) => {
+  const switchLoginSignup = (login: boolean) => {
     setIsLogin(login);
   };
 
   const onToggle = (login: boolean) => {
-    checkLoginSignup(login);
-    setOpen((open) => (open = !open));
+    switchLoginSignup(login);
+    setOpenLoginSignup((open) => !open);
   };
   return (
     <HeaderStyle>
@@ -136,9 +138,9 @@ function Header() {
           <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
         </LoginStyle>
         <LoginAndSignupModal
-          open={open}
+          openLoginSignup={openLoginSignup}
           onToggle={onToggle}
-          checkLoginSignup={checkLoginSignup}
+          switchLoginSignup={switchLoginSignup}
           isLogin={isLogin}
         />
         <SigninStyle>
@@ -152,10 +154,11 @@ function Header() {
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"
+            onClick={() => setOpenProfile((open) => !open)}
           />
+          {openProfile && <ProfileModal />}
         </SigninStyle>
       </Web>
-      <ProfileModal />
     </HeaderStyle>
   );
 }
