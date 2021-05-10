@@ -83,9 +83,9 @@ const ProjectSearchOption = () => {
       </Select>
       <Select>
         <Option>요구레벨</Option>
-        <Option>6개월미만</Option>
-        <Option>1년이상</Option>
-        <Option>3년이상</Option>
+        <Option>초보</Option>
+        <Option>중수</Option>
+        <Option>고수</Option>
       </Select>
       <Label>
         <Checkbox checked={checked} onChange={handleCheckboxChange} />
