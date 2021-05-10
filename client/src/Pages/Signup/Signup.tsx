@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Title from '../../Components/Common/Title';
 import SelectBox from '../../Components/Common/SelectBox';
 import Button from '../../Components/Common/Button';
+import InputBox from '../../Components/Common/InputBox';
+import { LevelData } from '../../Components/Common/OptionData';
 import axios from 'axios';
 
 const SignupSection = styled.section`
@@ -37,35 +39,10 @@ const SignupForm = styled.form`
   li .inputWrapper {
     padding-bottom: 20px;
     width: 414px;
-    #email {
-      width: 49%;
-      height: 40px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-      background-color: ${(props) => props.theme.palette.faintGray};
-      cursor: default;
-      pointer-events: none;
-      color: ${(props) => props.theme.palette.lightGray};
-    }
-    #nickname {
-      width: 60%;
-      height: 40px;
-      padding-left: 10px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-    }
-    #skill {
-      width: 95%;
-      height: 40px;
-      padding-left: 10px;
-      margin-right: 20px;
-      border-radius: 3px;
-      border: 1px solid ${(props) => props.theme.palette.lightGray};
-    }
     .selectArea {
       display: flex;
       justify-content: center;
+      margin-left: 0.8rem;
     }
     .resultText {
       font-size: 10px;
@@ -87,9 +64,13 @@ function Signup() {
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
 
-  const handleChangeNickname = (event: React.FormEvent<HTMLInputElement>) => {
-    setNickname(event.currentTarget.value);
-  };
+  useEffect(() => {
+    const Item = LevelData.find((item) => item.value === level && item);
+    {
+      Item && setLevelText(Item.text);
+    }
+  }, [level]);
+
   const CheckNickname = () => {
     if (nickname.length == 0) {
       alert('닉네임을 입력해주세요.');
@@ -144,6 +125,8 @@ function Signup() {
       }
     });
   };
+
+  console.log(nickname);
   return (
     <SignupSection>
       <div className="signupWrapper">
@@ -153,7 +136,15 @@ function Signup() {
             <li>
               <label htmlFor="email">이메일</label>
               <div className="inputWrapper">
-                <input type="text" id="email" readOnly value={email} />
+                <InputBox
+                  type="text"
+                  InputBoxSize="m"
+                  InputBoxType="disabled"
+                  value={email}
+                  id="email"
+                  SubmitValue={setEmail}
+                  readOnly
+                />
                 <Button
                   ButtonColor="lightGray"
                   ButtonMode="disabled"
@@ -167,18 +158,23 @@ function Signup() {
               <div className="inputWrapper">
                 <div className="checkbutton">
                   {NicknameAvailable ? (
-                    <input
+                    <InputBox
                       type="text"
                       id="nickname"
                       value={nickname}
+                      InputBoxSize="s"
+                      InputBoxType="active"
+                      SubmitValue={setNickname}
                       readOnly
                     />
                   ) : (
-                    <input
+                    <InputBox
                       type="text"
                       id="nickname"
                       value={nickname}
-                      onChange={handleChangeNickname}
+                      InputBoxSize="s"
+                      InputBoxType="active"
+                      SubmitValue={setNickname}
                     />
                   )}
                   {NicknameAvailable ? (
