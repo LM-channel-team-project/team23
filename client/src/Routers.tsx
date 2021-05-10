@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Header from './Components/Common/Header';
 import Home from './Pages/Home';
-import Login from './Pages/Login';
 import Project from './Pages/Project';
+import ProjectDetail from './Pages/Project/ProjectDetail';
 import People from './Pages/People';
 import PeopleDetail from './Pages/People/PeopleDetail';
 import Footer from './Components/Common/Footer';
@@ -24,6 +24,7 @@ const Router = () => (
       <Switch>
         <Route path="/" exact component={Auth(Home, null)} />
         <Route path="/project" component={Auth(Project, null)} />
+        <Route path="/project/:id" component={Auth(ProjectDetail, null)} />
         <Route path="/signup" component={Auth(Signup, false)} />
         <Route path="/people" exact component={Auth(People, null)} />
         <Route path="/people/:username" component={Auth(PeopleDetail, null)} />

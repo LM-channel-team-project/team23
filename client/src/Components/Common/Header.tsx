@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
 import { CgMenuGridO } from 'react-icons/cg';
+import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 
 const HeaderStyle = styled.nav`
@@ -16,7 +17,6 @@ const HeaderStyle = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   align-items: center;
   width: 100%;
   z-index: 1000;
@@ -62,7 +62,13 @@ const LoginStyle = styled.div`
   align-items: center;
   padding: 0.5rem;
   margin-right: 9rem;
-  display: none;
+  /* display: none; */
+`;
+
+const LoginText = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+  color: ${(props) => props.theme.palette.gray};
 `;
 
 const Divider = styled.span`
@@ -98,6 +104,7 @@ const ProjectButton = styled.button`
 const UserImg = styled.img`
   width: 35px;
   height: 35px;
+  cursor: pointer;
 `;
 
 const IconStyle = styled(CgMenuGridO)`
@@ -118,10 +125,19 @@ const Web = styled.div`
 `;
 
 function Header() {
-  const [open, setOpen] = useState(false);
-  const onToggle = () => {
-    setOpen((open) => (open = !open));
+  const [openLoginSignup, setOpenLoginSignup] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+
+  const switchLoginSignup = (login: boolean) => {
+    setIsLogin(login);
   };
+
+  const onToggle = (login: boolean) => {
+    switchLoginSignup(login);
+    setOpenLoginSignup((open) => !open);
+  };
+
   return (
     <HeaderStyle>
       <Link to="/">
@@ -129,23 +145,30 @@ function Header() {
       </Link>
       <Web>
         <MenuStyle>
-          <AtagStyle to="project">Project</AtagStyle>
+          <AtagStyle to="/project">Project</AtagStyle>
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
         <LoginStyle>
-          <AtagStyle to="/signup">가입</AtagStyle>
+          <LoginText onClick={() => onToggle(false)}>가입</LoginText>
           <Divider>/</Divider>
-          <AtagStyle to="/login">로그인</AtagStyle>
+          <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
         </LoginStyle>
+        <LoginAndSignupModal
+          openLoginSignup={openLoginSignup}
+          onToggle={onToggle}
+          switchLoginSignup={switchLoginSignup}
+          isLogin={isLogin}
+        />
         <SigninStyle>
           <ProjectButton>프로젝트 생성</ProjectButton>
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"
+            onClick={() => setOpenProfile((open) => !open)}
           />
+          {openProfile && <ProfileModal />}
         </SigninStyle>
       </Web>
-      <ProfileModal />
     </HeaderStyle>
   );
 }
