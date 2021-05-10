@@ -57,7 +57,7 @@ const SignupForm = styled.form`
 `;
 
 function Signup() {
-  const [email, setEmail] = useState('abc12345@naver.com');
+  const [email, setEmail] = useState('abc125@naver.com');
   const [nickname, setNickname] = useState('');
   const [NicknameAvailable, setNicknameAbailable] = useState(false);
   const [pos, setPos] = useState('');
@@ -226,7 +226,7 @@ function Signup() {
                 ButtonMode="active"
                 ButtonName="가입 완료"
                 ButtonSize="medium"
-                onSubmit={onSubmit}
+                onClick={onSubmit}
               />
             </div>
           </SignupForm>

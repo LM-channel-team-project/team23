@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import ImgInfo from './ImgInfo';
 import axios from 'axios';
 import SelectBox from '../Common/SelectBox';
 import Button from '../Common/Button';
+import InputBox from '../Common/InputBox';
+import { LevelData } from '../../Components/Common/OptionData';
 
 const Container = styled.div`
   width: 95%;
@@ -15,13 +17,6 @@ const Container = styled.div`
     color: ${(props) => props.theme.palette.orange};
     font-size: 12px;
   }
-  .noChange {
-    background-color: ${(props) => props.theme.palette.lightGray};
-    cursor: default;
-    pointer-events: none;
-    color: ${(props) => props.theme.palette.gray};
-    padding-left: 2rem;
-  }
 `;
 
 const FormArea = styled.div`
@@ -30,15 +25,6 @@ const FormArea = styled.div`
   justify-content: flex-start;
   margin-left: 2rem;
   width: 100%;
-`;
-
-const InputStyle = styled.input`
-  font-size: 14px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  border-radius: 4px;
-  height: 38px;
-  width: 65%;
-  padding: 0.5rem;
 `;
 
 const RowCenterArea = styled.div`
@@ -104,15 +90,6 @@ const SelectArea = styled.div`
 const PortFolioArea = styled.div`
   width: 100%;
   margin-left: 2rem;
-  input {
-    width: 90%;
-    font-size: 14px;
-    border: 1px solid ${(props) => props.theme.palette.lightGray};
-    border-radius: 4px;
-    padding: 0.5rem;
-    margin-top: 0.8rem;
-    height: 42px;
-  }
 `;
 
 const ButtonArea = styled.div`
@@ -121,57 +98,76 @@ const ButtonArea = styled.div`
   justify-content: center;
 `;
 
-const PortFolioBox = ({ portfolio, change, index }: any) => {
-  const [url, setUrl] = useState(portfolio);
-  const handleChangePortfolio = (event: React.FormEvent<HTMLInputElement>) => {
-    setUrl(event.currentTarget.value);
-    change(index, event.currentTarget.value);
-  };
-  return (
-    <>
-      <input
-        type="text"
-        placeholder="URL을 입력해주세요"
-        onChange={handleChangePortfolio}
-        value={url}
-      />
-    </>
-  );
-};
-
 function ProfilePage() {
-  const [email, setEmail] = useState('abc@naver.com');
-  const [nickname, setNickname] = useState('도레미');
-  const [tel, setTel] = useState('010-1122-3344');
-  const [pos, setPos] = useState('ai');
-  const [level, setLevel] = useState('level2');
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [tel, setTel] = useState('');
+  const [pos, setPos] = useState('');
+  const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
-  const [availableLocation, setAvailableLocation] = useState('A7');
-  const [availableWeek, setAvailableWeek] = useState('W2');
-  const [availableTime, setAvailableTime] = useState('T2');
+  const [availableLocation, setAvailableLocation] = useState('');
+  const [availableWeek, setAvailableWeek] = useState('');
+  const [availableTime, setAvailableTime] = useState('');
   const [avartarImg, setAvartarImg] = useState('');
-  const [boxCount, setboxCount] = useState(1);
-  const [portfolioes, setPortfolioes] = useState(['']);
+  const [url, setUrl] = useState('');
+  const [portfolioes, setPortfolioes] = useState([{ id: 1, url: '' }]);
   const [intro, setIntro] = useState('');
 
+  const nextId = useRef(0);
+  useEffect(() => {
+    axios
+      .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
+      .then((response) => {
+        if (response.data.success) {
+          const user = response.data.user;
+          setAvailableLocation(user.availableLocation);
+          setAvailableTime(user.availableTime);
+          setAvailableWeek(user.availableWeek);
+          setEmail(user.email);
+          setIntro(user.intro);
+          setNickname(user.nickname);
+          const urls = user.portfolio;
+          setPortfolioes(
+            urls.map((item: string, index: number) => {
+              return { id: index, url: item };
+            })
+          );
+          setPos(user.position);
+          setLevel(user.positionLevel);
+          setTel(user.tel);
+        } else {
+          alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+        }
+      });
+  }, []);
+
+  nextId.current += portfolioes.length;
+
+  useEffect(() => {
+    const Item = LevelData.find((item) => item.value === level && item);
+    {
+      Item && setLevelText(Item.text);
+    }
+  }, [level]);
+
   const CreateBox = () => {
-    setboxCount(boxCount + 1);
-    setPortfolioes([...portfolioes, '']);
+    const URL = {
+      id: nextId.current,
+      url: url,
+    };
+    setPortfolioes(portfolioes.concat(URL));
+    console.log(URL);
+    console.log(portfolioes);
+    setUrl('');
+    nextId.current += 1;
   };
-  const setPortfolio = (index: number, newItem: string) => {
-    const newPortfolioes = portfolioes.map((item, i) => {
-      if (index === i) return newItem;
-      return item;
-    });
-    setPortfolioes(newPortfolioes);
-  };
-  const handleChangeTel = (event: React.FormEvent<HTMLInputElement>) => {
-    setTel(event.currentTarget.value);
-  };
+
   const handleChangeIntro = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setIntro(event.currentTarget.value);
   };
+
   const onSubmit = () => {
+    const urls = portfolioes.map((item, index) => item.url);
     const formdata = {
       _id: '6092bfdf96b9743b04a28c8b',
       tel: tel,
@@ -181,7 +177,7 @@ function ProfilePage() {
       availableWeek: availableWeek,
       availableTime: availableTime,
       avartarImg: avartarImg,
-      portfolio: portfolioes,
+      portfolio: urls,
       intro: intro,
     };
     axios.post('/api/users/update', formdata).then((response) => {
@@ -198,29 +194,30 @@ function ProfilePage() {
       <FormArea>
         <InputArea>
           <RowArea>
-            <InputStyle
-              type="text"
-              id="email"
-              className="noChange"
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="disabled"
+              SubmitValue={setEmail}
               value={email}
               readOnly
             />
           </RowArea>
           <RowCenterArea>
-            <InputStyle
-              type="text"
-              id="nickname"
-              className="noChange"
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="disabled"
+              SubmitValue={setNickname}
               value={nickname}
               readOnly
             />
           </RowCenterArea>
           <RowArea>
-            <InputStyle
-              type="text"
-              placeholder="010-1234-5667"
+            <InputBox
+              InputBoxSize="m"
+              InputBoxType="active"
+              SubmitValue={setTel}
               value={tel}
-              onChange={handleChangeTel}
+              placeholder="010-1122-3344"
             />
           </RowArea>
         </InputArea>
@@ -273,15 +270,17 @@ function ProfilePage() {
           <RowCenterArea>
             <h3>포트폴리오</h3>
             <PortFolioArea>
-              {[...Array(boxCount)].map((n, index) => {
+              {portfolioes.map((item, index) => {
                 return (
-                  <span key={index}>
-                    <PortFolioBox
-                      portfolio={portfolioes[index]}
-                      change={setPortfolio}
-                      index={index}
+                  <div key={index}>
+                    <InputBox
+                      InputBoxSize="xl"
+                      InputBoxType="active"
+                      placeholder="URL을 입력헤주세요"
+                      value={item.url}
+                      SubmitValue={setUrl}
                     />
-                  </span>
+                  </div>
                 );
               })}
             </PortFolioArea>
@@ -300,6 +299,7 @@ function ProfilePage() {
             ButtonSize="medium"
             ButtonMode="active"
             ButtonName="저장하기"
+            onClick={onSubmit}
           />
         </ButtonArea>
       </FormArea>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   PosData,
@@ -54,6 +54,9 @@ function SelectBox({ Mode, DefaultValue, SubmitValue }: IProps) {
     setValue(event.currentTarget.value);
     SubmitValue(event.currentTarget.value);
   };
+  useEffect(() => {
+    setValue(DefaultValue);
+  }, [DefaultValue]);
   return (
     <Select name={Mode} value={value} onChange={handleChangeSelect}>
       {data.map((item, index) => (

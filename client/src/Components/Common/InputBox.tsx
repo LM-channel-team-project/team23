@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 type SizeType = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -63,6 +63,9 @@ const InputBox: React.FC<IProps> = ({
     setInputValue(event.currentTarget.value);
     SubmitValue(event.currentTarget.value);
   };
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
   return (
     <InputStyle
       SizeType={InputBoxSize}
