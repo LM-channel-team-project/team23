@@ -49,3 +49,10 @@ export const AvailableTimeData = [
   { value: 'T3', label: '오후 위주' },
   { value: 'T4', label: '저녁 위주' },
 ];
+
+export const FieldData = [
+  { value: 'F0', label: '분야' },
+  { value: 'F1', label: '웹' },
+  { value: 'F2', label: '모바일' },
+  { value: 'F3', label: '게임' },
+];
