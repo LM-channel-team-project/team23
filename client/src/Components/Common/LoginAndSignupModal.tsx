@@ -2,6 +2,7 @@ import React from 'react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
+import Button from '../Common/Button';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -25,13 +26,6 @@ const ModalContent = styled.div`
   background: ${(props) => props.theme.palette.white};
   padding: 46px 30px 74px;
   box-sizing: border-box;
-  & > svg {
-    width: 36px;
-    height: 36px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
 
   & > .modalTit {
     margin-bottom: 32px;
@@ -40,36 +34,19 @@ const ModalContent = styled.div`
     color: ${(props) => props.theme.palette.black};
   }
 
-  & > .loginBtn {
-    position: relative;
-    max-width: 324px;
-    width: 100%;
+  & button {
+    display: flex;
+    align-items: center;
     height: 40px;
-    margin-bottom: 6px;
-    border-radius: 4px;
-    border: none;
-    text-align: center;
-    color: ${(props) => props.theme.palette.white};
-    font-size: 12px;
-    & > svg {
-      position: absolute;
-      top: 50%;
-      left: 4px;
-      transform: translate(0, -50%);
-      width: 30px;
-      height: 30px;
-    }
-    &:hover {
-      cursor: pointer;
-    }
+    padding: 13.5px 10.5px;
+    margin: 0;
+    margin-bottom: 10px;
   }
 
-  & > .loginBtn.google {
-    background: ${(props) => props.theme.palette.red};
-  }
-
-  & > .loginBtn.github {
-    background: ${(props) => props.theme.palette.gray};
+  & svg {
+    position: absolute;
+    width: 10%;
+    height: 36px;
   }
 
   & > .signupBtn {
@@ -83,6 +60,7 @@ const ModalContent = styled.div`
       cursor: pointer;
     }
   }
+
   & > .info {
     a {
       color: ${(props) => props.theme.palette.red};
@@ -94,7 +72,14 @@ const ModalContent = styled.div`
 `;
 
 const SMdClose = styled(MdClose)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
   cursor: pointer;
+`;
+
+const ButtonText = styled.span`
+  width: 100%;
 `;
 
 interface IProps {
@@ -115,14 +100,18 @@ const LoginAndSignUpModal = ({
       <ModalContent>
         <SMdClose onClick={() => onToggle(true)} />
         <p className="modalTit">{isLogin ? '로그인' : '회원 가입하기'}</p>
-        <button className="loginBtn google">
-          <FaGoogle />
-          <span>구글 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
-        </button>
-        <button className="loginBtn github">
+        <Button ButtonColor="darkblue" ButtonSize="xLarge" ButtonMode="active">
           <FaGithub />
-          <span>깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
-        </button>
+          <ButtonText>
+            깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}
+          </ButtonText>
+        </Button>
+        <Button ButtonColor="red" ButtonSize="xLarge" ButtonMode="active">
+          <FaGoogle />
+          <ButtonText>
+            구글 계정으로 {isLogin ? '로그인' : '가입하기'}
+          </ButtonText>
+        </Button>
         {!isLogin && (
           <div className="info">
             소셜 로그인으로 가입 시 <a href="#">이용약관</a>,{' '}
