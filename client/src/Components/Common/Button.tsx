@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 type ColorType = 'darkblue' | 'lightGray' | 'red' | 'orange' | 'white';
-type SizeType = 'small' | 'medium' | 'large';
+type SizeType = 'small' | 'medium' | 'large' | 'xLarge';
 type ModeType = 'active' | 'disabled';
 
 const ButtonStyle = styled.button<{
@@ -39,7 +39,9 @@ const ButtonStyle = styled.button<{
   width: 110px;
   cursor: pointer;
   width: ${(props) =>
-    props.size === 'large'
+    props.size === 'xLarge'
+      ? '324px'
+      : props.size === 'large'
       ? '160px'
       : props.size === 'medium'
       ? '110px'
