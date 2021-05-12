@@ -53,10 +53,11 @@ const ButtonStyle = styled.button<{
 `;
 
 interface IProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
-  ButtonName: string;
+  ButtonName?: string;
   ButtonColor: ColorType;
   ButtonSize: SizeType;
   ButtonMode: ModeType;
+  children?: React.ReactNode;
 }
 const Button: React.FC<IProps> = ({
   ref,
@@ -64,6 +65,7 @@ const Button: React.FC<IProps> = ({
   ButtonColor,
   ButtonSize,
   ButtonMode,
+  children,
   ...rest
 }: IProps) => {
   const htmlProps = rest as any;
@@ -80,7 +82,7 @@ const Button: React.FC<IProps> = ({
         (e.target as HTMLButtonElement).blur();
       }}
     >
-      {ButtonName}
+      {ButtonName ? ButtonName : children}
     </ButtonStyle>
   );
 };
