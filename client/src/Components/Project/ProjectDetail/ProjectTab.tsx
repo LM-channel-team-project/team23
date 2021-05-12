@@ -40,18 +40,16 @@ interface IProps {
 
 const ProjectTab = ({ current, onClick }: IProps) => {
   return (
-    <>
-      <Menu>
-        <Ul>
-          <Li current={current === 0} onClick={() => onClick(0)}>
-            <Tab>정보</Tab>
-          </Li>
-          <Li current={current === 1} onClick={() => onClick(1)}>
-            <Tab>질문</Tab>
-          </Li>
-        </Ul>
-      </Menu>
-    </>
+    <Menu>
+      <Ul>
+        <Li current={current === 0} onClick={() => onClick(0)}>
+          <Tab>정보</Tab>
+        </Li>
+        <Li current={current === 1} onClick={() => onClick(1)}>
+          <Tab>질문</Tab>
+        </Li>
+      </Ul>
+    </Menu>
   );
 };
 
