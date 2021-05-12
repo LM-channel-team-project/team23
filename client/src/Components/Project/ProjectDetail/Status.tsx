@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../Common/Button';
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.palette.lightGray};
@@ -20,6 +21,15 @@ const Li = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  & button {
+    border: 1px solid ${(props) => props.theme.palette.lightGray};
+    border-radius: 2px;
+    transition: all 0.2s;
+    &:hover {
+      background-color: ${(props) => props.theme.palette.darkblue};
+      color: ${(props) => props.theme.palette.white};
+    }
+  }
 `;
 
 const PostionText = styled.span`
@@ -36,21 +46,6 @@ const PositionNumber = styled.span`
   margin-right: 34px;
 `;
 
-const ApplyButton = styled.button`
-  font-size: 0.75rem;
-  color: ${(props) => props.theme.palette.gray};
-  padding: 5px 30px !important;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  border-radius: 2px;
-  background-color: transparent;
-  cursor: pointer;
-  transition: all 0.2s;
-  &:hover {
-    background-color: ${(props) => props.theme.palette.darkblue};
-    color: ${(props) => props.theme.palette.white};
-  }
-`;
-
 const Status = () => {
   return (
     <Container>
@@ -59,12 +54,22 @@ const Status = () => {
         <Li>
           <PostionText>프론트엔드</PostionText>
           <PositionNumber>0/3</PositionNumber>
-          <ApplyButton>지원</ApplyButton>
+          <Button
+            ButtonColor="white"
+            ButtonMode="active"
+            ButtonName="지원"
+            ButtonSize="medium"
+          />
         </Li>
         <Li>
           <PostionText>웹서버</PostionText>
           <PositionNumber>0/3</PositionNumber>
-          <ApplyButton>지원</ApplyButton>
+          <Button
+            ButtonColor="white"
+            ButtonMode="active"
+            ButtonName="지원"
+            ButtonSize="medium"
+          />
         </Li>
       </Ul>
     </Container>
