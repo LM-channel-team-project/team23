@@ -7,6 +7,7 @@ import {
   AvailableWeekData,
   AvailableTimeData,
   FieldData,
+  ProjectState,
 } from './OptionData';
 
 let data: Array<{ value: string; label: string }> = [];
@@ -62,6 +63,9 @@ function SelectBox({ Mode, DefaultValue, SubmitValue }: IProps) {
       break;
     case 'field':
       data = FieldData;
+      break;
+    case 'projectState':
+      data = ProjectState;
       break;
     default:
       console.log('None');

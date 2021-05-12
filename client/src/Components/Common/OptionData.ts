@@ -1,4 +1,5 @@
 export const PosData = [
+  { value: 'none', label: '직무' },
   { value: 'ios', label: 'ios' },
   { value: 'android', label: '안드로이드' },
   { value: 'frontend', label: 'FE' },
@@ -55,4 +56,10 @@ export const FieldData = [
   { value: 'F1', label: '웹' },
   { value: 'F2', label: '모바일' },
   { value: 'F3', label: '게임' },
+];
+
+export const ProjectState = [
+  { value: 'P0', label: '프로젝트 소속' },
+  { value: 'P1', label: '참여 중' },
+  { value: 'P2', label: '미참여 중' },
 ];
