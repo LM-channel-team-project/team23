@@ -144,13 +144,14 @@ function Header() {
           isLogin={isLogin}
         />
         <SigninStyle>
-          <Button
-            ButtonColor="orange"
-            ButtonMode="active"
-            ButtonName="프로젝트 생성"
-            ButtonSize="large"
-            onClick={() => (window.location.href = '/BuildProject')}
-          />
+          <Link to="/buildProject">
+            <Button
+              ButtonColor="orange"
+              ButtonMode="active"
+              ButtonName="프로젝트 생성"
+              ButtonSize="large"
+            />
+          </Link>
           <UserImg
             src="http://kawala.in/assets/global/images/avatars/avatar1.png"
             alt="Avatar"
