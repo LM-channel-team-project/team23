@@ -5,6 +5,7 @@ import ProjectTab from '../../../Components/Project/ProjectDetail/ProjectTab';
 import Info from '../../../Components/Project/ProjectDetail/Info';
 import Question from '../../../Components/Project/ProjectDetail/Question';
 import RightMenu from '../../../Components/Project/ProjectDetail/RightMenu';
+import Management from '../../../Components/Project/ProjectDetail/Management';
 
 const Container = styled.section``;
 
@@ -40,6 +41,7 @@ const ProjectDetail = () => {
           <ProjectTab current={currentTab} onClick={handleChangeTab} />
           {currentTab === 0 && <Info />}
           {currentTab === 1 && <Question />}
+          {currentTab === 2 && <Management />}
         </Contents>
         <RightMenu />
       </ProjectPageWrap>
