@@ -17,6 +17,12 @@ const UserRouter = require('./routes/User');
 const ProjectRouter = require('./routes/Project');
 app.use('/api/users', UserRouter);
 app.use('/api/project', ProjectRouter);
+app.get('/auth',(req:express.Request, res: express.Response)=>{
+    res.json({
+        "success": true,
+        "error": "error msg"
+      });
+});
 
 app.listen(SERVER_PORT, () => {
     console.log(`Server listnening on ${SERVER_PORT}`);
