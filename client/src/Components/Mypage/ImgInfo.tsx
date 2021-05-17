@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FiCamera } from 'react-icons/fi';
 import { BsFillPersonFill } from 'react-icons/bs';
 import axios from 'axios';
-import { render } from '@testing-library/react';
 
 const Container = styled.div`
   width: 250px;
@@ -59,28 +58,26 @@ const ChangeImgButton = styled.label`
   }
 `;
 
-function ImgInfo() {
-  const fileInput = useRef(null);
-  const [imgBase64, setImgBase64] = useState('');
-  const [imgFile, setImgFile] = useState<File | null>(null);
+interface IProps {
+  value: File | null;
+  submitValue: React.Dispatch<React.SetStateAction<null | File>>;
+}
+
+function ImgInfo({ value, submitValue }: IProps) {
+  const [imgFile, setImgFile] = useState<File | null>(value);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [beforeUrl, setBeforeUrl] = useState<string | null>(null);
+  useEffect(() => {
+    setBeforeUrl(`http://localhost:5000/${value}`);
+  }, [value]);
 
   const handleChangeFile = (event: React.FormEvent<HTMLInputElement>) => {
     if (event.currentTarget.files) {
       const imageFile = event.currentTarget.files[0];
       const imageUrl = URL.createObjectURL(imageFile);
+      submitValue(imageFile);
       setImgFile(imageFile);
       setFileUrl(imageUrl);
-    }
-  };
-
-  const UploadFile = () => {
-    const formData = new FormData();
-    const config = {
-      header: { 'content-type': 'multipart/form-data' },
-    };
-    if (imgFile) {
-      formData.append('file', imgFile);
     }
   };
 
@@ -88,8 +85,12 @@ function ImgInfo() {
     <Container>
       <ImgArea>
         <ImgStyle>
-          {fileUrl ? (
-            <ShowImg src={fileUrl} />
+          {beforeUrl ? (
+            fileUrl ? (
+              <ShowImg src={fileUrl} />
+            ) : (
+              <ShowImg src={beforeUrl} />
+            )
           ) : (
             <BsFillPersonFill size="120" />
           )}
@@ -100,8 +101,7 @@ function ImgInfo() {
       </ChangeImgButton>
       <input
         type="file"
-        ref={fileInput}
-        name="imgFile"
+        name="profileImg"
         id="imgFile"
         accept="image/*"
         onChange={handleChangeFile}
