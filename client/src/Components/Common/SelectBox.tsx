@@ -6,9 +6,11 @@ import {
   LocationData,
   AvailableWeekData,
   AvailableTimeData,
+  FieldData,
+  ProjectState,
 } from './OptionData';
 
-let data = [];
+let data: Array<{ value: string; label: string }> = [];
 
 const Select = styled.select`
   width: 200px;
@@ -39,17 +41,36 @@ interface IProps {
 }
 function SelectBox({ Mode, DefaultValue, SubmitValue }: IProps) {
   const [value, setValue] = useState(DefaultValue);
-  if (Mode === 'level') {
-    data = LevelData;
-  } else if (Mode === 'location') {
-    data = LocationData;
-  } else if (Mode === 'availableWeek') {
-    data = AvailableWeekData;
-  } else if (Mode === 'availableTime') {
-    data = AvailableTimeData;
-  } else {
-    data = PosData;
+
+  switch (Mode) {
+    case 'level':
+      data = LevelData;
+      break;
+    case 'location':
+      data = LocationData;
+      break;
+    case 'availableWeek':
+      data = AvailableWeekData;
+      break;
+    case 'availableTime':
+      data = AvailableTimeData;
+      break;
+    case 'availableWeek':
+      data = AvailableWeekData;
+      break;
+    case 'pos':
+      data = PosData;
+      break;
+    case 'field':
+      data = FieldData;
+      break;
+    case 'projectState':
+      data = ProjectState;
+      break;
+    default:
+      console.log('None');
   }
+
   const handleChangeSelect = (event: React.FormEvent<HTMLSelectElement>) => {
     setValue(event.currentTarget.value);
     SubmitValue(event.currentTarget.value);
