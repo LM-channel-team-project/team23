@@ -4,6 +4,7 @@ import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
+import PeopleList from '../../Components/People/PeopleList';
 
 const Style = styled.div`
   width: 100%;
@@ -49,9 +50,11 @@ const Home = () => (
       </div>
       <div className="new_user content">
         <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
+        <PeopleList />
       </div>
       <div className="find_coworker content">
         <Title subtitle="Be my Co-Worker" title="동료를 찾아보세요" />
+        <PeopleList />
       </div>
     </ContentWrapper>
   </Style>
