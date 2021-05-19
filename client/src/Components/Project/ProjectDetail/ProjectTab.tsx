@@ -48,6 +48,9 @@ const ProjectTab = ({ current, onClick }: IProps) => {
         <Li current={current === 1} onClick={() => onClick(1)}>
           <Tab>질문</Tab>
         </Li>
+        <Li current={current === 2} onClick={() => onClick(2)}>
+          <Tab>관리</Tab>
+        </Li>
       </Ul>
     </Menu>
   );
