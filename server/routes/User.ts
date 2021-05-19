@@ -114,9 +114,23 @@ router.get("/auth", auth, (req: Request, res: Response) => {
       isAuth: true,
       email: req.user.email,
       name: req.user.nickname,
-      avartarImg : req.user.avartarImg,
+      avartarImg : req.user.avartarImg ? req.user.avartarImg : 'none',
     })
   }
-})
+});
+
+router.get("/logout", auth, (req: Request, res: Response) => {
+  if(req.user){
+    User.findOneAndUpdate({_id: req.user._id}, {token: ""}, { rawResult: true},(err: Error, doc: any) => {
+      if(err) return res.json({
+        success: false,
+        err
+      });
+      return res.status(200).send({
+        success: true
+      });
+    });
+  }
+});
 
 module.exports =router;
