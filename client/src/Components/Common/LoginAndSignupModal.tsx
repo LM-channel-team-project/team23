@@ -2,6 +2,10 @@ import React from 'react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
+import GoogleLogin from 'react-google-login';
+import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -47,6 +51,7 @@ const ModalContent = styled.div`
     height: 40px;
     margin-bottom: 6px;
     border-radius: 4px;
+    font: inherit;
     border: none;
     text-align: center;
     color: ${(props) => props.theme.palette.white};
@@ -110,15 +115,52 @@ const LoginAndSignUpModal = ({
   switchLoginSignup,
   isLogin,
 }: IProps) => {
+  const history = useHistory();
+  const SuccessGoogleLogin = (result: any) => {
+    const userEmail = result.profileObj.email;
+    const userGoogleID = result.googleId;
+    const GoogleTokenObj = result.tokenObj;
+    // token type, access_token, expires_at, expires_in, first_issued_at, id_token, idpId, login_hint
+    axios
+      .post(`${USER_SERVER}/login`, { email: userEmail })
+      .then((response) => {
+        if (response.data.success) {
+          onToggle(true);
+          window.localStorage.setItem('userId', response.data.userId);
+          console.log('로그인');
+          console.log(userEmail);
+        } else {
+          onToggle(true);
+          history.push({
+            pathname: '/signup',
+            state: { email: userEmail },
+          });
+        }
+      });
+  };
+
   return (
     <ModalWrapper openLoginSignup={openLoginSignup}>
       <ModalContent>
         <SMdClose onClick={() => onToggle(true)} />
         <p className="modalTit">{isLogin ? '로그인' : '회원 가입하기'}</p>
-        <button className="loginBtn google">
-          <FaGoogle />
-          <span>구글 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
-        </button>
+        <GoogleLogin
+          clientId={GOOGLE_CLINET_ID}
+          onSuccess={SuccessGoogleLogin}
+          onFailure={(result) => console.log(result)}
+          cookiePolicy={'single_host_origin'}
+          style={{ display: 'none' }}
+          render={(renderProps) => (
+            <button className="loginBtn google" onClick={renderProps.onClick}>
+              <FaGoogle />
+              {isLogin ? (
+                <span>구글 계정으로 로그인하기</span>
+              ) : (
+                <span>구글 계정으로 가입하기</span>
+              )}
+            </button>
+          )}
+        />
         <button className="loginBtn github">
           <FaGithub />
           <span>깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}</span>

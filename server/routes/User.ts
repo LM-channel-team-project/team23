@@ -54,7 +54,7 @@ router.post("/login",(req: Request, res: Response) => {
     if(!user){
       return res.json({
         Success: false,
-        error: "email not found"
+        error: "email not found",
       });
     }
     if(err) {
@@ -110,6 +110,7 @@ router.post("/updateImg",(req: Request, res: Response) => {
 router.get("/auth", auth, (req: Request, res: Response) => {
   if(req.user){
     res.status(200).json({
+      success: true,
       _id: req.user._id,
       isAuth: true,
       email: req.user.email,

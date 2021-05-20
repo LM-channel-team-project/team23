@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
 import { CgMenuGridO } from 'react-icons/cg';
 import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 import Button from './Button';
+import { RootState } from '../../modules';
+import { useSelector } from 'react-redux';
+import { USER_SERVER } from '../../Config';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -90,16 +93,6 @@ const UserImg = styled.img`
   width: 35px;
   height: 35px;
   cursor: pointer;
-`;
-
-const IconStyle = styled(CgMenuGridO)`
-  cursor: pointer;
-  visibility: hidden;
-  &:hover {
-    width: 28px;
-    height: 28px;
-    color: ${(props) => props.theme.palette.black};
-  }
 `;
 
 const Web = styled.div`

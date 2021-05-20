@@ -114,32 +114,31 @@ function ProfilePage() {
   const [intro, setIntro] = useState('');
 
   const nextId = useRef(0);
+  const userId = localStorage.getItem('userId');
   useEffect(() => {
-    axios
-      .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
-      .then((response) => {
-        if (response.data.success) {
-          const user = response.data.user;
-          setAvartarImg(user.avartarImg);
-          setAvailableLocation(user.availableLocation);
-          setAvailableTime(user.availableTime);
-          setAvailableWeek(user.availableWeek);
-          setEmail(user.email);
-          setIntro(user.intro);
-          setNickname(user.nickname);
-          const urls = user.portfolio;
-          setPortfolioes(
-            urls.map((item: string, index: number) => {
-              return { id: index, url: item };
-            })
-          );
-          setPos(user.position);
-          setLevel(user.positionLevel);
-          setTel(user.tel);
-        } else {
-          alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
-        }
-      });
+    axios.post('/api/users/info', { _id: userId }).then((response) => {
+      if (response.data.success) {
+        const user = response.data.user;
+        setAvartarImg(user.avartarImg);
+        setAvailableLocation(user.availableLocation);
+        setAvailableTime(user.availableTime);
+        setAvailableWeek(user.availableWeek);
+        setEmail(user.email);
+        setIntro(user.intro);
+        setNickname(user.nickname);
+        const urls = user.portfolio;
+        setPortfolioes(
+          urls.map((item: string, index: number) => {
+            return { id: index, url: item };
+          })
+        );
+        setPos(user.position);
+        setLevel(user.positionLevel);
+        setTel(user.tel);
+      } else {
+        alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+      }
+    });
   }, []);
 
   nextId.current += portfolioes.length;
@@ -157,8 +156,6 @@ function ProfilePage() {
       url: url,
     };
     setPortfolioes(portfolioes.concat(URL));
-    console.log(URL);
-    console.log(portfolioes);
     setUrl('');
     nextId.current += 1;
   };

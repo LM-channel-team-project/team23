@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { USER_SERVER } from '../../Config';
+import { GoogleLogout } from 'react-google-login';
+import { GOOGLE_CLINET_ID } from '../../Config';
 
 const ProfileModalWrapper = styled.div`
   display: block;
@@ -161,6 +165,17 @@ const NewNoticeContent = styled.div`
 `;
 
 function ProfileModal() {
+  const LogoutButton = () => {
+    localStorage.removeItem('userId');
+    axios.get(`${USER_SERVER}/logout`).then((response) => {
+      if (response.data.success) {
+        alert('로그아웃 되었습니다.');
+        window.location.href = '/';
+      } else {
+        alert('다시 시도해주세요.');
+      }
+    });
+  };
   return (
     <ProfileModalWrapper>
       <ProfileWrapper>
@@ -171,7 +186,13 @@ function ProfileModal() {
         <InfoWrapper>
           <InfoUpper>
             <span className="userName">용현준</span>
-            <button>로그아웃</button>
+            <GoogleLogout
+              clientId={GOOGLE_CLINET_ID}
+              onLogoutSuccess={LogoutButton}
+              render={(renderProps) => (
+                <button onClick={LogoutButton}>로그아웃</button>
+              )}
+            />
           </InfoUpper>
           <InfoLower>
             <span>본캐: </span>
