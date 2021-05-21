@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 import users from '../userDB';
 import RecommendUser from './PeopleRecommendUser';
@@ -26,7 +26,7 @@ const RecommendList = styled.ul`
   overflow-x: auto;
 `;
 
-const PeopleRecommendTable = () => (
+const PeopleRecommendTable = (): ReactElement => (
   <RecommendTab>
     <RecommendTabHeader>
       [추천] 좌우 고민하지 말고 바로 이 멤버!
@@ -36,10 +36,10 @@ const PeopleRecommendTable = () => (
       {users.map((user, index) => (
         <RecommendUser
           key={index}
-          avatarImg={user.avatarImg}
-          username={user.username}
-          userJob={user.userJob}
-          userStack={user.userStack}
+          avartarImg={user.avartarImg}
+          nickname={user.nickname}
+          position={user.position}
+          interestSkills={user.interestSkills}
         />
       ))}
     </RecommendList>
