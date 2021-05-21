@@ -8,22 +8,6 @@ const SearchOption = styled.div`
   align-items: center;
 `;
 
-const Select = styled.select`
-  max-width: 140px;
-  width: 100%;
-  height: 40px;
-  padding-left: 10px;
-  background-color: ${(props) => props.theme.palette.white};
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  border-radius: 4px;
-  font-size: 0.6875rem;
-  &:not(:last-child) {
-    margin-right: 20px;
-  }
-`;
-
-const Option = styled.option``;
-
 const Label = styled.label`
   display: inline-flex;
   align-items: center;
@@ -34,8 +18,9 @@ const Text = styled.span`
 `;
 
 const ProjectSearchOption = () => {
-  const [pos, setPos] = useState('');
   const [location, setLocation] = useState('');
+  const [field, setField] = useState('');
+  const [pos, setPos] = useState('');
   const [level, setLevel] = useState('');
   const [checked, setChecked] = useState(true);
 
@@ -50,12 +35,7 @@ const ProjectSearchOption = () => {
         DefaultValue={location}
         SubmitValue={setLocation}
       />
-      <Select>
-        <Option>분야</Option>
-        <Option>웹</Option>
-        <Option>앱</Option>
-        <Option>게임</Option>
-      </Select>
+      <SelectBox Mode="field" DefaultValue={field} SubmitValue={setField} />
       <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
       <SelectBox Mode="level" DefaultValue={level} SubmitValue={setLevel} />
       <Label>

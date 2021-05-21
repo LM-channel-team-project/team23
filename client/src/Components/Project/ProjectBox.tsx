@@ -4,6 +4,7 @@ import fullHeart from '../../img/full-heart.svg';
 import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
+import { Link } from 'react-router-dom';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -154,6 +155,7 @@ const ProjectName = styled.div`
 `;
 
 interface IProjectProps {
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -162,39 +164,42 @@ interface IProjectProps {
 }
 
 const ProjectBox = ({
+  id,
   title,
   description,
   image,
   state,
   category,
 }: IProjectProps) => (
-  <ProjectContent>
-    <ProjectThumb>
-      <Image src={image} alt="project" />
-      <RecruitmentStatus>
-        {state[0] >= state[1] ? '모집완료' : '모집중'}
-      </RecruitmentStatus>
-      <HeartBtn />
-      <ProjectInfo>
-        <Recruitment>
-          모집인원: {state[0]}/{state[1]}
-        </Recruitment>
-        <Description>
-          {description.length > 40
-            ? `${description.substring(0, 40)}...`
-            : description}
-        </Description>
-        <FavoriteNumber>
-          <HeartIcon />
-          <FavoriteCount>0</FavoriteCount>
-        </FavoriteNumber>
-      </ProjectInfo>
-    </ProjectThumb>
-    <ProjectTitle>
-      <ProjectCategory>[{category}]</ProjectCategory>
-      <ProjectName>{title}</ProjectName>
-    </ProjectTitle>
-  </ProjectContent>
+  <Link to={`/project/${id}`}>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src={image} alt="project" />
+        <RecruitmentStatus>
+          {state[0] >= state[1] ? '모집완료' : '모집중'}
+        </RecruitmentStatus>
+        <HeartBtn />
+        <ProjectInfo>
+          <Recruitment>
+            모집인원: {state[0]}/{state[1]}
+          </Recruitment>
+          <Description>
+            {description.length > 40
+              ? `${description.substring(0, 40)}...`
+              : description}
+          </Description>
+          <FavoriteNumber>
+            <HeartIcon />
+            <FavoriteCount>0</FavoriteCount>
+          </FavoriteNumber>
+        </ProjectInfo>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>[{category}]</ProjectCategory>
+        <ProjectName>{title}</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+  </Link>
 );
 
 export default ProjectBox;

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import Button from '../../Components/Common/Button';
+import SelectBox from '../../Components/Common/SelectBox';
+import InputBox from '../../Components/Common/InputBox';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -33,6 +35,10 @@ const Content = styled.form`
 `;
 const Section = styled.section`
   margin-bottom: 2rem;
+  & select {
+    margin: 0;
+    margin-top: 0.6rem;
+  }
 `;
 const SectionTitle = styled.h3`
   font-size: 20px;
@@ -42,15 +48,6 @@ const SectionInfo = styled.p`
   font-size: 16px;
   padding-top: 10px;
   color: ${(props) => props.theme.palette.lightGray};
-`;
-const Input = styled.input`
-  width: 960px;
-  height: 42px;
-  box-sizing: border-box;
-  margin-top: 1.5rem;
-  padding: 12px 20px;
-  border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
 `;
 const ProjectImageWrapper = styled.div`
   display: flex;
@@ -73,17 +70,7 @@ const UploadWrapper = styled.div`
   flex: 2;
   padding-top: 130px;
 `;
-const ImageUploadBtn = styled.button`
-  padding: 7px 20px;
-  margin-bottom: 16px;
-  font-size: 12px;
-  background: ${(props) => props.theme.palette.white};
-  border-radius: 4px;
-  border: 1px solid;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+
 const ProjectImageAltInfo = styled.p`
   font-size: 16px;
   margin-bottom: 18px;
@@ -125,19 +112,6 @@ const FieldCheckbox = styled.input.attrs({
   border-radius: 3px;
   margin-right: 0.3rem;
 `;
-const Select = styled.select`
-  margin-top: 1.5rem;
-  width: 300px;
-  height: 42px;
-  box-sizing: border-box;
-  padding: 8px 20px;
-  border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  font-size: 12px;
-`;
-const Option = styled.option`
-  font-size: 12px;
-`;
 
 const ProjectDateTitle = styled.span`
   margin-right: 15px;
@@ -156,9 +130,12 @@ const SDatePicker = styled(DatePicker)`
 
 const RecruitWrapper = styled.div`
   display: flex;
+  align-items: center;
+  & > select {
+    margin: 0;
+  }
 `;
 const CountWrapper = styled.div`
-  padding-top: 31px;
   justify-content: center;
   margin: 0 1.5rem;
   font-size: 20px;
@@ -169,54 +146,18 @@ const CountWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const TwoBtnWrapper = styled.div`
-  margin-top: 1.5rem;
-  text-align: right;
-`;
-const RemoveBtn = styled.button`
-  margin-right: 1rem;
-  padding: 13px 29px;
-  font-size: 13px;
-  color: ${(props) => props.theme.palette.white};
-  background: ${(props) => props.theme.palette.darkblue};
-  border: none;
-  border-radius: 3px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const AddBtn = styled.button`
-  padding: 13px 29px;
-  font-size: 13px;
-  color: ${(props) => props.theme.palette.black};
-  background: ${(props) => props.theme.palette.white};
-  box-sizing: border-box;
-  border: 1px solid;
-  border-radius: 3px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
+const TwoBtnWrapper = styled.div``;
 const DateWrapper = styled.div``;
 const RefWrapper = styled.div``;
-const SubmitBtn = styled.button`
-  color: ${(props) => props.theme.palette.white};
-  background: ${(props) => props.theme.palette.red};
-  border: none;
-  border-radius: 4px;
-  padding: 8px 29px;
-  font-size: 12px;
-  position: relative;
-  left: 480px;
-  transform: translate(-50%, 0);
-  &:hover {
-    cursor: pointer;
-  }
-`;
 
 function BuildProject() {
+  const [projectTitle, SetProjectTitle] = useState('');
+  const [location, setLocation] = useState('');
+  const [pos, setPos] = useState('');
+  const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [referenceUrl, setReferenceUrl] = useState('');
 
   return (
     <>
@@ -232,7 +173,13 @@ function BuildProject() {
           <SectionInfo>
             * 직관적인 프로젝트명을 사용하시면 클릭률이 올라갑니다.
           </SectionInfo>
-          <Input placeholder="3~15 글자로 적어주세요 예) 승차거부 신고앱" />
+          <InputBox
+            InputBoxSize="xl"
+            InputBoxType="active"
+            placeholder="3~15 글자로 적어주세요 예) 승차거부 신고앱"
+            value={projectTitle}
+            SubmitValue={SetProjectTitle}
+          />
         </Section>
         <Section>
           <SectionTitle>(필수) 대표 이미지</SectionTitle>
@@ -323,26 +270,11 @@ function BuildProject() {
         <Section>
           <SectionTitle>(필수) 지역</SectionTitle>
           <SectionInfo>* 장소를 선택해주세요.</SectionInfo>
-          <Select>
-            <Option>상관없음</Option>
-            <Option>서울특별시</Option>
-            <Option>경기도</Option>
-            <Option>부산광역시</Option>
-            <Option>인천광역시</Option>
-            <Option>대구광역시</Option>
-            <Option>경상남도</Option>
-            <Option>경상북도</Option>
-            <Option>대전광역시</Option>
-            <Option>충청남도</Option>
-            <Option>충청북도</Option>
-            <Option>전라남도</Option>
-            <Option>전라북도</Option>
-            <Option>광주광역시</Option>
-            <Option>강원도</Option>
-            <Option>울산광역시</Option>
-            <Option>제주특별자치도</Option>
-            <Option>세종특별자치시</Option>
-          </Select>
+          <SelectBox
+            Mode="location"
+            DefaultValue={location}
+            SubmitValue={setLocation}
+          />
         </Section>
         <Section>
           <SectionTitle>(필수) 모집인원</SectionTitle>
@@ -350,17 +282,7 @@ function BuildProject() {
             * 나중에 변경/추가가 가능합니다. 3~4명을 추천합니다.
           </SectionInfo>
           <RecruitWrapper>
-            <Select>
-              <Option>IOS</Option>
-              <Option>안드로이드</Option>
-              <Option>웹프론트엔드</Option>
-              <Option>크로스플랫폼</Option>
-              <Option>웹서버</Option>
-              <Option>블록체인</Option>
-              <Option>AI</Option>
-              <Option>DB/빅데이터</Option>
-              <Option>게임</Option>
-            </Select>
+            <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
             <CountWrapper>
               <i>-</i>
               <span className="cnt">1</span>
@@ -387,11 +309,7 @@ function BuildProject() {
           <SectionInfo>
             프로젝트에 필요한 팀원의 레벨을 선택해주세요.
           </SectionInfo>
-          <Select>
-            <Option>초보</Option>
-            <Option>중수</Option>
-            <Option>고수</Option>
-          </Select>
+          <SelectBox Mode="level" DefaultValue={level} SubmitValue={setLevel} />
         </Section>
         <Section>
           <SectionTitle>(필수) 프로젝트 기간</SectionTitle>
@@ -430,7 +348,13 @@ function BuildProject() {
             등록해주세요.
           </SectionInfo>
           <RefWrapper>
-            <Input placeholder="https://letspl.me" />
+            <InputBox
+              InputBoxSize="xl"
+              InputBoxType="active"
+              placeholder="URL을 입력헤주세요"
+              value={referenceUrl}
+              SubmitValue={setReferenceUrl}
+            />
             <TwoBtnWrapper>
               <Button
                 ButtonColor="darkblue"

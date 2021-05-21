@@ -43,6 +43,9 @@ const RowCenterArea = styled.div`
     padding-top: 1rem;
     margin-top: 1rem;
   }
+  input {
+    margin-left: 0;
+  }
 `;
 const RowArea = styled.div`
   width: 100%;
@@ -56,7 +59,7 @@ const RowArea = styled.div`
   }
   h3 {
     font-size: 0.75rem;
-    width: 120px;
+    min-width: 120px;
     line-height: 1.5;
     padding-top: 10px;
   }
@@ -74,6 +77,9 @@ const RowArea = styled.div`
 
 const InputArea = styled.div`
   width: 80%;
+  input {
+    margin-left: 0;
+  }
 `;
 const InfoArea = styled.div`
   width: 100%;
@@ -103,6 +109,7 @@ function ProfilePage() {
   const [nickname, setNickname] = useState('');
   const [tel, setTel] = useState('');
   const [pos, setPos] = useState('');
+  const [interest, setInterest] = useState('');
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
   const [availableLocation, setAvailableLocation] = useState('');
@@ -250,6 +257,18 @@ function ProfilePage() {
               />
               <p>{levelText}</p>
             </SelectArea>
+          </RowArea>
+          <RowArea>
+            <h3>관심 분야</h3>
+            <InputArea>
+              <InputBox
+                InputBoxSize="l"
+                InputBoxType="active"
+                placeholder="ex) react, vue ..."
+                value={interest}
+                SubmitValue={setInterest}
+              />
+            </InputArea>
           </RowArea>
           <RowArea>
             <h3>지역 설정</h3>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../Common/Button';
 import emptyHeart from '../../../img/empty-heart.svg';
 import borderHeart from '../../../img/border-heart.svg';
 import CheckIcon from '../../../img/check_icon.svg';
@@ -22,7 +23,15 @@ const Contents = styled.div`
 const HeartAndShareWrap = styled.div`
   display: flex;
   justify-content: center;
-  /* padding-bottom: 24px; */
+
+  & button {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid ${(props) => props.theme.palette.lightGray};
+    border-radius: 2px;
+  }
 `;
 
 const HeartIcon = styled.div`
@@ -31,24 +40,13 @@ const HeartIcon = styled.div`
   background-image: url(${emptyHeart});
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center center;
 `;
 
-const Button = styled.button<{ heart: boolean }>`
-  width: 92px;
-  height: 36px;
-  border: 1px solid #e0e2e5;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: ${(props) => props.theme.palette.white};
-  cursor: pointer;
-  &:not(:last-child) {
-    margin-right: 6px;
-  }
+const HeartBtnWrap = styled.div`
   &:hover {
     ${HeartIcon} {
-      background-image: url(${(props) =>
-        props.heart ? borderHeart : emptyHeart});
+      background-image: url(${borderHeart});
     }
   }
 `;
@@ -131,11 +129,18 @@ const RightMenu = () => {
     <Container>
       <Contents>
         <HeartAndShareWrap>
-          <Button heart={true}>
-            <HeartIcon />
-            <FavoriteNumber>3</FavoriteNumber>
-          </Button>
-          <Button heart={false}>공유</Button>
+          <HeartBtnWrap>
+            <Button ButtonColor="white" ButtonMode="active" ButtonSize="medium">
+              <HeartIcon />
+              <FavoriteNumber>3</FavoriteNumber>
+            </Button>
+          </HeartBtnWrap>
+          <Button
+            ButtonColor="white"
+            ButtonMode="active"
+            ButtonName="공유"
+            ButtonSize="medium"
+          />
         </HeartAndShareWrap>
         <InfoWrap>
           <CheckTitle>리더 정보</CheckTitle>

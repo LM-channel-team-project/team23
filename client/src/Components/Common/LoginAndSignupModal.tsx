@@ -6,6 +6,7 @@ import GoogleLogin from 'react-google-login';
 import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import Button from '../Common/Button';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -29,13 +30,6 @@ const ModalContent = styled.div`
   background: ${(props) => props.theme.palette.white};
   padding: 46px 30px 74px;
   box-sizing: border-box;
-  & > svg {
-    width: 36px;
-    height: 36px;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
 
   & > .modalTit {
     margin-bottom: 32px;
@@ -44,10 +38,9 @@ const ModalContent = styled.div`
     color: ${(props) => props.theme.palette.black};
   }
 
-  & > .loginBtn {
-    position: relative;
-    max-width: 324px;
-    width: 100%;
+  & button {
+    display: flex;
+    align-items: center;
     height: 40px;
     margin-bottom: 6px;
     border-radius: 4px;
@@ -73,8 +66,10 @@ const ModalContent = styled.div`
     background: ${(props) => props.theme.palette.red};
   }
 
-  & > .loginBtn.github {
-    background: ${(props) => props.theme.palette.gray};
+  & svg {
+    position: absolute;
+    width: 10%;
+    height: 36px;
   }
 
   & > .signupBtn {
@@ -88,6 +83,7 @@ const ModalContent = styled.div`
       cursor: pointer;
     }
   }
+
   & > .info {
     a {
       color: ${(props) => props.theme.palette.red};
@@ -99,7 +95,14 @@ const ModalContent = styled.div`
 `;
 
 const SMdClose = styled(MdClose)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
   cursor: pointer;
+`;
+
+const ButtonText = styled.span`
+  width: 100%;
 `;
 
 interface IProps {
@@ -163,8 +166,16 @@ const LoginAndSignUpModal = ({
         />
         <button className="loginBtn github">
           <FaGithub />
-          <span>깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
+          <ButtonText>
+            깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}
+          </ButtonText>
         </button>
+        <Button ButtonColor="red" ButtonSize="xLarge" ButtonMode="active">
+          <FaGoogle />
+          <ButtonText>
+            구글 계정으로 {isLogin ? '로그인' : '가입하기'}
+          </ButtonText>
+        </Button>
         {!isLogin && (
           <div className="info">
             소셜 로그인으로 가입 시 <a href="#">이용약관</a>,{' '}

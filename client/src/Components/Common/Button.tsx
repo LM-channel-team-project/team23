@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 type ColorType = 'darkblue' | 'lightGray' | 'red' | 'orange' | 'white';
-type SizeType = 'small' | 'medium' | 'large';
+type SizeType = 'small' | 'medium' | 'large' | 'xLarge';
 type ModeType = 'active' | 'disabled';
 
 const ButtonStyle = styled.button<{
@@ -39,7 +39,9 @@ const ButtonStyle = styled.button<{
   width: 110px;
   cursor: pointer;
   width: ${(props) =>
-    props.size === 'large'
+    props.size === 'xLarge'
+      ? '324px'
+      : props.size === 'large'
       ? '160px'
       : props.size === 'medium'
       ? '110px'
@@ -53,10 +55,11 @@ const ButtonStyle = styled.button<{
 `;
 
 interface IProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
-  ButtonName: string;
+  ButtonName?: string;
   ButtonColor: ColorType;
   ButtonSize: SizeType;
   ButtonMode: ModeType;
+  children?: React.ReactNode;
 }
 const Button: React.FC<IProps> = ({
   ref,
@@ -64,6 +67,7 @@ const Button: React.FC<IProps> = ({
   ButtonColor,
   ButtonSize,
   ButtonMode,
+  children,
   ...rest
 }: IProps) => {
   const htmlProps = rest as any;
@@ -80,7 +84,7 @@ const Button: React.FC<IProps> = ({
         (e.target as HTMLButtonElement).blur();
       }}
     >
-      {ButtonName}
+      {ButtonName ? ButtonName : children}
     </ButtonStyle>
   );
 };

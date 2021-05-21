@@ -1,4 +1,5 @@
 export const PosData = [
+  { value: 'none', label: '직무' },
   { value: 'ios', label: 'ios' },
   { value: 'android', label: '안드로이드' },
   { value: 'frontend', label: 'FE' },
@@ -48,4 +49,17 @@ export const AvailableTimeData = [
   { value: 'T2', label: '오전 위주' },
   { value: 'T3', label: '오후 위주' },
   { value: 'T4', label: '저녁 위주' },
+];
+
+export const FieldData = [
+  { value: 'F0', label: '분야' },
+  { value: 'F1', label: '웹' },
+  { value: 'F2', label: '모바일' },
+  { value: 'F3', label: '게임' },
+];
+
+export const ProjectState = [
+  { value: 'P0', label: '프로젝트 소속' },
+  { value: 'P1', label: '참여 중' },
+  { value: 'P2', label: '미참여 중' },
 ];

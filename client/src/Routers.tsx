@@ -23,7 +23,7 @@ const Router = () => (
       <Header />
       <Switch>
         <Route path="/" exact component={Auth(Home, null)} />
-        <Route path="/project" component={Auth(Project, null)} />
+        <Route path="/project" exact component={Auth(Project, null)} />
         <Route path="/project/:id" component={Auth(ProjectDetail, null)} />
         <Route path="/signup" component={Auth(Signup, false)} />
         <Route path="/people" exact component={Auth(People, null)} />
