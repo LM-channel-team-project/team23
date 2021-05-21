@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { USER_SERVER } from '../../Config';
+import { GoogleLogout } from 'react-google-login';
+import { GOOGLE_CLINET_ID } from '../../Config';
+import { PosData, LevelData } from './OptionData';
 
 const ProfileModalWrapper = styled.div`
   display: block;
@@ -131,6 +136,12 @@ const CreateProjectText = styled.span`
   }
 `;
 
+const Smallp = styled.p`
+  font-size: 9px;
+  color: ${(props) => props.theme.palette.orange};
+  margin-top: 0.3rem;
+`;
+
 const NewNoticeWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -160,49 +171,83 @@ const NewNoticeContent = styled.div`
   }
 `;
 
-function ProfileModal() {
+interface Iprops {
+  name: string;
+  level: string;
+  pos: string;
+  alarm: Array<string>;
+  join: string;
+  avartarImg: string;
+}
+
+function ProfileModal({ name, level, pos, alarm, join, avartarImg }: Iprops) {
+  const LogoutButton = () => {
+    localStorage.removeItem('userId');
+    axios.get(`${USER_SERVER}/logout`).then((response) => {
+      if (response.data.success) {
+        alert('로그아웃 되었습니다.');
+        window.location.href = '/';
+      } else {
+        alert('다시 시도해주세요.');
+      }
+    });
+  };
+  const PosText = PosData.find((item) => item.value === pos && item);
+  const LevelText = LevelData.find((item) => item.value === level && item);
   return (
     <ProfileModalWrapper>
       <ProfileWrapper>
-        <ProfileImg
-          src="http://kawala.in/assets/global/images/avatars/avatar1.png"
-          alt="Avatar"
-        />
+        <ProfileImg src={avartarImg} alt="Avatar" />
         <InfoWrapper>
           <InfoUpper>
-            <span className="userName">용현준</span>
-            <button>로그아웃</button>
+            <span className="userName">{name}</span>
+            <GoogleLogout
+              clientId={GOOGLE_CLINET_ID}
+              onLogoutSuccess={LogoutButton}
+              render={(renderProps) => (
+                <button onClick={LogoutButton}>로그아웃</button>
+              )}
+            />
           </InfoUpper>
           <InfoLower>
             <span>본캐: </span>
-            <span className="job">웹프론트엔드</span> /{' '}
-            <span className="skill">초보</span>
+            <span className="job">{PosText?.label}</span> /{' '}
+            <span className="skill">{LevelText?.label}</span>
           </InfoLower>
+          <Smallp>{LevelText?.text}</Smallp>
         </InfoWrapper>
       </ProfileWrapper>
       <BtnWrapper>
         <MyInfoBtn>
           <Link to="/my">내 정보</Link>
         </MyInfoBtn>
-        <NoticeBtn>알림상세</NoticeBtn>
-        <SubscribeBtn>구독</SubscribeBtn>
+        <NoticeBtn>
+          <Link to="/my?tab=alarm">알림상세</Link>
+        </NoticeBtn>
+        <SubscribeBtn>
+          <Link to="/my?tab=favorite">구독</Link>
+        </SubscribeBtn>
       </BtnWrapper>
       <MyProjectWrapper>
         <MyProjectTitle>
           내 프로젝트 <span className="projectCnt">(0)</span>
         </MyProjectTitle>
         <MyProjectContent>
+          {join}
           <p>프로젝트가 없습니다.</p>
           <p>프로젝트가 없습니다.</p>
           <p>프로젝트가 없습니다.</p>
-          <CreateProjectText>프로젝트 만들기 &gt;</CreateProjectText>
+          <CreateProjectText>
+            <Link to="/BuildProject">프로젝트 만들기 &gt;</Link>
+          </CreateProjectText>
         </MyProjectContent>
       </MyProjectWrapper>
       <NewNoticeWrapper>
         <NewNoticeTitle>
-          신규 알림 <span className="noticeCnt">(0)</span>
+          신규 알림 <span className="noticeCnt">({alarm.length})</span>
         </NewNoticeTitle>
         <NewNoticeContent>
+          {alarm}
           <p>알림메시지가 없습니다</p>
           <p>알림메시지가 없습니다</p>
           <p>알림메시지가 없습니다</p>

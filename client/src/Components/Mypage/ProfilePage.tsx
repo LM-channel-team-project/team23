@@ -115,37 +115,40 @@ function ProfilePage() {
   const [availableLocation, setAvailableLocation] = useState('');
   const [availableWeek, setAvailableWeek] = useState('');
   const [availableTime, setAvailableTime] = useState('');
-  const [avartarImg, setAvartarImg] = useState('');
+  const [avartarImg, setAvartarImg] = useState<null | File>(null);
   const [url, setUrl] = useState('');
   const [portfolioes, setPortfolioes] = useState([{ id: 1, url: '' }]);
   const [intro, setIntro] = useState('');
 
   const nextId = useRef(0);
+  const userId = localStorage.getItem('userId');
+
   useEffect(() => {
-    axios
-      .post('/api/users/info', { _id: '6092bfdf96b9743b04a28c8b' })
-      .then((response) => {
-        if (response.data.success) {
-          const user = response.data.user;
-          setAvailableLocation(user.availableLocation);
-          setAvailableTime(user.availableTime);
-          setAvailableWeek(user.availableWeek);
-          setEmail(user.email);
-          setIntro(user.intro);
-          setNickname(user.nickname);
-          const urls = user.portfolio;
-          setPortfolioes(
-            urls.map((item: string, index: number) => {
-              return { id: index, url: item };
-            })
-          );
-          setPos(user.position);
-          setLevel(user.positionLevel);
-          setTel(user.tel);
-        } else {
-          alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+    axios.post('/api/users/info', { _id: userId }).then((response) => {
+      if (response.data.success) {
+        const user = response.data.user;
+        if (user.avartarImg) {
+          setAvartarImg(user.avartarImg);
         }
-      });
+        setAvailableLocation(user.availableLocation);
+        setAvailableTime(user.availableTime);
+        setAvailableWeek(user.availableWeek);
+        setEmail(user.email);
+        setIntro(user.intro);
+        setNickname(user.nickname);
+        const urls = user.portfolio;
+        setPortfolioes(
+          urls.map((item: string, index: number) => {
+            return { id: index, url: item };
+          })
+        );
+        setPos(user.position);
+        setLevel(user.positionLevel);
+        setTel(user.tel);
+      } else {
+        alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
+      }
+    });
   }, []);
 
   nextId.current += portfolioes.length;
@@ -163,8 +166,6 @@ function ProfilePage() {
       url: url,
     };
     setPortfolioes(portfolioes.concat(URL));
-    console.log(URL);
-    console.log(portfolioes);
     setUrl('');
     nextId.current += 1;
   };
@@ -175,29 +176,45 @@ function ProfilePage() {
 
   const onSubmit = () => {
     const urls = portfolioes.map((item, index) => item.url);
-    const formdata = {
-      _id: '6092bfdf96b9743b04a28c8b',
-      tel: tel,
-      position: pos,
-      positionLevel: level,
-      availableLocation: availableLocation,
-      availableWeek: availableWeek,
-      availableTime: availableTime,
-      avartarImg: avartarImg,
-      portfolio: urls,
-      intro: intro,
-    };
-    axios.post('/api/users/update', formdata).then((response) => {
-      if (response.data.success) {
-        alert('내 정보를 성공적으로 수정했습니다.');
-      } else {
-        alert('저장에 실패했습니다. 다시 시도해주세요.');
-      }
-    });
+    const formData = new FormData();
+    if (avartarImg) {
+      formData.append('profileImg', avartarImg);
+    }
+    axios
+      .post('/api/users/updateImg', formData, {
+        headers: { 'content-type': 'multipart/form-data' },
+      })
+      .then((response) => {
+        if (response.data.success) {
+          const FilePath = response.data.filePath;
+          const formdata = {
+            _id: userId,
+            tel: tel,
+            position: pos,
+            positionLevel: level,
+            availableLocation: availableLocation,
+            availableWeek: availableWeek,
+            availableTime: availableTime,
+            avartarImg: FilePath,
+            portfolio: urls,
+            intro: intro,
+          };
+          axios.post('/api/users/update', formdata).then((response) => {
+            if (response.data.success) {
+              alert('내 정보를 성공적으로 수정했습니다.');
+            } else {
+              alert('저장에 실패했습니다. 다시 시도해주세요.');
+            }
+          });
+        } else {
+          alert('저장에 실패했습니다. 다시 시도해주세요.');
+        }
+      });
   };
+
   return (
     <Container>
-      <ImgInfo />
+      <ImgInfo value={avartarImg} submitValue={setAvartarImg} />
       <FormArea>
         <InputArea>
           <RowArea>

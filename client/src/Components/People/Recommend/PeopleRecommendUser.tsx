@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -77,35 +78,42 @@ const UserBottom = styled.div`
 `;
 
 interface User {
-  avatarImg: string;
-  username: string;
-  userStack: string[];
-  userJob: string;
+  avartarImg: string;
+  nickname: string;
+  interestSkills: string[];
+  position: string;
 }
 
-const RecommendUser = ({ avatarImg, username, userStack, userJob }: User) => (
+const RecommendUser = ({
+  avartarImg,
+  nickname,
+  interestSkills,
+  position,
+}: User): ReactElement => (
   <User>
     <UserTop>
-      <UserImg src={avatarImg} alt="Avatar" />
+      <Link to={`/people/${nickname}`}>
+        <UserImg src={avartarImg} alt="Avatar" />
+      </Link>
       <Userdetail>
         <Username>
-          {username}
+          {nickname}
           <Menu>
             <MenuItem>
-              <ToProfile to={`/people/${username}`}>프로필</ToProfile>
+              <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
             </MenuItem>
             <MenuItem>1:1 대화</MenuItem>
             <MenuItem>프로젝트 초대</MenuItem>
           </Menu>
         </Username>
         <UserStackList>
-          {userStack.map((stack, index) => (
+          {interestSkills.map((stack, index) => (
             <UserStack key={index}>{stack}</UserStack>
           ))}
         </UserStackList>
       </Userdetail>
     </UserTop>
-    <UserBottom>{userJob}</UserBottom>
+    <UserBottom>[직무] {position}</UserBottom>
   </User>
 );
 

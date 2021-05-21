@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,24 +10,23 @@ const User = styled.div`
   position: relative;
   padding: 10px;
   box-shadow: 0 3px 24px 0 rgba(0, 0, 0, 0.06);
-  border-top-left-radius: 20px;
 `;
-const UserTag = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  border-bottom: 30px solid transparent;
-  border-left: 30px solid ${(props) => props.theme.palette.purple};
-`;
-const UserTagSpan = styled.span`
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  font-size: 0.4em;
-  color: ${(props) => props.theme.palette.white};
-`;
+// const UserTag = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 10px;
+//   height: 10px;
+//   border-bottom: 30px solid transparent;
+//   border-left: 30px solid ${(props) => props.theme.palette.purple};
+// `;
+// const UserTagSpan = styled.span`
+//   position: absolute;
+//   top: 3px;
+//   left: 3px;
+//   font-size: 0.4em;
+//   color: ${(props) => props.theme.palette.white};
+// `;
 const UserTop = styled.div`
   display: flex;
   align-items: center;
@@ -37,16 +37,7 @@ const UserImg = styled.img`
   height: 55px;
   margin-right: 15px;
 `;
-// const Username = styled.div`
-//   position: relative;
-//   width: 100%;
-//   font-weight: bold;
-//   margin-bottom: 5px;
-//   &:hover Menu {
-//     cursor: pointer;
-//     display: block;
-//   }
-// `;
+
 const Menu = styled.ul`
   width: 100px;
   height: 100px;
@@ -63,6 +54,7 @@ const MenuItem = styled.li`
   font-size: 0.6em;
 `;
 const ToProfile = styled(Link)``;
+
 const Username = styled.div`
   display: inline-block;
   position: relative;
@@ -107,39 +99,38 @@ const UserStack = styled.span`
   margin-right: 5px;
   line-height: 1.4em;
 `;
-const UserFooter = styled.div``;
+
 const Like = styled.span``;
 
 interface User {
-  joinDate?: number;
-  avatarImg: string;
-  username: string;
-  userJob: string;
-  learningDate: string;
-  userStack: string[];
-  likeCount: number;
+  createdAt?: Date;
+  avartarImg: string;
+  nickname: string;
+  position: string;
+  positionLevel: string;
+  interestSkills: string[];
+  receivedLike: number;
 }
 
 const PeopleListItem = ({
-  joinDate,
-  avatarImg,
-  username,
-  userJob,
-  learningDate,
-  userStack,
-  likeCount,
-}: User) => (
+  createdAt,
+  avartarImg,
+  nickname,
+  position,
+  positionLevel,
+  interestSkills,
+  receivedLike,
+}: User): ReactElement => (
   <User>
-    <UserTag></UserTag>
-    <UserTagSpan>N</UserTagSpan>
-
     <UserTop>
-      <UserImg src={avatarImg} alt="Avatar" />
+      <Link to={`/people/${nickname}`}>
+        <UserImg src={avartarImg} alt="Avatar" />
+      </Link>
       <Username>
-        {username}
+        {nickname}
         <Menu>
           <MenuItem>
-            <ToProfile to={`/people/${username}`}>프로필</ToProfile>
+            <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
           </MenuItem>
           <MenuItem>1:1 대화</MenuItem>
           <MenuItem>프로젝트 초대</MenuItem>
@@ -148,17 +139,17 @@ const PeopleListItem = ({
     </UserTop>
     <UserMid>
       <Major>
-        <MajorTitle>[직무] {userJob}</MajorTitle>
-        <MajorLV>{learningDate}</MajorLV>
+        <MajorTitle>[직무] {position}</MajorTitle>
+        <MajorLV>{positionLevel}</MajorLV>
       </Major>
     </UserMid>
     <UserBottom>
       <UserStackList>
-        {userStack.map((stack, index) => (
+        {interestSkills.map((stack, index) => (
           <UserStack key={index}>{stack}</UserStack>
         ))}
       </UserStackList>
-      <Like>♥ {likeCount}</Like>
+      <Like>♥ {receivedLike}</Like>
     </UserBottom>
   </User>
 );

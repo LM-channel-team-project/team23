@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 import PeopleListItem from './PeopleListItem';
 import users from './userDB';
@@ -11,18 +11,18 @@ const List = styled.section`
   width: 100%;
 `;
 
-const PeopleList = () => (
+const PeopleList = (): ReactElement => (
   <List>
     {users.map((user, index) => (
       <PeopleListItem
         key={index}
-        joinDate={user.joinDate}
-        avatarImg={user.avatarImg}
-        username={user.username}
-        userJob={user.userJob}
-        learningDate={user.learningDate}
-        userStack={user.userStack}
-        likeCount={user.likeCount}
+        createdAt={user.createdAt}
+        avartarImg={user.avartarImg}
+        nickname={user.nickname}
+        position={user.position}
+        positionLevel={user.positionLevel}
+        interestSkills={user.interestSkills}
+        receivedLike={user.receivedLike}
       />
     ))}
   </List>

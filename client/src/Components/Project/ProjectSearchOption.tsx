@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Checkbox from '../../Components/Project/Checkbox';
+import Checkbox from '../Common/Checkbox';
 import SelectBox from '../Common/SelectBox';
 
 const SearchOption = styled.div`
@@ -22,10 +22,9 @@ const ProjectSearchOption = () => {
   const [field, setField] = useState('');
   const [pos, setPos] = useState('');
   const [level, setLevel] = useState('');
-  const [checked, setChecked] = useState(true);
-
+  const [state, setState] = useState(true);
   const handleCheckboxChange = () => {
-    setChecked((prev) => !prev);
+    setState((prev) => !prev);
   };
 
   return (
@@ -39,7 +38,7 @@ const ProjectSearchOption = () => {
       <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
       <SelectBox Mode="level" DefaultValue={level} SubmitValue={setLevel} />
       <Label>
-        <Checkbox checked={checked} onChange={handleCheckboxChange} />
+        <Checkbox checked={state} onChange={handleCheckboxChange} />
         <Text>모집중</Text>
       </Label>
     </SearchOption>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
+import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
@@ -114,7 +115,7 @@ const FieldLabel = styled.label`
   margin-right: 3rem;
 `;
 const FieldCheckbox = styled.input.attrs({
-  type: 'checkbox',
+  type: 'radio',
 })`
   font-size: 16px;
   border-radius: 3px;
@@ -161,12 +162,15 @@ const RefWrapper = styled.div``;
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
+  const [field, setField] = useState('');
   const [location, setLocation] = useState('');
   const [pos, setPos] = useState('');
   const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [referenceUrl, setReferenceUrl] = useState('');
+
+  const handleClickRadioButton = (value: string) => setField(value);
 
   return (
     <>
@@ -258,10 +262,18 @@ function BuildProject() {
           <SectionTitle>(필수) 프로젝트 분야</SectionTitle>
           <SectionInfo>* 아래 분야 중에 한가지를 선택해주세요.</SectionInfo>
           <FieldWrapper>
-            <FieldCheckbox id="web" /> <FieldLabel htmlFor="web">웹</FieldLabel>
-            <FieldCheckbox id="app" /> <FieldLabel htmlFor="app">앱</FieldLabel>
-            <FieldCheckbox id="game" />{' '}
-            <FieldLabel htmlFor="game">게임</FieldLabel>
+            {FieldData.slice(1).map((fieldItem) => (
+              <React.Fragment key={fieldItem.value}>
+                <FieldCheckbox
+                  id={fieldItem.value}
+                  checked={field === fieldItem.value}
+                  onChange={() => handleClickRadioButton(fieldItem.value)}
+                />
+                <FieldLabel htmlFor={fieldItem.value}>
+                  {fieldItem.label}
+                </FieldLabel>
+              </React.Fragment>
+            ))}
           </FieldWrapper>
         </Section>
         <Section>
