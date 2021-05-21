@@ -85,11 +85,15 @@ function ImgInfo({ value, submitValue }: IProps) {
     <Container>
       <ImgArea>
         <ImgStyle>
-          {beforeUrl ? (
-            fileUrl ? (
-              <ShowImg src={fileUrl} />
+          {value ? (
+            beforeUrl ? (
+              fileUrl ? (
+                <ShowImg src={fileUrl} />
+              ) : (
+                <ShowImg src={beforeUrl} />
+              )
             ) : (
-              <ShowImg src={beforeUrl} />
+              <BsFillPersonFill size="120" />
             )
           ) : (
             <BsFillPersonFill size="120" />

@@ -115,11 +115,14 @@ function ProfilePage() {
 
   const nextId = useRef(0);
   const userId = localStorage.getItem('userId');
+
   useEffect(() => {
     axios.post('/api/users/info', { _id: userId }).then((response) => {
       if (response.data.success) {
         const user = response.data.user;
-        setAvartarImg(user.avartarImg);
+        if (user.avartarImg) {
+          setAvartarImg(user.avartarImg);
+        }
         setAvailableLocation(user.availableLocation);
         setAvailableTime(user.availableTime);
         setAvailableWeek(user.availableWeek);
@@ -178,7 +181,7 @@ function ProfilePage() {
         if (response.data.success) {
           const FilePath = response.data.filePath;
           const formdata = {
-            _id: '6092bfdf96b9743b04a28c8b',
+            _id: userId,
             tel: tel,
             position: pos,
             positionLevel: level,

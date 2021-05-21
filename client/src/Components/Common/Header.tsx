@@ -6,6 +6,8 @@ import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 import Button from './Button';
 import { USER_SERVER } from '../../Config';
+import axios from 'axios';
+import querystring from 'query-string';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -100,6 +102,17 @@ function Header() {
   const [openLoginSignup, setOpenLoginSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({
+    name: '',
+    pos: '',
+    level: '',
+    join: '',
+    alarm: [''],
+    avartarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+  });
+  // api/user/info 에서 name, pos, level 값 가져오기
+  // api/alarm 에서 get 방식으로 (token으로) 해당 되는 알람정보 받아오기
+  // pai/project/FindMyProject 으로 (token으로) 자신이 생성한 프로젝트 가져오기
 
   const switchLoginSignup = (login: boolean) => {
     setIsLogin(login);
@@ -117,6 +130,21 @@ function Header() {
       setIsLogin(false);
     } else {
       setIsLogin(true);
+      axios.post('/api/users/info', { _id: userId }).then((response) => {
+        if (response.data.success) {
+          const user = response.data.user;
+          const UserInfo = Object.assign({}, profileInfo);
+          UserInfo.name = user.nickname;
+          UserInfo.pos = user.position;
+          UserInfo.level = user.positionLevel;
+          if (user.avartarImg) {
+            UserInfo.avartarImg = user.avartarImg;
+          }
+          setProfileInfo(UserInfo);
+        } else {
+          alert('정보를 가져오는데 실패했습니다.');
+        }
+      });
     }
   }, [userId]);
 
@@ -140,11 +168,20 @@ function Header() {
               onClick={() => (window.location.href = '/BuildProject')}
             />
             <UserImg
-              src="http://kawala.in/assets/global/images/avatars/avatar1.png"
+              src={profileInfo.avartarImg}
               alt="Avatar"
               onClick={() => setOpenProfile((open) => !open)}
             />
-            {openProfile && <ProfileModal />}
+            {openProfile && (
+              <ProfileModal
+                name={profileInfo.name}
+                level={profileInfo.level}
+                pos={profileInfo.pos}
+                alarm={profileInfo.alarm}
+                join={profileInfo.join}
+                avartarImg={profileInfo.avartarImg}
+              />
+            )}
           </SigninStyle>
         ) : (
           <div>
