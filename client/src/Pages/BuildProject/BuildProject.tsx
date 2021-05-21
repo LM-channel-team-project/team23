@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
+import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
@@ -55,20 +56,25 @@ const ProjectImageWrapper = styled.div`
   margin: 1.5rem 0;
 `;
 const ProjectImage = styled.div`
-  flex: 1;
   display: flex;
   background: ${(props) => props.theme.palette.lightGray};
   align-items: center;
   justify-content: center;
-  opacity: 70%;
   width: 385px;
   height: 242px;
   border-radius: 3px;
   font-size: 36px;
   margin-right: 2rem;
 `;
+
+const ProjectThumbnail = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+`;
+
 const UploadWrapper = styled.div`
-  flex: 2;
   padding-top: 130px;
 `;
 
@@ -76,6 +82,7 @@ const ProjectImageAltInfo = styled.p`
   font-size: 16px;
   margin-bottom: 18px;
 `;
+
 const ProjectImageAltWrapper = styled.div`
   display: flex;
 `;
@@ -87,6 +94,7 @@ const ProjectImageAltImage = styled.img`
   }
   &:hover {
     cursor: pointer;
+    border: 1px solid ${(props) => props.theme.palette.orange};
   }
 `;
 const ProjectExplain = styled.textarea`
@@ -152,7 +160,8 @@ const DateWrapper = styled.div``;
 const RefWrapper = styled.div``;
 
 function BuildProject() {
-  const [projectTitle, SetProjectTitle] = useState('');
+  const [projectTitle, setProjectTitle] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
   const [field, setField] = useState('');
   const [location, setLocation] = useState('');
   const [pos, setPos] = useState('');
@@ -182,7 +191,7 @@ function BuildProject() {
             InputBoxType="active"
             placeholder="3~15 글자로 적어주세요 예) 승차거부 신고앱"
             value={projectTitle}
-            SubmitValue={SetProjectTitle}
+            SubmitValue={setProjectTitle}
           />
         </Section>
         <Section>
@@ -192,7 +201,11 @@ function BuildProject() {
           </SectionInfo>
           <ProjectImageWrapper>
             <ProjectImage>
-              <FaCamera />
+              {thumbnail.length > 0 ? (
+                <ProjectThumbnail src={thumbnail} alt="prjoect_thumb" />
+              ) : (
+                <FaCamera />
+              )}
             </ProjectImage>
             <UploadWrapper>
               <Button
@@ -213,30 +226,14 @@ function BuildProject() {
             이미지가 없으신 분들은 아래에서 이미지를 선택해주세요.
           </ProjectImageAltInfo>
           <ProjectImageAltWrapper>
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_1.png"
-              alt="Thumb1"
-            />
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_2.png"
-              alt="Thumb2"
-            />
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_3.png"
-              alt="Thumb3"
-            />
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_4.png"
-              alt="Thumb4"
-            />
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_5.png"
-              alt="Thumb5"
-            />
-            <ProjectImageAltImage
-              src="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png"
-              alt="Thumb6"
-            />
+            {sampleImages.map((image) => (
+              <ProjectImageAltImage
+                key={image.alt}
+                src={image.url}
+                alt={image.alt}
+                onClick={() => setThumbnail(image.url)}
+              />
+            ))}
           </ProjectImageAltWrapper>
         </Section>
         <Section>
