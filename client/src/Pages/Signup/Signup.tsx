@@ -5,7 +5,9 @@ import SelectBox from '../../Components/Common/SelectBox';
 import Button from '../../Components/Common/Button';
 import InputBox from '../../Components/Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
+import { USER_SERVER } from '../../Config';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const SignupSection = styled.section`
   .signupWrapper {
@@ -57,12 +59,15 @@ const SignupForm = styled.form`
 `;
 
 function Signup() {
-  const [email, setEmail] = useState('abc125@naver.com');
+  const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [NicknameAvailable, setNicknameAbailable] = useState(false);
   const [pos, setPos] = useState('');
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
+
+  const location = useLocation();
+  const Obj: any = location.state;
 
   useEffect(() => {
     const Item = LevelData.find((item) => item.value === level && item);
@@ -70,6 +75,10 @@ function Signup() {
       Item && setLevelText(Item.text);
     }
   }, [level]);
+
+  useEffect(() => {
+    setEmail(Obj.email);
+  }, Obj);
 
   const CheckNickname = () => {
     if (nickname.length == 0) {
@@ -81,7 +90,7 @@ function Signup() {
       return false;
     }
     axios
-      .post('/api/users/nickname', { nickname: nickname })
+      .post(`${USER_SERVER}/nickname`, { nickname: nickname })
       .then((response) => {
         if (response.data.success) {
           setNicknameAbailable(response.data.nickname);
@@ -116,9 +125,9 @@ function Signup() {
       position: pos,
       positionLevel: level,
     };
-    axios.post('/api/users/signup', formdata).then((response) => {
+    axios.post(`${USER_SERVER}/signup`, formdata).then((response) => {
       if (response.data.success) {
-        alert('회원가입이 성공적으로 이루어졌습니다.');
+        alert('회원가입이 성공적으로 이루어졌습니다. 로그인 해주세요.');
         window.location.href = '/';
       } else {
         alert('가입에 실패했습니다. 다시 시도해주세요.');
@@ -126,7 +135,6 @@ function Signup() {
     });
   };
 
-  console.log(nickname);
   return (
     <SignupSection>
       <div className="signupWrapper">

@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
-import IUser from './User.interface';
+import {IUser, IUserMethods, IUserModel} from './User.interface';
 
-const userSchema: mongoose.Schema = new mongoose.Schema(
+const jwt = require('jsonwebtoken');
+
+const userSchema: mongoose.Schema<IUser> = new mongoose.Schema(
   {
     avartarImg: String,
     nickname: {
@@ -51,6 +53,21 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
   }
 );
 
-export const User: mongoose.Model<IUser> = mongoose.model('user', userSchema);
+userSchema.methods.generateToken = function(cb: Function) {
+  this.token = jwt.sign(this._id.toHexString(), 'secret')
+  this.save((err: Error|null, user: IUser) => {
+    cb(err,user);
+  })
+}
+
+userSchema.statics.findByToken = function(token: string, cb: Function){
+  jwt.verify(token, 'secret', (err: Error|null, decode?:object)=>{
+      this.findOne({"_id": decode, "token": token}, (err: Error, user: IUserMethods) => {
+          cb(err, user);
+      })
+  })
+}
+
+export const User: IUserModel = mongoose.model<IUserMethods, IUserModel>('user', userSchema);
 
 export default User;

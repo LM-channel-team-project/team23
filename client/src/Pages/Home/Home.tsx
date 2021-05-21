@@ -4,6 +4,7 @@ import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
+import PeopleList from '../../Components/People/PeopleList';
 
 const Style = styled.div`
   width: 100%;
@@ -27,6 +28,7 @@ const Home = () => (
         <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
         <ProjectBoxList>
           <ProjectBox
+            id={6436}
             title="간단한 웹 게임 사이드 프로젝트"
             description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
             image="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png"
@@ -39,6 +41,7 @@ const Home = () => (
         <Title subtitle="Study With Us" title="모집중인 프로젝트를 둘러봐요" />
         <ProjectBoxList>
           <ProjectBox
+            id={4125}
             title="채팅 어플 서비스"
             description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 채팅 어플 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
             image="https://letspl.s3.ap-northeast-2.amazonaws.com/user/459/images/54754526-675ca280-4bec-11e9-8548-c8e50f5eca1b.png"
@@ -49,9 +52,11 @@ const Home = () => (
       </div>
       <div className="new_user content">
         <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
+        <PeopleList />
       </div>
       <div className="find_coworker content">
         <Title subtitle="Be my Co-Worker" title="동료를 찾아보세요" />
+        <PeopleList />
       </div>
     </ContentWrapper>
   </Style>

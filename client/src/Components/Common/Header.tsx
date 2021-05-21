@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
-import { CgMenuGridO } from 'react-icons/cg';
 import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 import Button from './Button';
+import { USER_SERVER } from '../../Config';
+import axios from 'axios';
+import querystring from 'query-string';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -33,7 +35,7 @@ const LogoStyle = styled.img`
 `;
 
 const MenuStyle = styled.div`
-  width: 50%;
+  width: 40%;
   list-style: none;
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -55,15 +57,14 @@ const AtagStyle = styled(Link)`
 `;
 
 const LoginStyle = styled.div`
-  width: 10%;
+  width: 100px;
   display: flex;
   margin-left: auto;
   font-size: 10px;
   justify-content: space-around;
   align-items: center;
   padding: 0.5rem;
-  margin-right: 9rem;
-  /* display: none; */
+  margin-right: 3rem;
 `;
 
 const LoginText = styled.a`
@@ -79,11 +80,9 @@ const Divider = styled.span`
 const SigninStyle = styled.div`
   width: 20%;
   margin-left: auto;
-  margin-right: 9rem;
+  margin-right: 3rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  // display: none;
 `;
 
 const UserImg = styled.img`
@@ -92,27 +91,29 @@ const UserImg = styled.img`
   cursor: pointer;
 `;
 
-const IconStyle = styled(CgMenuGridO)`
-  cursor: pointer;
-  visibility: hidden;
-  &:hover {
-    width: 28px;
-    height: 28px;
-    color: ${(props) => props.theme.palette.black};
-  }
-`;
-
 const Web = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: column;
+  justify-content: space-between;
 `;
 
 function Header() {
   const [openLoginSignup, setOpenLoginSignup] = useState(false);
+  const [LoginSuccess, setLoginSuccess] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({
+    name: '',
+    pos: '',
+    level: '',
+    join: '',
+    alarm: [''],
+    avartarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+  });
+  // api/user/info 에서 name, pos, level 값 가져오기
+  // api/alarm 에서 get 방식으로 (token으로) 해당 되는 알람정보 받아오기
+  // pai/project/FindMyProject 으로 (token으로) 자신이 생성한 프로젝트 가져오기
 
   const switchLoginSignup = (login: boolean) => {
     setIsLogin(login);
@@ -122,6 +123,32 @@ function Header() {
     switchLoginSignup(login);
     setOpenLoginSignup((open) => !open);
   };
+
+  const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    if (userId === null) {
+      setLoginSuccess(false);
+    } else {
+      setLoginSuccess(true);
+      axios.post(`${USER_SERVER}/info`, { _id: userId }).then((response) => {
+        if (response.data.success) {
+          const user = response.data.user;
+          const UserInfo = Object.assign({}, profileInfo);
+          UserInfo.name = user.nickname;
+          UserInfo.pos = user.position;
+          UserInfo.level = user.positionLevel;
+          if (user.avartarImg) {
+            UserInfo.avartarImg = user.avartarImg;
+          }
+          setProfileInfo(UserInfo);
+        } else {
+          alert('정보를 가져오는데 실패했습니다.');
+        }
+      });
+    }
+  }, [userId]);
+
   return (
     <HeaderStyle>
       <Link to="/">
@@ -132,33 +159,46 @@ function Header() {
           <AtagStyle to="/project">Project</AtagStyle>
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
-        <LoginStyle>
-          <LoginText onClick={() => onToggle(false)}>가입</LoginText>
-          <Divider>/</Divider>
-          <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
-        </LoginStyle>
-        <LoginAndSignupModal
-          openLoginSignup={openLoginSignup}
-          onToggle={onToggle}
-          switchLoginSignup={switchLoginSignup}
-          isLogin={isLogin}
-        />
-        <SigninStyle>
-          <Link to="/buildProject">
+        {LoginSuccess ? (
+          <SigninStyle>
             <Button
               ButtonColor="orange"
               ButtonMode="active"
               ButtonName="프로젝트 생성"
               ButtonSize="large"
+              onClick={() => (window.location.href = '/BuildProject')}
             />
-          </Link>
-          <UserImg
-            src="http://kawala.in/assets/global/images/avatars/avatar1.png"
-            alt="Avatar"
-            onClick={() => setOpenProfile((open) => !open)}
-          />
-          {openProfile && <ProfileModal />}
-        </SigninStyle>
+            <UserImg
+              src={profileInfo.avartarImg}
+              alt="Avatar"
+              onClick={() => setOpenProfile((open) => !open)}
+            />
+            {openProfile && (
+              <ProfileModal
+                name={profileInfo.name}
+                level={profileInfo.level}
+                pos={profileInfo.pos}
+                alarm={profileInfo.alarm}
+                join={profileInfo.join}
+                avartarImg={profileInfo.avartarImg}
+              />
+            )}
+          </SigninStyle>
+        ) : (
+          <div>
+            <LoginStyle>
+              <LoginText onClick={() => onToggle(false)}>가입</LoginText>
+              <Divider>/</Divider>
+              <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
+            </LoginStyle>
+            <LoginAndSignupModal
+              openLoginSignup={openLoginSignup}
+              onToggle={onToggle}
+              switchLoginSignup={switchLoginSignup}
+              isLogin={isLogin}
+            />
+          </div>
+        )}
       </Web>
     </HeaderStyle>
   );

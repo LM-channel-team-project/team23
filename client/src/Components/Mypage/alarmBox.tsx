@@ -53,7 +53,6 @@ interface Visited {
 }
 
 const alarmBox = ({ visited }: Visited) => {
-  console.log(visited);
   return (
     <>
       {visited ? (

@@ -47,6 +47,7 @@ function InfoBox({ title, array, defaultText, type }: InfoProps) {
       {state.length > 0 && type === 'project' ? (
         <ProjectBoxList>
           <ProjectBox
+            id={1238120}
             title="간단한 웹 게임 사이드 프로젝트"
             description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
             image="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png"
