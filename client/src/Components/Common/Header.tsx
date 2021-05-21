@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../img/logo.png';
-import { CgMenuGridO } from 'react-icons/cg';
 import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 import Button from './Button';
-import { RootState } from '../../modules';
-import { useSelector } from 'react-redux';
 import { USER_SERVER } from '../../Config';
 
 const HeaderStyle = styled.nav`
@@ -36,7 +33,7 @@ const LogoStyle = styled.img`
 `;
 
 const MenuStyle = styled.div`
-  width: 50%;
+  width: 40%;
   list-style: none;
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -58,15 +55,14 @@ const AtagStyle = styled(Link)`
 `;
 
 const LoginStyle = styled.div`
-  width: 10%;
+  width: 100px;
   display: flex;
   margin-left: auto;
   font-size: 10px;
   justify-content: space-around;
   align-items: center;
   padding: 0.5rem;
-  margin-right: 9rem;
-  /* display: none; */
+  margin-right: 3rem;
 `;
 
 const LoginText = styled.a`
@@ -82,11 +78,9 @@ const Divider = styled.span`
 const SigninStyle = styled.div`
   width: 20%;
   margin-left: auto;
-  margin-right: 9rem;
+  margin-right: 3rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  // display: none;
 `;
 
 const UserImg = styled.img`
@@ -99,7 +93,7 @@ const Web = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: column;
+  justify-content: space-between;
 `;
 
 function Header() {
@@ -115,6 +109,17 @@ function Header() {
     switchLoginSignup(login);
     setOpenLoginSignup((open) => !open);
   };
+
+  const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    if (userId === null) {
+      setIsLogin(false);
+    } else {
+      setIsLogin(true);
+    }
+  }, [userId]);
+
   return (
     <HeaderStyle>
       <Link to="/">
@@ -125,32 +130,37 @@ function Header() {
           <AtagStyle to="/project">Project</AtagStyle>
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
-        <LoginStyle>
-          <LoginText onClick={() => onToggle(false)}>가입</LoginText>
-          <Divider>/</Divider>
-          <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
-        </LoginStyle>
-        <LoginAndSignupModal
-          openLoginSignup={openLoginSignup}
-          onToggle={onToggle}
-          switchLoginSignup={switchLoginSignup}
-          isLogin={isLogin}
-        />
-        <SigninStyle>
-          <Button
-            ButtonColor="orange"
-            ButtonMode="active"
-            ButtonName="프로젝트 생성"
-            ButtonSize="large"
-            onClick={() => (window.location.href = '/BuildProject')}
-          />
-          <UserImg
-            src="http://kawala.in/assets/global/images/avatars/avatar1.png"
-            alt="Avatar"
-            onClick={() => setOpenProfile((open) => !open)}
-          />
-          {openProfile && <ProfileModal />}
-        </SigninStyle>
+        {isLogin ? (
+          <SigninStyle>
+            <Button
+              ButtonColor="orange"
+              ButtonMode="active"
+              ButtonName="프로젝트 생성"
+              ButtonSize="large"
+              onClick={() => (window.location.href = '/BuildProject')}
+            />
+            <UserImg
+              src="http://kawala.in/assets/global/images/avatars/avatar1.png"
+              alt="Avatar"
+              onClick={() => setOpenProfile((open) => !open)}
+            />
+            {openProfile && <ProfileModal />}
+          </SigninStyle>
+        ) : (
+          <div>
+            <LoginStyle>
+              <LoginText onClick={() => onToggle(false)}>가입</LoginText>
+              <Divider>/</Divider>
+              <LoginText onClick={() => onToggle(true)}>로그인</LoginText>
+            </LoginStyle>
+            <LoginAndSignupModal
+              openLoginSignup={openLoginSignup}
+              onToggle={onToggle}
+              switchLoginSignup={switchLoginSignup}
+              isLogin={isLogin}
+            />
+          </div>
+        )}
       </Web>
     </HeaderStyle>
   );
