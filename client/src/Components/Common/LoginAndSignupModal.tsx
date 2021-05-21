@@ -2,7 +2,10 @@ import React from 'react';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
-import Button from '../Common/Button';
+import GoogleLogin from 'react-google-login';
+import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -26,6 +29,13 @@ const ModalContent = styled.div`
   background: ${(props) => props.theme.palette.white};
   padding: 46px 30px 74px;
   box-sizing: border-box;
+  & > svg {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
 
   & > .modalTit {
     margin-bottom: 32px;
@@ -34,19 +44,37 @@ const ModalContent = styled.div`
     color: ${(props) => props.theme.palette.black};
   }
 
-  & button {
-    display: flex;
-    align-items: center;
+  & > .loginBtn {
+    position: relative;
+    max-width: 324px;
+    width: 100%;
     height: 40px;
-    padding: 13.5px 10.5px;
-    margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    font: inherit;
+    border: none;
+    text-align: center;
+    color: ${(props) => props.theme.palette.white};
+    font-size: 12px;
+    & > svg {
+      position: absolute;
+      top: 50%;
+      left: 4px;
+      transform: translate(0, -50%);
+      width: 30px;
+      height: 30px;
+    }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
-  & svg {
-    position: absolute;
-    width: 10%;
-    height: 36px;
+  & > .loginBtn.google {
+    background: ${(props) => props.theme.palette.red};
+  }
+
+  & > .loginBtn.github {
+    background: ${(props) => props.theme.palette.gray};
   }
 
   & > .signupBtn {
@@ -60,7 +88,6 @@ const ModalContent = styled.div`
       cursor: pointer;
     }
   }
-
   & > .info {
     a {
       color: ${(props) => props.theme.palette.red};
@@ -72,14 +99,7 @@ const ModalContent = styled.div`
 `;
 
 const SMdClose = styled(MdClose)`
-  position: absolute;
-  top: 20px;
-  right: 20px;
   cursor: pointer;
-`;
-
-const ButtonText = styled.span`
-  width: 100%;
 `;
 
 interface IProps {
@@ -95,23 +115,55 @@ const LoginAndSignUpModal = ({
   switchLoginSignup,
   isLogin,
 }: IProps) => {
+  const history = useHistory();
+  const SuccessGoogleLogin = (result: any) => {
+    const userEmail = result.profileObj.email;
+    const userGoogleID = result.googleId;
+    const GoogleTokenObj = result.tokenObj;
+    // token type, access_token, expires_at, expires_in, first_issued_at, id_token, idpId, login_hint
+    axios
+      .post(`${USER_SERVER}/login`, { email: userEmail })
+      .then((response) => {
+        if (response.data.success) {
+          onToggle(true);
+          window.localStorage.setItem('userId', response.data.userId);
+          window.location.href = '/';
+        } else {
+          onToggle(true);
+          history.push({
+            pathname: '/signup',
+            state: { email: userEmail },
+          });
+        }
+      });
+  };
+
   return (
     <ModalWrapper openLoginSignup={openLoginSignup}>
       <ModalContent>
         <SMdClose onClick={() => onToggle(true)} />
         <p className="modalTit">{isLogin ? '로그인' : '회원 가입하기'}</p>
-        <Button ButtonColor="darkblue" ButtonSize="xLarge" ButtonMode="active">
+        <GoogleLogin
+          clientId={GOOGLE_CLINET_ID}
+          onSuccess={SuccessGoogleLogin}
+          onFailure={(result) => console.log(result)}
+          cookiePolicy={'single_host_origin'}
+          style={{ display: 'none' }}
+          render={(renderProps) => (
+            <button className="loginBtn google" onClick={renderProps.onClick}>
+              <FaGoogle />
+              {isLogin ? (
+                <span>구글 계정으로 로그인하기</span>
+              ) : (
+                <span>구글 계정으로 가입하기</span>
+              )}
+            </button>
+          )}
+        />
+        <button className="loginBtn github">
           <FaGithub />
-          <ButtonText>
-            깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}
-          </ButtonText>
-        </Button>
-        <Button ButtonColor="red" ButtonSize="xLarge" ButtonMode="active">
-          <FaGoogle />
-          <ButtonText>
-            구글 계정으로 {isLogin ? '로그인' : '가입하기'}
-          </ButtonText>
-        </Button>
+          <span>깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
+        </button>
         {!isLogin && (
           <div className="info">
             소셜 로그인으로 가입 시 <a href="#">이용약관</a>,{' '}
