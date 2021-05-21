@@ -131,7 +131,7 @@ function Header() {
       setLoginSuccess(false);
     } else {
       setLoginSuccess(true);
-      axios.post('/api/users/info', { _id: userId }).then((response) => {
+      axios.post(`${USER_SERVER}/info`, { _id: userId }).then((response) => {
         if (response.data.success) {
           const user = response.data.user;
           const UserInfo = Object.assign({}, profileInfo);

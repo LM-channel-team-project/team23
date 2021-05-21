@@ -127,8 +127,7 @@ const LoginAndSignUpModal = ({
         if (response.data.success) {
           onToggle(true);
           window.localStorage.setItem('userId', response.data.userId);
-          console.log('로그인');
-          console.log(userEmail);
+          window.location.href = '/';
         } else {
           onToggle(true);
           history.push({

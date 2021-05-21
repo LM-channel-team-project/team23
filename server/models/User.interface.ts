@@ -15,7 +15,7 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   tel?: string;
-  join?: string;
+  join?: string[];
   role?: string[];
   portfolio?: string[];
   intro?: string;
