@@ -100,6 +100,7 @@ const Web = styled.div`
 
 function Header() {
   const [openLoginSignup, setOpenLoginSignup] = useState(false);
+  const [LoginSuccess, setLoginSuccess] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [profileInfo, setProfileInfo] = useState({
@@ -127,9 +128,9 @@ function Header() {
 
   useEffect(() => {
     if (userId === null) {
-      setIsLogin(false);
+      setLoginSuccess(false);
     } else {
-      setIsLogin(true);
+      setLoginSuccess(true);
       axios.post('/api/users/info', { _id: userId }).then((response) => {
         if (response.data.success) {
           const user = response.data.user;
@@ -158,7 +159,7 @@ function Header() {
           <AtagStyle to="/project">Project</AtagStyle>
           <AtagStyle to="/people">Co-Worker</AtagStyle>
         </MenuStyle>
-        {isLogin ? (
+        {LoginSuccess ? (
           <SigninStyle>
             <Button
               ButtonColor="orange"
