@@ -38,8 +38,7 @@ const Content = styled.form`
 const Section = styled.section`
   margin-bottom: 2rem;
   & select {
-    margin: 0;
-    margin-top: 0.6rem;
+    margin: 0.5rem 0;
   }
 `;
 const SectionTitle = styled.h3`
@@ -140,10 +139,8 @@ const SDatePicker = styled(DatePicker)`
 const RecruitWrapper = styled.div`
   display: flex;
   align-items: center;
-  & > select {
-    margin: 0;
-  }
 `;
+
 const CountWrapper = styled.div`
   justify-content: center;
   margin: 0 1.5rem;
@@ -155,16 +152,37 @@ const CountWrapper = styled.div`
     cursor: pointer;
   }
 `;
-const TwoBtnWrapper = styled.div``;
+
+const PosCount = styled.span`
+  margin: 0 1.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const PosCountBtn = styled.span`
+  user-select: none;
+`;
+
+const TwoBtnWrapper = styled.div`
+  & button {
+    margin-left: 0;
+  }
+`;
+
 const DateWrapper = styled.div``;
-const RefWrapper = styled.div``;
+const RefWrapper = styled.div`
+  & input {
+    margin-left: 0;
+  }
+`;
 
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [field, setField] = useState('');
   const [location, setLocation] = useState('');
-  const [pos, setPos] = useState('');
+  const [pos, setPos] = useState('level1');
   const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -293,25 +311,25 @@ function BuildProject() {
           <RecruitWrapper>
             <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
             <CountWrapper>
-              <i>-</i>
-              <span className="cnt">1</span>
-              <i>+</i>
+              <PosCountBtn>-</PosCountBtn>
+              <PosCount>1</PosCount>
+              <PosCountBtn>+</PosCountBtn>
             </CountWrapper>
-            <TwoBtnWrapper>
-              <Button
-                ButtonColor="darkblue"
-                ButtonMode="active"
-                ButtonSize="small"
-                ButtonName="삭제"
-              />
-              <Button
-                ButtonColor="white"
-                ButtonMode="active"
-                ButtonSize="small"
-                ButtonName="추가"
-              />
-            </TwoBtnWrapper>
           </RecruitWrapper>
+          <TwoBtnWrapper>
+            <Button
+              ButtonColor="darkblue"
+              ButtonMode="active"
+              ButtonSize="small"
+              ButtonName="삭제"
+            />
+            <Button
+              ButtonColor="white"
+              ButtonMode="active"
+              ButtonSize="small"
+              ButtonName="추가"
+            />
+          </TwoBtnWrapper>
         </Section>
         <Section>
           <SectionTitle>(필수) 요구레벨</SectionTitle>
