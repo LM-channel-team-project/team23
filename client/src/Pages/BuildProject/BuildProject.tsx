@@ -177,6 +177,19 @@ const RefWrapper = styled.div`
   }
 `;
 
+const ReferenceInput = styled.input.attrs({ type: 'text' })`
+  width: 600px;
+  height: 42px;
+  line-height: 0.5;
+  font: inherit;
+  font-size: 12px;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 3px;
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
+  color: ${(props) => props.theme.palette.black};
+`;
+
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
@@ -186,10 +199,35 @@ function BuildProject() {
   const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [referenceUrl, setReferenceUrl] = useState('');
+  const [referencesUrl, setReferencesUrl] = useState(['']);
 
   const handleClickRadioButton = (value: string) => setField(value);
 
+  const handleReferenceChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { value } = event.target;
+    const list = [...referencesUrl];
+    list[index] = value;
+    setReferencesUrl(list);
+  };
+
+  const handleReferenceAddClick = () => {
+    if (referencesUrl.length < 5) {
+      setReferencesUrl([...referencesUrl, '']);
+    }
+  };
+
+  const handleReferenceRemoveClick = () => {
+    if (referencesUrl.length !== 1) {
+      const list = [...referencesUrl];
+      list.splice(-1, 1);
+      setReferencesUrl(list);
+    }
+  };
+
+  console.log(referencesUrl);
   return (
     <>
       <Header>
@@ -375,25 +413,28 @@ function BuildProject() {
             등록해주세요.
           </SectionInfo>
           <RefWrapper>
-            <InputBox
-              InputBoxSize="xl"
-              InputBoxType="active"
-              placeholder="URL을 입력헤주세요"
-              value={referenceUrl}
-              SubmitValue={setReferenceUrl}
-            />
+            {referencesUrl.map((url, index) => (
+              <ReferenceInput
+                key={index}
+                placeholder="URL을 입력헤주세요"
+                value={url}
+                onChange={(event) => handleReferenceChange(event, index)}
+              />
+            ))}
             <TwoBtnWrapper>
               <Button
                 ButtonColor="darkblue"
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="삭제"
+                onClick={handleReferenceRemoveClick}
               />
               <Button
                 ButtonColor="white"
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="추가"
+                onClick={handleReferenceAddClick}
               />
             </TwoBtnWrapper>
           </RefWrapper>
