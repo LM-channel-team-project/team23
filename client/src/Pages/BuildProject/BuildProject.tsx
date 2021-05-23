@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaCamera } from 'react-icons/fa';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
-import { FieldData } from '../../Components/Common/OptionData';
+import { FieldData, PosData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
@@ -141,27 +141,42 @@ const RecruitWrapper = styled.div`
   align-items: center;
 `;
 
+const RecruitSelect = styled.select`
+  width: 200px;
+  height: 42px;
+  border-radius: 4px;
+  border: 1px solid ${(props) => props.theme.palette.lightGray};
+  padding-left: 20px;
+  margin-right: 15px;
+  font-size: 12px;
+`;
+
+const RecruitOption = styled.option`
+  text-align: center;
+  margin: 1.2rem;
+  color: ${(props) => props.theme.palette.gray};
+  padding: 0px 2px 1px;
+`;
+
 const CountWrapper = styled.div`
   justify-content: center;
   margin: 0 1.5rem;
   font-size: 20px;
-  & .cnt {
-    margin: 0 1.5rem;
-  }
-  & :not(.cnt):hover {
-    cursor: pointer;
-  }
 `;
 
 const PosCount = styled.span`
+  color: ${(props) => props.theme.palette.orange};
   margin: 0 1.5rem;
   &:hover {
     cursor: pointer;
   }
 `;
 
-const PosCountBtn = styled.span`
+const PosCountBtn = styled.button`
+  background: none;
+  border: none;
   user-select: none;
+  font-size: 20px;
 `;
 
 const TwoBtnWrapper = styled.div`
@@ -193,9 +208,9 @@ const ReferenceInput = styled.input.attrs({ type: 'text' })`
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
-  const [field, setField] = useState('');
+  const [field, setField] = useState('F1');
   const [location, setLocation] = useState('');
-  const [pos, setPos] = useState('level1');
+  const [positions, setPositions] = useState([{ pos: 'none', count: 1 }]);
   const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -227,6 +242,45 @@ function BuildProject() {
     }
   };
 
+  const handlePosSelectChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) => {
+    const { value } = event.target;
+    const newPositions = [...positions];
+    newPositions[index].pos = value;
+    setPositions(newPositions);
+  };
+
+  const handlePosCountClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+    const { innerText: type } = event.target as HTMLButtonElement;
+    const newPositions = [...positions];
+    if (type === '+') {
+      newPositions[index].count = newPositions[index].count + 1;
+    } else {
+      if (newPositions[index].count !== 1) {
+        newPositions[index].count = newPositions[index].count - 1;
+      }
+    }
+    setPositions(newPositions);
+  };
+
+  const addPosClickHandler = () => {
+    setPositions([...positions, { pos: 'none', count: 1 }]);
+  };
+
+  const removePosClickHandler = () => {
+    if (positions.length !== 1) {
+      const list = [...positions];
+      list.splice(-1, 1);
+      setPositions(list);
+    }
+  };
+  console.log(positions);
   return (
     <>
       <Header>
@@ -345,26 +399,44 @@ function BuildProject() {
           <SectionInfo>
             * 나중에 변경/추가가 가능합니다. 3~4명을 추천합니다.
           </SectionInfo>
-          <RecruitWrapper>
-            <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
-            <CountWrapper>
-              <PosCountBtn>-</PosCountBtn>
-              <PosCount>1</PosCount>
-              <PosCountBtn>+</PosCountBtn>
-            </CountWrapper>
-          </RecruitWrapper>
+          {positions.map((pos, index) => (
+            <RecruitWrapper key={index}>
+              <RecruitSelect
+                value={pos.pos}
+                onChange={(e) => handlePosSelectChange(e, index)}
+              >
+                {PosData.map((item, index) => (
+                  <RecruitOption key={index} value={item.value}>
+                    {item.label}
+                  </RecruitOption>
+                ))}
+              </RecruitSelect>
+              <CountWrapper>
+                <PosCountBtn onClick={(e) => handlePosCountClick(e, index)}>
+                  -
+                </PosCountBtn>
+                <PosCount>{pos.count}</PosCount>
+                <PosCountBtn onClick={(e) => handlePosCountClick(e, index)}>
+                  +
+                </PosCountBtn>
+              </CountWrapper>
+            </RecruitWrapper>
+          ))}
+
           <TwoBtnWrapper>
             <Button
               ButtonColor="darkblue"
               ButtonMode="active"
               ButtonSize="small"
               ButtonName="삭제"
+              onClick={removePosClickHandler}
             />
             <Button
               ButtonColor="white"
               ButtonMode="active"
               ButtonSize="small"
               ButtonName="추가"
+              onClick={addPosClickHandler}
             />
           </TwoBtnWrapper>
         </Section>
