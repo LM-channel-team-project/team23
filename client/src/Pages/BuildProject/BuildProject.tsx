@@ -223,9 +223,9 @@ function BuildProject() {
     index: number
   ) => {
     const { value } = event.target;
-    const list = [...referencesUrl];
-    list[index] = value;
-    setReferencesUrl(list);
+    const newReferences = [...referencesUrl];
+    newReferences[index] = value;
+    setReferencesUrl(newReferences);
   };
 
   const handleReferenceAddClick = () => {
@@ -236,9 +236,9 @@ function BuildProject() {
 
   const handleReferenceRemoveClick = () => {
     if (referencesUrl.length !== 1) {
-      const list = [...referencesUrl];
-      list.splice(-1, 1);
-      setReferencesUrl(list);
+      const newReferences = [...referencesUrl];
+      newReferences.splice(-1, 1);
+      setReferencesUrl(newReferences);
     }
   };
 
@@ -275,12 +275,12 @@ function BuildProject() {
 
   const removePosClickHandler = () => {
     if (positions.length !== 1) {
-      const list = [...positions];
-      list.splice(-1, 1);
-      setPositions(list);
+      const newPositons = [...positions];
+      newPositons.splice(-1, 1);
+      setPositions(newPositons);
     }
   };
-  console.log(positions);
+
   return (
     <>
       <Header>
