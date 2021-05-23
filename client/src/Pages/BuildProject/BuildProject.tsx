@@ -227,7 +227,6 @@ function BuildProject() {
     }
   };
 
-  console.log(referencesUrl);
   return (
     <>
       <Header>
