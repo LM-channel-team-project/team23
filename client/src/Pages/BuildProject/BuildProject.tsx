@@ -7,6 +7,7 @@ import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
 import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
+import CReferenceInput from '../../Components/BuildProject/ReferenceInput';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -150,19 +151,6 @@ const RefWrapper = styled.div`
   }
 `;
 
-const ReferenceInput = styled.input.attrs({ type: 'text' })`
-  width: 600px;
-  height: 42px;
-  line-height: 0.5;
-  font: inherit;
-  font-size: 12px;
-  padding: 1rem;
-  margin: 0.5rem;
-  border-radius: 3px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  color: ${(props) => props.theme.palette.black};
-`;
-
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
@@ -186,16 +174,6 @@ function BuildProject() {
       newPositons.splice(-1, 1);
       setPositions(newPositons);
     }
-  };
-
-  const handleReferenceChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const { value } = event.target;
-    const newReferences = [...referencesUrl];
-    newReferences[index] = value;
-    setReferencesUrl(newReferences);
   };
 
   const handleReferenceAddClick = () => {
@@ -401,11 +379,13 @@ function BuildProject() {
           </SectionInfo>
           <RefWrapper>
             {referencesUrl.map((url, index) => (
-              <ReferenceInput
+              <CReferenceInput
                 key={index}
-                placeholder="URL을 입력헤주세요"
+                placeholder={'URL을 입력해주세요'}
+                referencesUrl={referencesUrl}
                 value={url}
-                onChange={(event) => handleReferenceChange(event, index)}
+                submitValue={setReferencesUrl}
+                index={index}
               />
             ))}
             <TwoBtnWrapper>
