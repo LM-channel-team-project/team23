@@ -7,7 +7,7 @@ import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
 import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
-import CReferenceInput from '../../Components/BuildProject/ReferenceInput';
+import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -379,7 +379,7 @@ function BuildProject() {
           </SectionInfo>
           <RefWrapper>
             {referencesUrl.map((url, index) => (
-              <CReferenceInput
+              <ReferenceInput
                 key={index}
                 placeholder={'URL을 입력해주세요'}
                 referencesUrl={referencesUrl}
