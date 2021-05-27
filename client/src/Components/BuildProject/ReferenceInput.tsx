@@ -38,10 +38,9 @@ const ReferenceInput = ({
     newReferences[index] = value;
     submitValue(newReferences);
   };
-  console.log(referencesUrl);
+
   return (
     <Input
-      key={index}
       placeholder={placeholder}
       value={value}
       onChange={(event) => handleReferenceChange(event, index)}
