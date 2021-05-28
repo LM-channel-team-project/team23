@@ -71,7 +71,7 @@ const InputBox: React.FC<IProps> = ({
       SizeType={InputBoxSize}
       ModeType={InputBoxType}
       placeholder={placeholder}
-      value={inputValue}
+      value={inputValue || ''}
       onChange={handleChangeInput}
     />
   );
