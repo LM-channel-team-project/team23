@@ -263,7 +263,7 @@ function ProfilePage() {
             <h3>관심 분야</h3>
             <InputArea>
               <TagInput
-                placeholder="ex) react, vue ..."
+                placeholder="ex) #react, #vue ..."
                 value={interest}
                 SubmitValue={setInterest}
               />
