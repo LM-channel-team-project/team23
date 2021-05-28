@@ -176,13 +176,13 @@ function BuildProject() {
     }
   };
 
-  const handleReferenceAddClick = () => {
+  const handleAddReferenceClick = () => {
     if (referencesUrl.length < 5) {
       setReferencesUrl([...referencesUrl, '']);
     }
   };
 
-  const handleReferenceRemoveClick = () => {
+  const handleDeleteReferenceClick = () => {
     if (referencesUrl.length !== 1) {
       const newReferences = [...referencesUrl];
       newReferences.splice(-1, 1);
@@ -394,14 +394,14 @@ function BuildProject() {
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="삭제"
-                onClick={handleReferenceRemoveClick}
+                onClick={handleDeleteReferenceClick}
               />
               <Button
                 ButtonColor="white"
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="추가"
-                onClick={handleReferenceAddClick}
+                onClick={handleAddReferenceClick}
               />
             </TwoBtnWrapper>
           </RefWrapper>
