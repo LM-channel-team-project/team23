@@ -17,6 +17,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('profileImg');
 
+//api/users?page=1
+router.get("/", (req: Request, res: Response) => {
+  const page = req.query.page
+})
+
 router.post("/nickname", (req: Request, res: Response) => {
   User.findOne({nickname : req.body.nickname}, (err: Error, user:IUserMethods) => {
     if(err){
