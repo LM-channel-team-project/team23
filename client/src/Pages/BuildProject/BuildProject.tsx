@@ -6,6 +6,8 @@ import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
+import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
+import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -38,8 +40,7 @@ const Content = styled.form`
 const Section = styled.section`
   margin-bottom: 2rem;
   & select {
-    margin: 0;
-    margin-top: 0.6rem;
+    margin: 0.5rem 0;
   }
 `;
 const SectionTitle = styled.h3`
@@ -137,40 +138,57 @@ const SDatePicker = styled(DatePicker)`
   font-size: 12px;
 `;
 
-const RecruitWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  & > select {
-    margin: 0;
+const TwoBtnWrapper = styled.div`
+  & button {
+    margin-left: 0;
   }
 `;
-const CountWrapper = styled.div`
-  justify-content: center;
-  margin: 0 1.5rem;
-  font-size: 20px;
-  & .cnt {
-    margin: 0 1.5rem;
-  }
-  & :not(.cnt):hover {
-    cursor: pointer;
-  }
-`;
-const TwoBtnWrapper = styled.div``;
+
 const DateWrapper = styled.div``;
-const RefWrapper = styled.div``;
+const RefWrapper = styled.div`
+  & input {
+    margin-left: 0;
+  }
+`;
 
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
-  const [field, setField] = useState('');
+  const [field, setField] = useState('F1');
   const [location, setLocation] = useState('');
-  const [pos, setPos] = useState('');
+  const [positions, setPositions] = useState([{ pos: 'none', count: 1 }]);
   const [level, setLevel] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [referenceUrl, setReferenceUrl] = useState('');
+  const [referencesUrl, setReferencesUrl] = useState(['']);
 
   const handleClickRadioButton = (value: string) => setField(value);
+
+  const handleAddPosClick = () => {
+    setPositions([...positions, { pos: 'none', count: 1 }]);
+  };
+
+  const handleDeletePosClick = () => {
+    if (positions.length !== 1) {
+      const newPositons = [...positions];
+      newPositons.splice(-1, 1);
+      setPositions(newPositons);
+    }
+  };
+
+  const handleAddReferenceClick = () => {
+    if (referencesUrl.length < 5) {
+      setReferencesUrl([...referencesUrl, '']);
+    }
+  };
+
+  const handleDeleteReferenceClick = () => {
+    if (referencesUrl.length !== 1) {
+      const newReferences = [...referencesUrl];
+      newReferences.splice(-1, 1);
+      setReferencesUrl(newReferences);
+    }
+  };
 
   return (
     <>
@@ -290,28 +308,31 @@ function BuildProject() {
           <SectionInfo>
             * 나중에 변경/추가가 가능합니다. 3~4명을 추천합니다.
           </SectionInfo>
-          <RecruitWrapper>
-            <SelectBox Mode="pos" DefaultValue={pos} SubmitValue={setPos} />
-            <CountWrapper>
-              <i>-</i>
-              <span className="cnt">1</span>
-              <i>+</i>
-            </CountWrapper>
-            <TwoBtnWrapper>
-              <Button
-                ButtonColor="darkblue"
-                ButtonMode="active"
-                ButtonSize="small"
-                ButtonName="삭제"
-              />
-              <Button
-                ButtonColor="white"
-                ButtonMode="active"
-                ButtonSize="small"
-                ButtonName="추가"
-              />
-            </TwoBtnWrapper>
-          </RecruitWrapper>
+          {positions.map((pos, index) => (
+            <RecruitSelect
+              key={index}
+              positions={positions}
+              value={pos}
+              submitValue={setPositions}
+              index={index}
+            />
+          ))}
+          <TwoBtnWrapper>
+            <Button
+              ButtonColor="darkblue"
+              ButtonMode="active"
+              ButtonSize="small"
+              ButtonName="삭제"
+              onClick={handleDeletePosClick}
+            />
+            <Button
+              ButtonColor="white"
+              ButtonMode="active"
+              ButtonSize="small"
+              ButtonName="추가"
+              onClick={handleAddPosClick}
+            />
+          </TwoBtnWrapper>
         </Section>
         <Section>
           <SectionTitle>(필수) 요구레벨</SectionTitle>
@@ -357,25 +378,30 @@ function BuildProject() {
             등록해주세요.
           </SectionInfo>
           <RefWrapper>
-            <InputBox
-              InputBoxSize="xl"
-              InputBoxType="active"
-              placeholder="URL을 입력헤주세요"
-              value={referenceUrl}
-              SubmitValue={setReferenceUrl}
-            />
+            {referencesUrl.map((url, index) => (
+              <ReferenceInput
+                key={index}
+                placeholder={'URL을 입력해주세요'}
+                referencesUrl={referencesUrl}
+                value={url}
+                submitValue={setReferencesUrl}
+                index={index}
+              />
+            ))}
             <TwoBtnWrapper>
               <Button
                 ButtonColor="darkblue"
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="삭제"
+                onClick={handleDeleteReferenceClick}
               />
               <Button
                 ButtonColor="white"
                 ButtonMode="active"
                 ButtonSize="small"
                 ButtonName="추가"
+                onClick={handleAddReferenceClick}
               />
             </TwoBtnWrapper>
           </RefWrapper>

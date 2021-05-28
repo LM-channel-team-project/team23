@@ -161,13 +161,14 @@ function Header() {
         </MenuStyle>
         {LoginSuccess ? (
           <SigninStyle>
-            <Button
-              ButtonColor="orange"
-              ButtonMode="active"
-              ButtonName="프로젝트 생성"
-              ButtonSize="large"
-              onClick={() => (window.location.href = '/BuildProject')}
-            />
+            <Link to="/BuildProject">
+              <Button
+                ButtonColor="orange"
+                ButtonMode="active"
+                ButtonName="프로젝트 생성"
+                ButtonSize="large"
+              />
+            </Link>
             <UserImg
               src={profileInfo.avartarImg}
               alt="Avatar"
