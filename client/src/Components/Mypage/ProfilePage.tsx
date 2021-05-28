@@ -6,6 +6,7 @@ import SelectBox from '../Common/SelectBox';
 import Button from '../Common/Button';
 import InputBox from '../Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
+import TagInput from './TagInput';
 
 const Container = styled.div`
   width: 95%;
@@ -109,7 +110,7 @@ function ProfilePage() {
   const [nickname, setNickname] = useState('');
   const [tel, setTel] = useState('');
   const [pos, setPos] = useState('');
-  const [interest, setInterest] = useState('');
+  const [interest, setInterest] = useState<string[]>([]);
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
   const [availableLocation, setAvailableLocation] = useState('');
@@ -222,7 +223,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="disabled"
               SubmitValue={setEmail}
-              value={email}
+              value={email || ''}
               readOnly
             />
           </RowArea>
@@ -231,7 +232,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="disabled"
               SubmitValue={setNickname}
-              value={nickname}
+              value={nickname || ''}
               readOnly
             />
           </RowCenterArea>
@@ -240,7 +241,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="active"
               SubmitValue={setTel}
-              value={tel}
+              value={tel || ''}
               placeholder="010-1122-3344"
             />
           </RowArea>
@@ -261,10 +262,8 @@ function ProfilePage() {
           <RowArea>
             <h3>관심 분야</h3>
             <InputArea>
-              <InputBox
-                InputBoxSize="l"
-                InputBoxType="active"
-                placeholder="ex) react, vue ..."
+              <TagInput
+                placeholder="ex) #react, #vue ..."
                 value={interest}
                 SubmitValue={setInterest}
               />

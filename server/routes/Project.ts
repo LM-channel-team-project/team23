@@ -8,26 +8,26 @@ const { UserRole } = require('../models/UserRole');
 import { IUserRole } from "../models/UserRole.interface";
 
 const storage = multer.diskStorage({
-  destination: (req: Request, file:any, cb: Function) => {
-      cb(null, 'uploads/projects')
+  destination: (req: Request, file: any, cb: Function) => {
+    cb(null, 'uploads/projects');
   },
-  filename: (req: Request, file:any, cb: Function) =>{
-      cb(null, `${Date.now()}_${file.originalname}`)
+  filename: (req: Request, file: any, cb: Function) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
   },
 });
 
 const upload = multer({ storage: storage }).single('projectImg');
 
-router.post("/updateImg",(req: Request, res: Response) => {
+router.post('/updateImg', (req: Request, res: Response) => {
   upload(req, res, (err: Error) => {
-    if(err){
+    if (err) {
       return res.json({ success: false, err });
-    };
+    }
     return res.status(200).json({
       success: true,
       filePath: req.file.path,
-    })
-  })
+    });
+  });
 });
 
 router.post("/buildProject", (req: Request, res: Response) => {

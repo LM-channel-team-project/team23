@@ -8,12 +8,12 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 app.use(cookieParser());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 const fs = require('fs');
 
-app.get('/',(req:express.Request, res: express.Response)=>{
-    res.send('hello typescript!');
+app.get('/', (req: express.Request, res: express.Response) => {
+  res.send('hello typescript!');
 });
 
 const UserRouter = require('./routes/User');
@@ -31,5 +31,5 @@ app.use('/api/alarm', AlarmRouter);
 app.use('/uploads', express.static('uploads'));
 
 app.listen(SERVER_PORT, () => {
-    console.log(`Server listnening on ${SERVER_PORT}`);
+  console.log(`Server listnening on ${SERVER_PORT}`);
 });
