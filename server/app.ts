@@ -18,8 +18,16 @@ app.get('/', (req: express.Request, res: express.Response) => {
 
 const UserRouter = require('./routes/User');
 const ProjectRouter = require('./routes/Project');
+const ManageProjectRouter = require('./routes/ManageProject');
+const LikeRouter = require('./routes/Like');
+const CommentRouter = require('./routes/Comment');
+const AlarmRouter = require('./routes/Alarm');
 app.use('/api/users', UserRouter);
 app.use('/api/project', ProjectRouter);
+app.use('/api/manage', ManageProjectRouter);
+app.use('/api/like', LikeRouter);
+app.use('/api/comment', CommentRouter);
+app.use('/api/alarm', AlarmRouter);
 app.use('/uploads', express.static('uploads'));
 
 app.listen(SERVER_PORT, () => {
