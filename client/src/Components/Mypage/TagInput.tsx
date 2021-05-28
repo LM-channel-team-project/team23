@@ -27,8 +27,8 @@ const Input = styled.input`
 
 interface IProps {
   placeholder?: string;
-  value: string;
-  SubmitValue: React.Dispatch<React.SetStateAction<string>>;
+  value: string[];
+  SubmitValue: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 interface IState {
@@ -39,7 +39,7 @@ interface IState {
 
 function TagInput({ placeholder, value, SubmitValue }: IProps) {
   const [state, setState] = useState<IState>({
-    items: value ? value.split(',') : [],
+    items: value,
     focused: false,
     input: '',
   });
@@ -56,9 +56,7 @@ function TagInput({ placeholder, value, SubmitValue }: IProps) {
           items: [...prev.items, value],
           input: '',
         }));
-        SubmitValue((prev) =>
-          prev.length ? prev + ',' + value : prev + value
-        );
+        SubmitValue((prev) => [...prev, value]);
       }
     }
     if (state.items.length && e.key === 'Backspace' && !state.input.length) {
@@ -66,13 +64,7 @@ function TagInput({ placeholder, value, SubmitValue }: IProps) {
         ...prev,
         items: prev.items.slice(0, state.items.length - 1),
       }));
-      SubmitValue((prev) => {
-        if (prev.length) {
-          const tmp = prev.split(',');
-          return tmp.slice(0, tmp.length - 1).join();
-        }
-        return '';
-      });
+      SubmitValue((prev) => prev.slice(0, prev.length - 1));
     }
   };
   const handleRemoveItem = (idx: number) => {
@@ -81,14 +73,7 @@ function TagInput({ placeholder, value, SubmitValue }: IProps) {
         ...prev,
         items: prev.items.filter((item, i) => i !== idx),
       }));
-      SubmitValue((prev) =>
-        prev.length
-          ? prev
-              .split(',')
-              .filter((item, i) => i !== idx)
-              .join()
-          : ''
-      );
+      SubmitValue((prev) => prev.filter((item, i) => i !== idx));
     };
   };
 

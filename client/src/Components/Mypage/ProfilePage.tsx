@@ -110,7 +110,7 @@ function ProfilePage() {
   const [nickname, setNickname] = useState('');
   const [tel, setTel] = useState('');
   const [pos, setPos] = useState('');
-  const [interest, setInterest] = useState(''); //format: '#react,#vue'
+  const [interest, setInterest] = useState<string[]>([]);
   const [level, setLevel] = useState('');
   const [levelText, setLevelText] = useState('');
   const [availableLocation, setAvailableLocation] = useState('');
