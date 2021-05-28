@@ -222,7 +222,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="disabled"
               SubmitValue={setEmail}
-              value={email}
+              value={email || ''}
               readOnly
             />
           </RowArea>
@@ -231,7 +231,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="disabled"
               SubmitValue={setNickname}
-              value={nickname}
+              value={nickname || ''}
               readOnly
             />
           </RowCenterArea>
@@ -240,7 +240,7 @@ function ProfilePage() {
               InputBoxSize="m"
               InputBoxType="active"
               SubmitValue={setTel}
-              value={tel}
+              value={tel || ''}
               placeholder="010-1122-3344"
             />
           </RowArea>
@@ -265,7 +265,7 @@ function ProfilePage() {
                 InputBoxSize="l"
                 InputBoxType="active"
                 placeholder="ex) react, vue ..."
-                value={interest}
+                value={interest || ''}
                 SubmitValue={setInterest}
               />
             </InputArea>
