@@ -6,6 +6,7 @@ import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
 import SelectBox from '../../Components/Common/SelectBox';
 import InputBox from '../../Components/Common/InputBox';
+import DescriptionInput from '../../Components/BuildProject/DescriptionInput';
 import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
 import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
 import DatePicker from 'react-datepicker';
@@ -98,15 +99,6 @@ const ProjectImageAltImage = styled.img`
     border: 1px solid ${(props) => props.theme.palette.orange};
   }
 `;
-const ProjectExplain = styled.textarea`
-  margin-top: 1.5rem;
-  width: 960px;
-  min-height: 620px;
-  resize: vertical;
-`;
-const ProjectExplainBtnWrapper = styled.div`
-  margin-top: 1.5rem;
-`;
 
 const FieldWrapper = styled.div`
   margin: 1.5rem 0;
@@ -154,6 +146,7 @@ const RefWrapper = styled.div`
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
+  const [description, setDescription] = useState('');
   const [field, setField] = useState('F1');
   const [location, setLocation] = useState('');
   const [positions, setPositions] = useState([{ pos: 'none', count: 1 }]);
@@ -260,21 +253,7 @@ function BuildProject() {
             * 설명이 풍부한 프로젝트는, 아닌 프로젝트에 비해 지원률이 50%
             높습니다.
           </SectionInfo>
-          <ProjectExplain />
-          <ProjectExplainBtnWrapper>
-            <Button
-              ButtonColor="lightGray"
-              ButtonSize="medium"
-              ButtonMode="active"
-              ButtonName="초기화"
-            />
-            <Button
-              ButtonColor="red"
-              ButtonSize="medium"
-              ButtonMode="active"
-              ButtonName="입력칸만"
-            />
-          </ProjectExplainBtnWrapper>
+          <DescriptionInput value={description} submitValue={setDescription} />
         </Section>
         <Section>
           <SectionTitle>(필수) 프로젝트 분야</SectionTitle>
