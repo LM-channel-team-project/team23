@@ -196,8 +196,8 @@ function BuildProject() {
 
   const submitThumbnailFile = () => {
     return new Promise((resolve, reject) => {
-      const thumbnailFormData = new FormData();
       if (thumbImageFile) {
+        const thumbnailFormData = new FormData();
         thumbnailFormData.append('projectImg', thumbImageFile);
         axios
           .post('/api/project/updateImg', thumbnailFormData, {
