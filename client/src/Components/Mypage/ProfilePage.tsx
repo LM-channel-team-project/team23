@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ImgInfo from './ImgInfo';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import Button from '../Common/Button';
 import InputBox from '../Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
 import TagInput from './TagInput';
+import PortfolioInput from './PortfolioInput';
 
 const Container = styled.div`
   width: 95%;
@@ -41,7 +42,6 @@ const RowCenterArea = styled.div`
     font-size: 12px;
     width: 120px;
     line-height: 1.5;
-    padding-top: 1rem;
     margin-top: 1rem;
   }
   input {
@@ -117,11 +117,9 @@ function ProfilePage() {
   const [availableWeek, setAvailableWeek] = useState('');
   const [availableTime, setAvailableTime] = useState('');
   const [avartarImg, setAvartarImg] = useState<null | File>(null);
-  const [url, setUrl] = useState('');
-  const [portfolioes, setPortfolioes] = useState([{ id: 1, url: '' }]);
+  const [portfolioes, setPortfolioes] = useState(['']);
   const [intro, setIntro] = useState('');
 
-  const nextId = useRef(0);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -137,12 +135,7 @@ function ProfilePage() {
         setEmail(user.email);
         setIntro(user.intro);
         setNickname(user.nickname);
-        const urls = user.portfolio;
-        setPortfolioes(
-          urls.map((item: string, index: number) => {
-            return { id: index, url: item };
-          })
-        );
+        setPortfolioes(user.portfolio);
         setPos(user.position);
         setLevel(user.positionLevel);
         setTel(user.tel);
@@ -152,8 +145,6 @@ function ProfilePage() {
     });
   }, []);
 
-  nextId.current += portfolioes.length;
-
   useEffect(() => {
     const Item = LevelData.find((item) => item.value === level && item);
     {
@@ -161,22 +152,21 @@ function ProfilePage() {
     }
   }, [level]);
 
-  const CreateBox = () => {
-    const URL = {
-      id: nextId.current,
-      url: url,
-    };
-    setPortfolioes(portfolioes.concat(URL));
-    setUrl('');
-    nextId.current += 1;
-  };
-
   const handleChangeIntro = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setIntro(event.currentTarget.value);
   };
 
+  const handleAddPortfolioClick = () => {
+    setPortfolioes([...portfolioes, '']);
+  };
+
+  const handleDeletePortfolioClick = () => {
+    const newPortfolioes = [...portfolioes];
+    newPortfolioes.splice(-1, 1);
+    setPortfolioes(newPortfolioes);
+  };
+
   const onSubmit = () => {
-    const urls = portfolioes.map((item, index) => item.url);
     const formData = new FormData();
     if (avartarImg) {
       formData.append('profileImg', avartarImg);
@@ -197,7 +187,7 @@ function ProfilePage() {
             availableWeek: availableWeek,
             availableTime: availableTime,
             avartarImg: FilePath,
-            portfolio: urls,
+            portfolio: portfolioes,
             intro: intro,
           };
           axios.post('/api/users/update', formdata).then((response) => {
@@ -305,27 +295,37 @@ function ProfilePage() {
           <RowCenterArea>
             <h3>포트폴리오</h3>
             <PortFolioArea>
-              {portfolioes.map((item, index) => {
+              {portfolioes.map((url, index) => {
                 return (
-                  <div key={index}>
-                    <InputBox
-                      InputBoxSize="xl"
-                      InputBoxType="active"
-                      placeholder="URL을 입력헤주세요"
-                      value={item.url}
-                      SubmitValue={setUrl}
-                    />
-                  </div>
+                  <PortfolioInput
+                    key={index}
+                    placeholder="URL을 입력해주세요."
+                    portfolioes={portfolioes}
+                    value={url}
+                    submitValue={setPortfolioes}
+                    index={index}
+                  />
                 );
               })}
             </PortFolioArea>
-            <Button
-              ButtonColor="darkblue"
-              ButtonSize="small"
-              ButtonName="추가"
-              ButtonMode="active"
-              onClick={CreateBox}
-            />
+            {portfolioes.length < 5 && (
+              <Button
+                ButtonColor="darkblue"
+                ButtonSize="small"
+                ButtonName="추가"
+                ButtonMode="active"
+                onClick={handleAddPortfolioClick}
+              />
+            )}
+            {portfolioes.length !== 1 && (
+              <Button
+                ButtonColor="orange"
+                ButtonSize="small"
+                ButtonName="삭제"
+                ButtonMode="active"
+                onClick={handleDeletePortfolioClick}
+              />
+            )}
           </RowCenterArea>
         </InfoArea>
         <ButtonArea>
