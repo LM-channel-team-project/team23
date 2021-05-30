@@ -383,7 +383,7 @@ function BuildProject() {
             <SDatePicker
               locale={ko}
               dateFormat="yyyy년 MM월 dd일"
-              selected={endDate}
+              selected={startDate > endDate ? startDate : endDate}
               onChange={(date: Date) => setEndDate(date)}
               selectsEnd
               startDate={startDate}
