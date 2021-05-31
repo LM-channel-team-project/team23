@@ -206,6 +206,8 @@ function BuildProject() {
           .then((response) => {
             if (response.data.success) {
               resolve(response.data.filePath);
+            } else {
+              reject(response.data.err);
             }
           });
       }
@@ -214,21 +216,24 @@ function BuildProject() {
 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    let thumbnailPath: unknown | string;
-    if (thumbImageFile) {
-      thumbnailPath = await submitThumbnailFile();
+    try {
+      let thumbnailPath: unknown | string;
+      if (thumbImageFile) {
+        thumbnailPath = await submitThumbnailFile();
+      }
+      // const formData = {
+      //   title: projectTitle,
+      //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+      //   // ... (전송데이터들 작성)
+      // };
+
+      // axios.post('/api/project/buildProject', formData)
+      // .then(response=>)
+      alert('작성 완료');
+    } catch (error) {
+      alert(`오류가 발생했습니다. ${error}`);
+      window.location.reload();
     }
-
-    // const formData = {
-    //   title: projectTitle,
-    //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
-    //   // ... (전송데이터들 작성)
-    // };
-
-    // axios.post('/api/project/buildProject', formData)
-    // .then(response=>)
-
-    alert('작성 완료');
   };
 
   return (
