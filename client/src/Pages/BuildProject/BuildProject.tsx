@@ -231,7 +231,7 @@ function BuildProject() {
       // .then(response=>)
       alert('작성 완료');
     } catch (error) {
-      alert(`오류가 발생했습니다. ${error}`);
+      alert(`오류가 발생했습니다. ${JSON.stringify(error)}`);
       window.location.reload();
     }
   };
