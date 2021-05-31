@@ -105,10 +105,18 @@ router.post("/updateImg",(req: Request, res: Response) => {
     if(err){
       return res.json({ success: false, err });
     };
-    return res.status(200).json({
-      success: true,
-      filePath: req.file.path,
-    })
+    if(req.file){
+      return res.status(200).json({
+        success: true,
+        filePath: req.file.path,
+      })
+    }else{
+      return res.status(200).json({
+        success: true,
+        filePath: req.body.avartarImg
+      })
+    }
+    
   })
 });
 
