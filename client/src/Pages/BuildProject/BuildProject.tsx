@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaCamera } from 'react-icons/fa';
+import axios from 'axios';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
@@ -12,6 +12,7 @@ import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
+import ImgUploadBtn from '../../Components/BuildProject/ImgUploadBtn';
 
 const Header = styled.div`
   width: 100%;
@@ -77,7 +78,9 @@ const ProjectThumbnail = styled.img`
 `;
 
 const UploadWrapper = styled.div`
-  padding-top: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const ProjectImageAltInfo = styled.p`
@@ -145,17 +148,25 @@ const RefWrapper = styled.div`
 
 function BuildProject() {
   const [projectTitle, setProjectTitle] = useState('');
-  const [thumbnail, setThumbnail] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState(sampleImages[0].url);
+  const [thumbImageFile, setThumbnailFile] = useState<null | File>(null);
   const [description, setDescription] = useState('');
   const [field, setField] = useState('F1');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('A0');
   const [positions, setPositions] = useState([{ pos: 'none', count: 1 }]);
-  const [level, setLevel] = useState('');
+  const [level, setLevel] = useState('level1');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
 
   const handleClickRadioButton = (value: string) => setField(value);
+
+  const handleSapmleImgClick = (url: string) => {
+    if (thumbImageFile) {
+      setThumbnailFile(null);
+    }
+    setThumbnailUrl(url);
+  };
 
   const handleAddPosClick = () => {
     setPositions([...positions, { pos: 'none', count: 1 }]);
@@ -180,6 +191,48 @@ function BuildProject() {
       const newReferences = [...referencesUrl];
       newReferences.splice(-1, 1);
       setReferencesUrl(newReferences);
+    }
+  };
+
+  const submitThumbnailFile = () => {
+    return new Promise((resolve, reject) => {
+      if (thumbImageFile) {
+        const thumbnailFormData = new FormData();
+        thumbnailFormData.append('projectImg', thumbImageFile);
+        axios
+          .post('/api/project/updateImg', thumbnailFormData, {
+            headers: { 'content-type': 'multipart/form-data' },
+          })
+          .then((response) => {
+            if (response.data.success) {
+              resolve(response.data.filePath);
+            } else {
+              reject(response.data.err);
+            }
+          });
+      }
+    });
+  };
+
+  const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    try {
+      let thumbnailPath: unknown | string;
+      if (thumbImageFile) {
+        thumbnailPath = await submitThumbnailFile();
+      }
+      // const formData = {
+      //   title: projectTitle,
+      //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+      //   // ... (전송데이터들 작성)
+      // };
+
+      // axios.post('/api/project/buildProject', formData)
+      // .then(response=>)
+      alert('작성 완료');
+    } catch (error) {
+      alert(`오류가 발생했습니다. ${JSON.stringify(error)}`);
+      window.location.reload();
     }
   };
 
@@ -212,18 +265,12 @@ function BuildProject() {
           </SectionInfo>
           <ProjectImageWrapper>
             <ProjectImage>
-              {thumbnail.length > 0 ? (
-                <ProjectThumbnail src={thumbnail} alt="prjoect_thumb" />
-              ) : (
-                <FaCamera />
-              )}
+              <ProjectThumbnail src={thumbnailUrl} alt="prjoect_thumb" />
             </ProjectImage>
             <UploadWrapper>
-              <Button
-                ButtonColor="white"
-                ButtonMode="active"
-                ButtonSize="medium"
-                ButtonName="이미지 업로드"
+              <ImgUploadBtn
+                submitUrl={setThumbnailUrl}
+                submitFile={setThumbnailFile}
               />
               <SectionInfo>
                 * 가로/세로의 비율이 2:1일 때 썸네일이 가장 예쁩니다.
@@ -242,7 +289,7 @@ function BuildProject() {
                 key={image.alt}
                 src={image.url}
                 alt={image.alt}
-                onClick={() => setThumbnail(image.url)}
+                onClick={() => handleSapmleImgClick(image.url)}
               />
             ))}
           </ProjectImageAltWrapper>
@@ -341,7 +388,7 @@ function BuildProject() {
             <SDatePicker
               locale={ko}
               dateFormat="yyyy년 MM월 dd일"
-              selected={endDate}
+              selected={startDate > endDate ? startDate : endDate}
               onChange={(date: Date) => setEndDate(date)}
               selectsEnd
               startDate={startDate}
@@ -390,6 +437,7 @@ function BuildProject() {
           ButtonMode="active"
           ButtonSize="medium"
           ButtonName="작성 완료"
+          onClick={onSubmit}
         />
       </Content>
     </>
