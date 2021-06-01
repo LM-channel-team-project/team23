@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import { USER_SERVER } from '../../Config';
 import { GoogleLogout } from 'react-google-login';
@@ -171,22 +171,33 @@ const NewNoticeContent = styled.div`
   }
 `;
 
-interface Iprops {
+interface Iprops extends RouteComponentProps {
   name: string;
   level: string;
   pos: string;
   alarm: Array<string>;
   join: string;
   avartarImg: string;
+  setLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ProfileModal({ name, level, pos, alarm, join, avartarImg }: Iprops) {
+function ProfileModal({
+  name,
+  level,
+  pos,
+  alarm,
+  join,
+  avartarImg,
+  history,
+  setLoginSuccess,
+}: Iprops) {
   const LogoutButton = () => {
     localStorage.removeItem('userId');
     axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.data.success) {
         alert('로그아웃 되었습니다.');
-        window.location.href = '/';
+        setLoginSuccess(false);
+        history.push('/');
       } else {
         alert('다시 시도해주세요.');
       }
@@ -257,4 +268,4 @@ function ProfileModal({ name, level, pos, alarm, join, avartarImg }: Iprops) {
   );
 }
 
-export default ProfileModal;
+export default withRouter(ProfileModal);

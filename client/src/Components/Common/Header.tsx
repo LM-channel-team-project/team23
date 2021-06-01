@@ -109,8 +109,11 @@ function Header() {
     level: '',
     join: '',
     alarm: [''],
-    avartarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+    avartarImg:
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
   });
+  // const [userId, setUserId] = useState(localStorage.getItem('userId'));
+
   // api/user/info 에서 name, pos, level 값 가져오기
   // api/alarm 에서 get 방식으로 (token으로) 해당 되는 알람정보 받아오기
   // pai/project/FindMyProject 으로 (token으로) 자신이 생성한 프로젝트 가져오기
@@ -124,13 +127,17 @@ function Header() {
     setOpenLoginSignup((open) => !open);
   };
 
-  const userId = localStorage.getItem('userId');
+  // const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    if (userId === null) {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
       setLoginSuccess(false);
     } else {
       setLoginSuccess(true);
+    }
+    if (LoginSuccess) {
+      setOpenProfile(false);
       axios.post(`${USER_SERVER}/info`, { _id: userId }).then((response) => {
         if (response.data.success) {
           const user = response.data.user;
@@ -147,7 +154,7 @@ function Header() {
         }
       });
     }
-  }, [userId]);
+  }, [LoginSuccess]);
 
   return (
     <HeaderStyle>
@@ -182,6 +189,7 @@ function Header() {
                 alarm={profileInfo.alarm}
                 join={profileInfo.join}
                 avartarImg={profileInfo.avartarImg}
+                setLoginSuccess={setLoginSuccess}
               />
             )}
           </SigninStyle>
@@ -197,6 +205,7 @@ function Header() {
               onToggle={onToggle}
               switchLoginSignup={switchLoginSignup}
               isLogin={isLogin}
+              setLoginSuccess={setLoginSuccess}
             />
           </div>
         )}
