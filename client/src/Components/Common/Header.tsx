@@ -112,7 +112,6 @@ function Header() {
     avartarImg:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
   });
-  // const [userId, setUserId] = useState(localStorage.getItem('userId'));
 
   // api/user/info 에서 name, pos, level 값 가져오기
   // api/alarm 에서 get 방식으로 (token으로) 해당 되는 알람정보 받아오기
@@ -126,8 +125,6 @@ function Header() {
     switchLoginSignup(login);
     setOpenLoginSignup((open) => !open);
   };
-
-  // const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
