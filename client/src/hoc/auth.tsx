@@ -23,7 +23,7 @@ export default function AuthHOC(
         dispatch(getAuthThunk());
       }
       if (data) {
-        if ((!data.success && option) || (data.success && option === false)) {
+        if ((!data.isAuth && option) || (data.isAuth && option === false)) {
           setIsRender(false);
           history.push('/');
         } else {

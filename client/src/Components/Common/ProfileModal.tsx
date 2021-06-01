@@ -6,6 +6,8 @@ import { USER_SERVER } from '../../Config';
 import { GoogleLogout } from 'react-google-login';
 import { GOOGLE_CLINET_ID } from '../../Config';
 import { PosData, LevelData } from './OptionData';
+import { useDispatch } from 'react-redux';
+import { getAuthThunk } from '../../modules/auth';
 
 const ProfileModalWrapper = styled.div`
   display: block;
@@ -191,12 +193,14 @@ function ProfileModal({
   history,
   setLoginSuccess,
 }: Iprops) {
+  const dispatch = useDispatch();
   const LogoutButton = () => {
     localStorage.removeItem('userId');
     axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.data.success) {
         alert('로그아웃 되었습니다.');
         setLoginSuccess(false);
+        dispatch(getAuthThunk());
         history.push('/');
       } else {
         alert('다시 시도해주세요.');
@@ -229,13 +233,13 @@ function ProfileModal({
         </InfoWrapper>
       </ProfileWrapper>
       <BtnWrapper>
-        <MyInfoBtn>
+        <MyInfoBtn onClick={() => history.push('/my')}>
           <Link to="/my">내 정보</Link>
         </MyInfoBtn>
-        <NoticeBtn>
+        <NoticeBtn onClick={() => history.push('/my?tab=alarm')}>
           <Link to="/my?tab=alarm">알림상세</Link>
         </NoticeBtn>
-        <SubscribeBtn>
+        <SubscribeBtn onClick={() => history.push('/my?tab=favorite')}>
           <Link to="/my?tab=favorite">구독</Link>
         </SubscribeBtn>
       </BtnWrapper>

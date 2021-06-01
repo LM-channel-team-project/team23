@@ -6,6 +6,8 @@ import GoogleLogin from 'react-google-login';
 import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
 import axios from 'axios';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getAuthThunk } from '../../modules/auth';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -118,6 +120,7 @@ const LoginAndSignUpModal = ({
   history,
   setLoginSuccess,
 }: IProps) => {
+  const dispatch = useDispatch();
   const SuccessGoogleLogin = (result: any) => {
     const userEmail = result.profileObj.email;
     const userGoogleID = result.googleId;
@@ -130,6 +133,7 @@ const LoginAndSignUpModal = ({
           onToggle(true);
           window.localStorage.setItem('userId', response.data.userId);
           setLoginSuccess(true);
+          dispatch(getAuthThunk());
           history.push('/');
         } else {
           onToggle(true);

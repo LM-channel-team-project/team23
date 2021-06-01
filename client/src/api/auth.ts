@@ -22,7 +22,7 @@ export async function postLogin(info: IMyInfo): Promise<IResponse> {
 }
 
 export interface IResponse {
-  success: boolean;
+  isAuth: boolean;
   error: string;
 }
 
