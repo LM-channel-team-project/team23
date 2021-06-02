@@ -214,6 +214,21 @@ function BuildProject() {
     });
   };
 
+  const fetchDescriptionPath = () => {
+    return new Promise((resolve, reject) => {
+      const textData = {
+        text: description,
+      };
+      axios.post('/api/project/updateText', textData).then((response) => {
+        if (response.data.success) {
+          resolve(response.data.filePath);
+        } else {
+          reject(response.data.err);
+        }
+      });
+    });
+  };
+
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
@@ -221,6 +236,9 @@ function BuildProject() {
       if (thumbImageFile) {
         thumbnailPath = await submitThumbnailFile();
       }
+      const descriptionPath = await fetchDescriptionPath();
+      console.log(descriptionPath);
+
       // const formData = {
       //   title: projectTitle,
       //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
