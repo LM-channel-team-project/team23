@@ -10,9 +10,7 @@ import InputBox from '../../Components/Common/InputBox';
 import DescriptionInput from '../../Components/BuildProject/DescriptionInput';
 import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
 import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
-import DatePicker from 'react-datepicker';
-import { ko } from 'date-fns/esm/locale';
-import 'react-datepicker/dist/react-datepicker.css';
+import ProjectDuration from '../../Components/BuildProject/ProjectDuration';
 import ImgUploadBtn from '../../Components/BuildProject/ImgUploadBtn';
 
 const Header = styled.div`
@@ -119,28 +117,12 @@ const FieldCheckbox = styled.input.attrs({
   margin-right: 0.3rem;
 `;
 
-const ProjectDateTitle = styled.span`
-  margin-right: 15px;
-`;
-
-const SDatePicker = styled(DatePicker)`
-  margin-top: 1.5rem;
-  width: 300px;
-  height: 42px;
-  box-sizing: border-box;
-  padding: 8px 20px;
-  border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  font-size: 12px;
-`;
-
 const TwoBtnWrapper = styled.div`
   & button {
     margin-left: 0;
   }
 `;
 
-const DateWrapper = styled.div``;
 const RefWrapper = styled.div`
   & input {
     margin-left: 0;
@@ -400,32 +382,12 @@ function BuildProject() {
         <Section>
           <SectionTitle>(필수) 프로젝트 기간</SectionTitle>
           <SectionInfo>프로젝트의 진행 기간을 선택해주세요.</SectionInfo>
-          <DateWrapper>
-            <ProjectDateTitle>프로젝트 시작일: </ProjectDateTitle>
-            <SDatePicker
-              locale={ko}
-              dateFormat="yyyy년 MM월 dd일"
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
-              selectsStart
-              minDate={new Date()}
-              startDate={startDate}
-              endDate={endDate}
-            />
-          </DateWrapper>
-          <DateWrapper>
-            <ProjectDateTitle>프로젝트 종료일: </ProjectDateTitle>
-            <SDatePicker
-              locale={ko}
-              dateFormat="yyyy년 MM월 dd일"
-              selected={startDate > endDate ? startDate : endDate}
-              onChange={(date: Date) => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-            />
-          </DateWrapper>
+          <ProjectDuration
+            start={startDate}
+            end={endDate}
+            submitStart={setStartDate}
+            submitEnd={setEndDate}
+          />
         </Section>
         <Section>
           <SectionTitle>(선택) 참고 자료 (최대 5개)</SectionTitle>
