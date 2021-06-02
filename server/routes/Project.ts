@@ -20,7 +20,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('projectImg');
 
 router.post('/updateImg', (req: Request, res: Response) => {
-  console.log(req.body);
   upload(req, res, (err: Error) => {
     if (err) {
       return res.json({ success: false, err });
