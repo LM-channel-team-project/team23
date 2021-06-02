@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
@@ -158,6 +159,7 @@ function BuildProject() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
+  const history = useHistory();
 
   const handleClickRadioButton = (value: string) => setField(value);
 
@@ -210,6 +212,8 @@ function BuildProject() {
               reject(response.data.err);
             }
           });
+      } else {
+        resolve(null);
       }
     });
   };
@@ -232,22 +236,30 @@ function BuildProject() {
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      let thumbnailPath: unknown | string;
-      if (thumbImageFile) {
-        thumbnailPath = await submitThumbnailFile();
-      }
+      const thumbnailPath: unknown | string = await submitThumbnailFile();
       const descriptionPath = await fetchDescriptionPath();
-      console.log(descriptionPath);
 
-      // const formData = {
-      //   title: projectTitle,
-      //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
-      //   // ... (전송데이터들 작성)
-      // };
+      const formData = {
+        title: projectTitle,
+        thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+        info: descriptionPath,
+        field: field,
+        area: location,
+        position: positions,
+        referenceURL: referencesUrl,
+        startAt: startDate,
+        endAt: endDate,
+        projectLV: level,
+      };
 
-      // axios.post('/api/project/buildProject', formData)
-      // .then(response=>)
-      alert('작성 완료');
+      axios.post('/api/project/buildProject', formData).then((response) => {
+        if (response.data.success) {
+          alert('게시글 작성이 완료되었습니다.');
+          history.push('/project');
+        } else {
+          throw new Error(response.data.err);
+        }
+      });
     } catch (error) {
       alert(`오류가 발생했습니다. ${JSON.stringify(error)}`);
       window.location.reload();
