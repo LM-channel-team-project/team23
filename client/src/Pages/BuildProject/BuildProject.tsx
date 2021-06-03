@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { PROJECT_SERVER } from '../../Config';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
@@ -178,41 +179,37 @@ function BuildProject() {
     }
   };
 
-  const submitThumbnailFile = () => {
-    return new Promise((resolve, reject) => {
-      if (thumbImageFile) {
-        const thumbnailFormData = new FormData();
-        thumbnailFormData.append('projectImg', thumbImageFile);
-        axios
-          .post('/api/project/updateImg', thumbnailFormData, {
-            headers: { 'content-type': 'multipart/form-data' },
-          })
-          .then((response) => {
-            if (response.data.success) {
-              resolve(response.data.filePath);
-            } else {
-              reject(response.data.err);
-            }
-          });
-      } else {
-        resolve(null);
+  const submitThumbnailFile = async () => {
+    if (!thumbImageFile) return null;
+
+    const thumbnailFormData = new FormData();
+    thumbnailFormData.append('projectImg', thumbImageFile);
+
+    const { data } = await axios.post(
+      `${PROJECT_SERVER}/updateImg`,
+      thumbnailFormData,
+      {
+        headers: { 'content-type': 'multipart/form-data' },
       }
-    });
+    );
+
+    if (data.success) {
+      return data.filePath;
+    } else {
+      throw data.err;
+    }
   };
 
-  const fetchDescriptionPath = () => {
-    return new Promise((resolve, reject) => {
-      const textData = {
-        text: description,
-      };
-      axios.post('/api/project/updateText', textData).then((response) => {
-        if (response.data.success) {
-          resolve(response.data.filePath);
-        } else {
-          reject(response.data.err);
-        }
-      });
-    });
+  const fetchDescriptionPath = async () => {
+    const textData = {
+      text: description,
+    };
+    const { data } = await axios.post(`${PROJECT_SERVER}/updateText`, textData);
+    if (data.success) {
+      return data.filePath;
+    } else {
+      throw data.err;
+    }
   };
 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -220,7 +217,6 @@ function BuildProject() {
     try {
       const thumbnailPath: unknown | string = await submitThumbnailFile();
       const descriptionPath = await fetchDescriptionPath();
-
       const formData = {
         title: projectTitle,
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
@@ -233,17 +229,18 @@ function BuildProject() {
         endAt: endDate,
         projectLV: level,
       };
-
-      axios.post('/api/project/buildProject', formData).then((response) => {
-        if (response.data.success) {
-          alert('게시글 작성이 완료되었습니다.');
-          history.push('/project');
-        } else {
-          throw new Error(response.data.err);
-        }
-      });
+      const { data } = await axios.post(
+        `${PROJECT_SERVER}/buildProject`,
+        formData
+      );
+      if (data.success) {
+        alert('게시글 작성이 완료되었습니다.');
+        history.push('/project');
+      } else {
+        throw data.err;
+      }
     } catch (error) {
-      alert(`오류가 발생했습니다. ${JSON.stringify(error)}`);
+      alert(`오류가 발생했습니다. ${error}`);
       window.location.reload();
     }
   };
