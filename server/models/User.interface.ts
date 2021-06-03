@@ -15,16 +15,14 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   tel?: string;
-  join?: string[];
-  role?: string[];
   portfolio?: string[];
   intro?: string;
 }
 
-export interface IUserMethods extends IUser{
-  generateToken: (cb:Function) => Function;
+export interface IUserMethods extends IUser {
+  generateToken: (cb: Function) => Function;
 }
 
-export interface IUserModel extends Model<IUserMethods>{
-  findByToken: (token: string, cb:Function) => void;
+export interface IUserModel extends Model<IUserMethods> {
+  findByToken: (token: string, cb: Function) => void;
 }
