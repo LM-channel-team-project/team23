@@ -189,6 +189,7 @@ function ProfilePage() {
             avartarImg: FilePath,
             portfolio: portfolioes,
             intro: intro,
+            interestSkills: interest,
           };
           axios.post('/api/users/update', formdata).then((response) => {
             if (response.data.success) {
