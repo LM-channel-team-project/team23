@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Container = styled.ul`
@@ -43,6 +43,10 @@ function TagInput({ placeholder, value, SubmitValue }: IProps) {
     focused: false,
     input: '',
   });
+
+  useEffect(() => {
+    setState((prev) => ({ ...prev, items: value }));
+  }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState((prev) => ({ ...prev, input: e.target.value }));
