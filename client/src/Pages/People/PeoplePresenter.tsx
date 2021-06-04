@@ -60,7 +60,7 @@ const PeoplePresenter = () => {
             interestSkills: userInfo.interestSkills,
           };
         });
-        setUsers([...user,...users])
+        setUsers([...user, ...users]);
       });
   };
 
