@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { PROJECT_SERVER } from '../../Config';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
@@ -9,9 +11,7 @@ import InputBox from '../../Components/Common/InputBox';
 import DescriptionInput from '../../Components/BuildProject/DescriptionInput';
 import RecruitSelect from '../../Components/BuildProject/RecruitSelect';
 import ReferenceInput from '../../Components/BuildProject/ReferenceInput';
-import DatePicker from 'react-datepicker';
-import { ko } from 'date-fns/esm/locale';
-import 'react-datepicker/dist/react-datepicker.css';
+import ProjectDuration from '../../Components/BuildProject/ProjectDuration';
 import ImgUploadBtn from '../../Components/BuildProject/ImgUploadBtn';
 
 const Header = styled.div`
@@ -118,28 +118,12 @@ const FieldCheckbox = styled.input.attrs({
   margin-right: 0.3rem;
 `;
 
-const ProjectDateTitle = styled.span`
-  margin-right: 15px;
-`;
-
-const SDatePicker = styled(DatePicker)`
-  margin-top: 1.5rem;
-  width: 300px;
-  height: 42px;
-  box-sizing: border-box;
-  padding: 8px 20px;
-  border-radius: 4px;
-  border: 1px solid ${(props) => props.theme.palette.lightGray};
-  font-size: 12px;
-`;
-
 const TwoBtnWrapper = styled.div`
   & button {
     margin-left: 0;
   }
 `;
 
-const DateWrapper = styled.div``;
 const RefWrapper = styled.div`
   & input {
     margin-left: 0;
@@ -158,6 +142,7 @@ function BuildProject() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
+  const history = useHistory();
 
   const handleClickRadioButton = (value: string) => setField(value);
 
@@ -194,44 +179,68 @@ function BuildProject() {
     }
   };
 
-  const submitThumbnailFile = () => {
-    return new Promise((resolve, reject) => {
-      if (thumbImageFile) {
-        const thumbnailFormData = new FormData();
-        thumbnailFormData.append('projectImg', thumbImageFile);
-        axios
-          .post('/api/project/updateImg', thumbnailFormData, {
-            headers: { 'content-type': 'multipart/form-data' },
-          })
-          .then((response) => {
-            if (response.data.success) {
-              resolve(response.data.filePath);
-            } else {
-              reject(response.data.err);
-            }
-          });
+  const submitThumbnailFile = async () => {
+    if (!thumbImageFile) return null;
+
+    const thumbnailFormData = new FormData();
+    thumbnailFormData.append('projectImg', thumbImageFile);
+
+    const { data } = await axios.post(
+      `${PROJECT_SERVER}/updateImg`,
+      thumbnailFormData,
+      {
+        headers: { 'content-type': 'multipart/form-data' },
       }
-    });
+    );
+
+    if (data.success) {
+      return data.filePath;
+    } else {
+      throw data.err;
+    }
+  };
+
+  const fetchDescriptionPath = async () => {
+    const textData = {
+      text: description,
+    };
+    const { data } = await axios.post(`${PROJECT_SERVER}/updateText`, textData);
+    if (data.success) {
+      return data.filePath;
+    } else {
+      throw data.err;
+    }
   };
 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      let thumbnailPath: unknown | string;
-      if (thumbImageFile) {
-        thumbnailPath = await submitThumbnailFile();
+      const thumbnailPath: unknown | string = await submitThumbnailFile();
+      const descriptionPath = await fetchDescriptionPath();
+      const formData = {
+        title: projectTitle,
+        thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+        info: descriptionPath,
+        field: field,
+        area: location,
+        position: positions,
+        referenceURL: referencesUrl,
+        startAt: startDate,
+        endAt: endDate,
+        projectLV: level,
+      };
+      const { data } = await axios.post(
+        `${PROJECT_SERVER}/buildProject`,
+        formData
+      );
+      if (data.success) {
+        alert('게시글 작성이 완료되었습니다.');
+        history.push('/project');
+      } else {
+        throw data.err;
       }
-      // const formData = {
-      //   title: projectTitle,
-      //   thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
-      //   // ... (전송데이터들 작성)
-      // };
-
-      // axios.post('/api/project/buildProject', formData)
-      // .then(response=>)
-      alert('작성 완료');
     } catch (error) {
-      alert(`오류가 발생했습니다. ${JSON.stringify(error)}`);
+      alert(`오류가 발생했습니다. ${error}`);
       window.location.reload();
     }
   };
@@ -370,32 +379,12 @@ function BuildProject() {
         <Section>
           <SectionTitle>(필수) 프로젝트 기간</SectionTitle>
           <SectionInfo>프로젝트의 진행 기간을 선택해주세요.</SectionInfo>
-          <DateWrapper>
-            <ProjectDateTitle>프로젝트 시작일: </ProjectDateTitle>
-            <SDatePicker
-              locale={ko}
-              dateFormat="yyyy년 MM월 dd일"
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
-              selectsStart
-              minDate={new Date()}
-              startDate={startDate}
-              endDate={endDate}
-            />
-          </DateWrapper>
-          <DateWrapper>
-            <ProjectDateTitle>프로젝트 종료일: </ProjectDateTitle>
-            <SDatePicker
-              locale={ko}
-              dateFormat="yyyy년 MM월 dd일"
-              selected={startDate > endDate ? startDate : endDate}
-              onChange={(date: Date) => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-            />
-          </DateWrapper>
+          <ProjectDuration
+            start={startDate}
+            end={endDate}
+            submitStart={setStartDate}
+            submitEnd={setEndDate}
+          />
         </Section>
         <Section>
           <SectionTitle>(선택) 참고 자료 (최대 5개)</SectionTitle>
