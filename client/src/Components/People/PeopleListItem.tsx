@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { PosData, LevelData } from '../Common/OptionData';
 
 const User = styled.div`
   width: 100%;
@@ -117,38 +118,50 @@ const PeopleListItem = ({
   positionLevel,
   interestSkills,
   receivedLike,
-}: IUser) => (
-  <User>
-    <UserTop>
-      <Link to={`/people/${nickname}`}>
-        <UserImg src={avartarImg} alt="Avatar" />
-      </Link>
-      <Username>
-        {nickname}
-        <Menu>
-          <MenuItem>
-            <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
-          </MenuItem>
-          <MenuItem>1:1 대화</MenuItem>
-          <MenuItem>프로젝트 초대</MenuItem>
-        </Menu>
-      </Username>
-    </UserTop>
-    <UserMid>
-      <Major>
-        <MajorTitle>[직무] {position}</MajorTitle>
-        <MajorLV>{positionLevel}</MajorLV>
-      </Major>
-    </UserMid>
-    <UserBottom>
-      <UserStackList>
-        {interestSkills.map((stack, index) => (
-          <UserStack key={index}>{stack}</UserStack>
-        ))}
-      </UserStackList>
-      <Like>♥ {receivedLike}</Like>
-    </UserBottom>
-  </User>
-);
+}: IUser) => {
+  const PosText = PosData.find((item) => {
+    if (item.value === position) {
+      return item;
+    }
+  });
+  const LevelText = LevelData.find((item) => {
+    if (item.value === positionLevel) {
+      return item;
+    }
+  });
+  return (
+    <User>
+      <UserTop>
+        <Link to={`/people/${nickname}`}>
+          <UserImg src={avartarImg} alt="Avatar" />
+        </Link>
+        <Username>
+          {nickname}
+          <Menu>
+            <MenuItem>
+              <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
+            </MenuItem>
+            <MenuItem>1:1 대화</MenuItem>
+            <MenuItem>프로젝트 초대</MenuItem>
+          </Menu>
+        </Username>
+      </UserTop>
+      <UserMid>
+        <Major>
+          <MajorTitle>[직무] {PosText && PosText.label}</MajorTitle>
+          <MajorLV>{LevelText && LevelText.label}</MajorLV>
+        </Major>
+      </UserMid>
+      <UserBottom>
+        <UserStackList>
+          {interestSkills.map((stack, index) => (
+            <UserStack key={index}>{stack}</UserStack>
+          ))}
+        </UserStackList>
+        <Like>♥ {receivedLike}</Like>
+      </UserBottom>
+    </User>
+  );
+};
 
 export default PeopleListItem;

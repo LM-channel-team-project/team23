@@ -23,7 +23,7 @@ const LikeRouter = require('./routes/Like');
 const CommentRouter = require('./routes/Comment');
 const AlarmRouter = require('./routes/Alarm');
 app.use('/api/users', UserRouter);
-app.use('/api/project', ProjectRouter);
+app.use('/api/projects', ProjectRouter);
 app.use('/api/manage', ManageProjectRouter);
 app.use('/api/like', LikeRouter);
 app.use('/api/comment', CommentRouter);

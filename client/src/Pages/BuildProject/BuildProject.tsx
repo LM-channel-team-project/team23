@@ -137,7 +137,9 @@ function BuildProject() {
   const [description, setDescription] = useState('');
   const [field, setField] = useState('F1');
   const [location, setLocation] = useState('A0');
-  const [positions, setPositions] = useState([{ pos: 'none', count: 1 }]);
+  const [positions, setPositions] = useState([
+    { pos: 'none', required: 1, current: 0 },
+  ]);
   const [level, setLevel] = useState('level1');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -154,7 +156,7 @@ function BuildProject() {
   };
 
   const handleAddPosClick = () => {
-    setPositions([...positions, { pos: 'none', count: 1 }]);
+    setPositions([...positions, { pos: 'none', required: 1, current: 0 }]);
   };
 
   const handleDeletePosClick = () => {
