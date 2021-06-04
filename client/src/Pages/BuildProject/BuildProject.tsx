@@ -145,7 +145,6 @@ function BuildProject() {
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
   const history = useHistory();
-
   const handleClickRadioButton = (value: string) => setField(value);
 
   const handleSapmleImgClick = (url: string) => {
@@ -202,6 +201,10 @@ function BuildProject() {
     }
   };
 
+  const removeHTMLTags = (text: string) => {
+    return text.replace(/(<([^>]+)>)/gi, '').substring(0, 50);
+  };
+
   const fetchDescriptionPath = async () => {
     const textData = {
       text: description,
@@ -219,11 +222,13 @@ function BuildProject() {
     try {
       const thumbnailPath: unknown | string = await submitThumbnailFile();
       const descriptionPath = await fetchDescriptionPath();
+      const summary = removeHTMLTags(description);
       const formData = {
         title: projectTitle,
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
         info: descriptionPath,
-        field: field,
+        summary,
+        field,
         area: location,
         position: positions,
         referenceURL: referencesUrl,
