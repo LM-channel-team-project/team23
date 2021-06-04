@@ -20,7 +20,7 @@ const upload = multer({ storage: storage }).single('profileImg');
 //api/users?loc=A0&pos=frontend&UserState=1&page=1
 //지역 필터/ 직무 필터/ 프로젝트 참여 여부
 // 프로젝트 참여 여부는 UserRole에서 찾아야 함. id가 userRole에 있으면 참여중, 없으면 미참여중
-router.get("/", (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
   const page = typeof(req.query.page)==='string' ? req.query.page : "1";
   const LocFilter = req.query.loc
   const PosFilter = req.query.pos
@@ -53,7 +53,7 @@ router.get("/", (req: Request, res: Response) => {
     })
 })
 
-router.get("/new", (req: Request, res: Response) => {
+router.get('/new', (req: Request, res: Response) => {
   User.find()
     .sort({createdAt: -1})
     .limit(3)
@@ -71,8 +71,21 @@ router.get("/new", (req: Request, res: Response) => {
     })
 })
 
-router.get("/waitList", (req:Request, res:Response) => {
+router.get('/waitList', (req:Request, res:Response) => {
   
+})
+
+router.get('/show/:id', (req: Request, res: Response) => {
+  const reqNickname = req.params.id;
+  User.findOne({ nickname: reqNickname}, (err: Error, user:IUserMethods) => {
+    if(err) {
+      return res.json({ success: false, err});
+    }
+    res.status(200).json({
+      success: true,
+      user,
+    })
+  })
 })
 
 router.post('/nickname', (req: Request, res: Response) => {

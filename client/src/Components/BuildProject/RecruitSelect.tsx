@@ -47,7 +47,8 @@ const PosCountBtn = styled.button`
 
 type Position = {
   pos: string;
-  count: number;
+  required: number;
+  current: number;
 };
 
 interface IProps {
@@ -77,10 +78,10 @@ const RecruitSelect = ({ positions, value, submitValue, index }: IProps) => {
     const newPositions = [...positions];
 
     if (type === '+') {
-      newPositions[index].count = newPositions[index].count + 1;
+      newPositions[index].required = newPositions[index].required + 1;
     } else {
-      if (newPositions[index].count !== 1) {
-        newPositions[index].count = newPositions[index].count - 1;
+      if (newPositions[index].required !== 1) {
+        newPositions[index].required = newPositions[index].required - 1;
       }
     }
     submitValue(newPositions);
@@ -102,7 +103,7 @@ const RecruitSelect = ({ positions, value, submitValue, index }: IProps) => {
         <PosCountBtn onClick={(e) => handlePosCountClick(e, index)}>
           -
         </PosCountBtn>
-        <PosCount>{value.count}</PosCount>
+        <PosCount>{value.required}</PosCount>
         <PosCountBtn onClick={(e) => handlePosCountClick(e, index)}>
           +
         </PosCountBtn>
