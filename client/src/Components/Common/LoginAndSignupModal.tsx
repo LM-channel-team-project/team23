@@ -5,7 +5,9 @@ import styled from 'styled-components';
 import GoogleLogin from 'react-google-login';
 import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getAuthThunk } from '../../modules/auth';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -102,11 +104,12 @@ const SMdClose = styled(MdClose)`
   cursor: pointer;
 `;
 
-interface IProps {
+interface IProps extends RouteComponentProps {
   openLoginSignup: boolean;
   onToggle: (login: boolean) => void;
   switchLoginSignup: (login: boolean) => void;
   isLogin: boolean;
+  setLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginAndSignUpModal = ({
@@ -114,8 +117,10 @@ const LoginAndSignUpModal = ({
   onToggle,
   switchLoginSignup,
   isLogin,
+  history,
+  setLoginSuccess,
 }: IProps) => {
-  const history = useHistory();
+  const dispatch = useDispatch();
   const SuccessGoogleLogin = (result: any) => {
     const userEmail = result.profileObj.email;
     const userGoogleID = result.googleId;
@@ -127,7 +132,9 @@ const LoginAndSignUpModal = ({
         if (response.data.success) {
           onToggle(true);
           window.localStorage.setItem('userId', response.data.userId);
-          window.location.href = '/';
+          setLoginSuccess(true);
+          dispatch(getAuthThunk());
+          history.push('/');
         } else {
           onToggle(true);
           history.push({
@@ -185,4 +192,4 @@ const LoginAndSignUpModal = ({
   );
 };
 
-export default LoginAndSignUpModal;
+export default withRouter(LoginAndSignUpModal);

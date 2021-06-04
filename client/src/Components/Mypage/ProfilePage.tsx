@@ -135,10 +135,11 @@ function ProfilePage() {
         setEmail(user.email);
         setIntro(user.intro);
         setNickname(user.nickname);
-        setPortfolioes(user.portfolio);
+        setPortfolioes(user.portfolio.length ? user.portfolio : ['']);
         setPos(user.position);
         setLevel(user.positionLevel);
         setTel(user.tel);
+        setInterest(user.interestSkills);
       } else {
         alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.');
       }
