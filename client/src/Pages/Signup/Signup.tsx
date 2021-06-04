@@ -78,7 +78,7 @@ function Signup() {
 
   useEffect(() => {
     setEmail(Obj.email);
-  }, Obj);
+  }, [Obj]);
 
   const CheckNickname = () => {
     if (nickname.length == 0) {
