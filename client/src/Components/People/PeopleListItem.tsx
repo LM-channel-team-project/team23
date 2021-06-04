@@ -1,5 +1,4 @@
 import React from 'react';
-import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -102,8 +101,7 @@ const UserStack = styled.span`
 
 const Like = styled.span``;
 
-interface User {
-  createdAt?: Date;
+interface IUser {
   avartarImg: string;
   nickname: string;
   position: string;
@@ -113,14 +111,13 @@ interface User {
 }
 
 const PeopleListItem = ({
-  createdAt,
   avartarImg,
   nickname,
   position,
   positionLevel,
   interestSkills,
   receivedLike,
-}: User): ReactElement => (
+}: IUser) => (
   <User>
     <UserTop>
       <Link to={`/people/${nickname}`}>

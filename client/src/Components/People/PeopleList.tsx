@@ -1,7 +1,6 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PeopleListItem from './PeopleListItem';
-import users from './userDB';
 
 const List = styled.section`
   display: grid;
@@ -11,21 +10,39 @@ const List = styled.section`
   width: 100%;
 `;
 
-const PeopleList = (): ReactElement => (
-  <List>
-    {users.map((user, index) => (
-      <PeopleListItem
-        key={index}
-        createdAt={user.createdAt}
-        avartarImg={user.avartarImg}
-        nickname={user.nickname}
-        position={user.position}
-        positionLevel={user.positionLevel}
-        interestSkills={user.interestSkills}
-        receivedLike={user.receivedLike}
-      />
-    ))}
-  </List>
-);
+interface IUser {
+  avartarImg: string;
+  nickname: string;
+  position: string;
+  positionLevel: string;
+  interestSkills: string[];
+  receivedLike: number;
+}
+
+interface IProps {
+  userList: Array<IUser> | null;
+}
+
+const PeopleList = ({ userList }: IProps) => {
+  return (
+    <List>
+      {userList ? (
+        userList.map((user: IUser, index: number) => (
+          <PeopleListItem
+            key={index}
+            avartarImg={user.avartarImg}
+            nickname={user.nickname}
+            position={user.position}
+            positionLevel={user.positionLevel}
+            interestSkills={user.interestSkills}
+            receivedLike={user.receivedLike}
+          />
+        ))
+      ) : (
+        <div> 정보가 없습니다. </div>
+      )}
+    </List>
+  );
+};
 
 export default PeopleList;
