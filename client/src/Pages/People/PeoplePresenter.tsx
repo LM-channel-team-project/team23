@@ -39,32 +39,28 @@ const PeoplePresenter = () => {
         },
       })
       .then((response) => {
-        if (response.data.success) {
-          if (response.data.user.length > 0) {
-            page.current += 1;
-            const userList = response.data.user;
-            const user: [IUser] = userList.map((userInfo: any) => {
-              return {
-                avartarImg: userInfo.avartarImg
-                  ? userInfo.avartarImg
-                  : 'http://kawala.in/assets/global/images/avatars/avatar1.png',
-                nickname: userInfo.nickname,
-                position: userInfo.position,
-                positionLevel: userInfo.positionLevel,
-                interestSkills: userInfo.interestSkills,
-              };
-            });
-            if (users) {
-              setUsers([...users, ...user]);
-            } else {
-              setUsers(user);
-            }
-          } else {
-            alert('더 이상 데이터가 없습니다.');
-          }
-        } else {
+        if (!response.data.success) {
           alert('데이터를 가져오는데 실패했습니다.');
+          return false;
         }
+        if (response.data.user.length == 0) {
+          alert('더 이상 데이터가 없습니다.');
+          return false;
+        }
+        page.current += 1;
+        const userList = response.data.user;
+        const user: [IUser] = userList.map((userInfo: any) => {
+          return {
+            avartarImg: userInfo.avartarImg
+              ? userInfo.avartarImg
+              : 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+            nickname: userInfo.nickname,
+            position: userInfo.position,
+            positionLevel: userInfo.positionLevel,
+            interestSkills: userInfo.interestSkills,
+          };
+        });
+        setUsers([...user,...users])
       });
   };
 
