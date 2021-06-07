@@ -19,6 +19,65 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('projectImg');
 
+//api/projects?area=A0&field=F0&pos=android&level=level1&page=1
+//지역 필터/ 분야 필터/ 직무 필터/ 레벨 필터
+router.get('/', (req: Request, res: Response) => {
+  const page = typeof req.query.page === 'string' ? req.query.page : '1';
+  const areaFilter = req.query.area;
+  const fieldFilter = req.query.field;
+  const posFilter = req.query.pos;
+  const levelFilter = req.query.level;
+  const skip = (parseInt(page) - 1) * 10;
+  const limit = 10;
+  let filterarg: any = {};
+  if (areaFilter) {
+    filterarg['area'] = areaFilter;
+  }
+  if (fieldFilter) {
+    filterarg['field'] = fieldFilter;
+  }
+  if (posFilter) {
+    filterarg['position'] = { $elemMatch: { pos: posFilter } };
+  }
+  if (levelFilter) {
+    filterarg['projectLV'] = levelFilter;
+  }
+  Project.find(filterarg)
+    .skip(skip)
+    .limit(limit)
+    .exec((err: Error, project: IProject) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        page,
+        filterarg,
+        project,
+      });
+    });
+});
+
+router.get('/recommendList', (req: Request, res: Response) => {
+  Project.find()
+    .sort({ receivedLike: -1 })
+    .exec((err: Error, project: IProject) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        project,
+      });
+    });
+});
+
 router.post('/updateImg', (req: Request, res: Response) => {
   upload(req, res, (err: Error) => {
     if (err) {
@@ -54,7 +113,7 @@ router.post('/buildProject', (req: Request, res: Response) => {
     const userRole = new UserRole({
       prjectId: project._id,
       userId: project.writer,
-      role: 1,
+      role: 0,
     });
     userRole.save((err: Error | null, doc: IUserRole) => {
       if (err) {

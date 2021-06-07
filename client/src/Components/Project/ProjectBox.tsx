@@ -5,6 +5,7 @@ import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
+import { FieldData } from '../Common/OptionData';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -155,12 +156,13 @@ const ProjectName = styled.div`
 `;
 
 interface IProjectProps {
-  id: number;
+  id: string;
   title: string;
   description: string;
   image: string;
   state: Array<number>;
   category: string;
+  receivedLike: number;
 }
 
 const ProjectBox = ({
@@ -170,6 +172,7 @@ const ProjectBox = ({
   image,
   state,
   category,
+  receivedLike,
 }: IProjectProps) => (
   <Link to={`/project/${id}`}>
     <ProjectContent>
@@ -190,12 +193,14 @@ const ProjectBox = ({
           </Description>
           <FavoriteNumber>
             <HeartIcon />
-            <FavoriteCount>0</FavoriteCount>
+            <FavoriteCount>{receivedLike}</FavoriteCount>
           </FavoriteNumber>
         </ProjectInfo>
       </ProjectThumb>
       <ProjectTitle>
-        <ProjectCategory>[{category}]</ProjectCategory>
+        <ProjectCategory>
+          [{FieldData.find((v) => v.value === category)?.label}]
+        </ProjectCategory>
         <ProjectName>{title}</ProjectName>
       </ProjectTitle>
     </ProjectContent>

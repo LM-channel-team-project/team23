@@ -140,7 +140,7 @@ function BuildProject() {
   const [positions, setPositions] = useState([
     { pos: 'none', required: 1, current: 0 },
   ]);
-  const [level, setLevel] = useState('level1');
+  const [level, setLevel] = useState('level0');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
@@ -223,6 +223,7 @@ function BuildProject() {
       const thumbnailPath: unknown | string = await submitThumbnailFile();
       const descriptionPath = await fetchDescriptionPath();
       const summary = removeHTMLTags(description);
+      const userId = localStorage.getItem('userId');
       const formData = {
         title: projectTitle,
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
@@ -235,6 +236,8 @@ function BuildProject() {
         startAt: startDate,
         endAt: endDate,
         projectLV: level,
+        writer: userId,
+        receivedLike: 0,
       };
       const { data } = await axios.post(
         `${PROJECT_SERVER}/buildProject`,

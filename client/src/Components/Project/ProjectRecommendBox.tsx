@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { FieldData } from '../Common/OptionData';
 
 const Box = styled.div`
   width: 266px;
@@ -78,6 +80,7 @@ const Category = styled.p`
 `;
 
 interface IProps {
+  id: string;
   title: string;
   description: string;
   image: string;
@@ -85,6 +88,7 @@ interface IProps {
 }
 
 const ProjectRecommendBox = ({
+  id,
   title,
   description,
   image,
@@ -92,18 +96,22 @@ const ProjectRecommendBox = ({
 }: IProps) => {
   return (
     <Box>
-      <Top>
-        <Left>
-          <Image src={image} alt="project_image" />
-        </Left>
-        <Right>
-          <ProjectName>{title}</ProjectName>
-          <ProjectSummary>{description}</ProjectSummary>
-        </Right>
-      </Top>
-      <Bottom>
-        <Category>[모집] {category}</Category>
-      </Bottom>
+      <Link to={`/project/${id}`}>
+        <Top>
+          <Left>
+            <Image src={image} alt="project_image" />
+          </Left>
+          <Right>
+            <ProjectName>{title}</ProjectName>
+            <ProjectSummary>{description}</ProjectSummary>
+          </Right>
+        </Top>
+        <Bottom>
+          <Category>
+            [모집] {FieldData.find((v) => v.value === category)?.label}
+          </Category>
+        </Bottom>
+      </Link>
     </Box>
   );
 };
