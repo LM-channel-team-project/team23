@@ -68,4 +68,18 @@ router.post('/buildProject', (req: Request, res: Response) => {
   });
 });
 
+router.get('/resentProjects', (req: Request, res: Response) => {
+  Project.find().exec((error: Error, projects: [IProject]) => {
+    if (error) {
+      return res.status(400).send(error);
+    }
+
+    const resentProjects = [...projects]
+      .sort((a, b) => +b.createdAt - +a.createdAt)
+      .slice(0, 3);
+
+    return res.status(200).json({ resentProjects });
+  });
+});
+
 module.exports = router;

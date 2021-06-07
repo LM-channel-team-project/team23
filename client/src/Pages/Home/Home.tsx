@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Title from '../../Components/Common/Title';
 import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
 import PeopleList from '../../Components/People/PeopleList';
+import axios from 'axios';
+import { PROJECT_SERVER } from '../../Config';
+import { IProject } from '../../../../server/models/Project.interface';
 
 const Style = styled.div`
   width: 100%;
@@ -44,6 +47,22 @@ const Home = () => {
       createdAt: new Date(),
     },
   ]);
+  const [projects, setProjects] = useState<Array<IProject>>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {
+          data: { resentProjects },
+        } = await axios.get(`${PROJECT_SERVER}/resentProjects`);
+        setProjects(resentProjects);
+      } catch (error) {
+        alert(`정보를 받아오지 못했습니다. ${error}`);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Style>
       <Info />
@@ -51,14 +70,17 @@ const Home = () => {
         <div className="new_project content">
           <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
           <ProjectBoxList>
-            <ProjectBox
-              id={6436}
-              title="간단한 웹 게임 사이드 프로젝트"
-              description="안녕하세요! 팀원 모집하고 있습니다!! 간단한 웹 게임 서비스를 생각하고 있습니다. 실력 상관 없이 즐겁게 하면 좋겠습니다."
-              image="https://letspl.s3.ap-northeast-2.amazonaws.com/images/projectThumb_6.png"
-              state={[1, 4]}
-              category="게임"
-            />
+            {projects.map((project) => (
+              <ProjectBox
+                key={project._id}
+                id={project._id}
+                title={project.title}
+                description={project.summary}
+                image={project.thumb}
+                state={[1, 4]}
+                category={project.field}
+              />
+            ))}
           </ProjectBoxList>
         </div>
         <div className="join_project content">
