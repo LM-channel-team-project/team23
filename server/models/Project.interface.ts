@@ -2,8 +2,8 @@ import { Date, Document, Schema } from 'mongoose';
 
 export interface Ipos {
   pos: string;
-  required: Number;
-  current: Number;
+  required: number;
+  current: number;
 }
 
 export interface IProject extends Document {
@@ -19,6 +19,6 @@ export interface IProject extends Document {
   endAt: Date;
   writer: Schema.Types.ObjectId;
   projectLV: string;
-  receivedLike: Number;
+  receivedLike: number;
   createdAt: string;
 }
