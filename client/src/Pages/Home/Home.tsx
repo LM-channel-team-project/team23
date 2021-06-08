@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import PeopleList from '../../Components/People/PeopleList';
 import axios from 'axios';
 import { PROJECT_SERVER, USER_SERVER } from '../../Config';
-import { IProject } from '../../../../server/models/Project.interface';
+import { Ipos, IProject } from '../../../../server/models/Project.interface';
 import { IUser } from '../../../../server/models/User.interface';
 
 const Style = styled.div`
@@ -29,6 +29,22 @@ const ContentWrapper = styled.div`
 const Home = () => {
   const [newUsers, setNewUsers] = useState<Array<IUser>>([]);
   const [recentProjects, setRecentProjects] = useState<Array<IProject>>([]);
+
+  const getCurrentMembers = (positions: Array<Ipos>): number => {
+    const currentMembers = positions.map((position: Ipos) => position.current);
+    const sumCurrentMembers = currentMembers.reduce((a, b) => a + b);
+
+    return sumCurrentMembers;
+  };
+
+  const getRequiredMembers = (positions: Array<Ipos>): number => {
+    const requiredMembers = positions.map(
+      (position: Ipos) => position.required
+    );
+    const sumRequiredMembers = requiredMembers.reduce((a, b) => a + b);
+
+    return sumRequiredMembers;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +79,10 @@ const Home = () => {
                     title={project.title}
                     description={project.summary}
                     image={project.thumb}
-                    state={[1, 4]}
+                    state={[
+                      getCurrentMembers(project.position),
+                      getRequiredMembers(project.position),
+                    ]}
                     category={project.field}
                   />
                 ))
