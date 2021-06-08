@@ -6,8 +6,9 @@ import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
 import PeopleList from '../../Components/People/PeopleList';
 import axios from 'axios';
-import { PROJECT_SERVER } from '../../Config';
+import { PROJECT_SERVER, USER_SERVER } from '../../Config';
 import { IProject } from '../../../../server/models/Project.interface';
+import { IUser } from '../../../../server/models/User.interface';
 
 const Style = styled.div`
   width: 100%;
@@ -23,30 +24,10 @@ const ContentWrapper = styled.div`
   }
 `;
 
-interface IUser {
-  createdAt: Date;
-  avartarImg: string;
-  nickname: string;
-  position: string;
-  positionLevel: string;
-  interestSkills: string[];
-  receivedLike: number;
-}
-
 //users1은 신규 가입 3명 불러오기 => /api/users/new
 //users2는 프로젝트 미참여 중에 3명 불러오기 => api/users/waitList
 const Home = () => {
-  const [users, setUsers] = useState<[IUser]>([
-    {
-      avartarImg: 'http://kawala.in/assets/global/images/avatars/avatar1.png',
-      nickname: 'allmie',
-      position: 'frontend',
-      positionLevel: 'level2',
-      interestSkills: ['#WEB', '#Javascript'],
-      receivedLike: 9,
-      createdAt: new Date(),
-    },
-  ]);
+  const [newUsers, setNewUsers] = useState<Array<IUser>>([]);
   const [recentProjects, setRecentProjects] = useState<Array<IProject>>([]);
 
   useEffect(() => {
@@ -55,7 +36,11 @@ const Home = () => {
         const {
           data: { projects },
         } = await axios.get(`${PROJECT_SERVER}/resentProjects`);
+        const {
+          data: { user },
+        } = await axios.get(`${USER_SERVER}/new`);
         setRecentProjects(projects);
+        setNewUsers(user);
       } catch (error) {
         alert(`정보를 받아오지 못했습니다. ${error}`);
       }
@@ -103,11 +88,11 @@ const Home = () => {
         </div>
         <div className="new_user content">
           <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
-          <PeopleList userList={users} />
+          <PeopleList userList={newUsers} />
         </div>
         <div className="find_coworker content">
           <Title subtitle="Be my Co-Worker" title="동료를 찾아보세요" />
-          <PeopleList userList={users} />
+          <PeopleList userList={newUsers} />
         </div>
       </ContentWrapper>
     </Style>

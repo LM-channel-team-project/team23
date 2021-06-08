@@ -179,6 +179,8 @@ const ProjectBox = ({
         return '모바일';
       case 'F3':
         return '게임';
+      default:
+        return field;
     }
   };
   return (
