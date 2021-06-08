@@ -170,34 +170,46 @@ const ProjectBox = ({
   image,
   state,
   category,
-}: IProjectProps) => (
-  <Link to={`/project/${id}`}>
-    <ProjectContent>
-      <ProjectThumb>
-        <Image src={image} alt="project" />
-        <RecruitmentStatus>
-          {state[0] >= state[1] ? '모집완료' : '모집중'}
-        </RecruitmentStatus>
-        <HeartBtn />
-        <ProjectInfo>
-          <Recruitment>
-            모집인원: {state[0]}/{state[1]}
-          </Recruitment>
-          <Description>
-            {description ? description : '프로젝트 설명이 없습니다.'}
-          </Description>
-          <FavoriteNumber>
-            <HeartIcon />
-            <FavoriteCount>0</FavoriteCount>
-          </FavoriteNumber>
-        </ProjectInfo>
-      </ProjectThumb>
-      <ProjectTitle>
-        <ProjectCategory>[{category}]</ProjectCategory>
-        <ProjectName>{title}</ProjectName>
-      </ProjectTitle>
-    </ProjectContent>
-  </Link>
-);
+}: IProjectProps) => {
+  const checkField = (field: string) => {
+    switch (field) {
+      case 'F1':
+        return '웹';
+      case 'F2':
+        return '모바일';
+      case 'F3':
+        return '게임';
+    }
+  };
+  return (
+    <Link to={`/project/${id}`}>
+      <ProjectContent>
+        <ProjectThumb>
+          <Image src={image} alt="project" />
+          <RecruitmentStatus>
+            {state[0] >= state[1] ? '모집완료' : '모집중'}
+          </RecruitmentStatus>
+          <HeartBtn />
+          <ProjectInfo>
+            <Recruitment>
+              모집인원: {state[0]}/{state[1]}
+            </Recruitment>
+            <Description>
+              {description ? description : '프로젝트 설명이 없습니다.'}
+            </Description>
+            <FavoriteNumber>
+              <HeartIcon />
+              <FavoriteCount>0</FavoriteCount>
+            </FavoriteNumber>
+          </ProjectInfo>
+        </ProjectThumb>
+        <ProjectTitle>
+          <ProjectCategory>[{checkField(category)}]</ProjectCategory>
+          <ProjectName>{title}</ProjectName>
+        </ProjectTitle>
+      </ProjectContent>
+    </Link>
+  );
+};
 
 export default ProjectBox;

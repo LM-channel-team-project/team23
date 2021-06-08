@@ -47,15 +47,15 @@ const Home = () => {
       createdAt: new Date(),
     },
   ]);
-  const [projects, setProjects] = useState<Array<IProject>>([]);
+  const [recentProjects, setRecentProjects] = useState<Array<IProject>>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const {
-          data: { resentProjects },
+          data: { projects },
         } = await axios.get(`${PROJECT_SERVER}/resentProjects`);
-        setProjects(resentProjects);
+        setRecentProjects(projects);
       } catch (error) {
         alert(`정보를 받아오지 못했습니다. ${error}`);
       }
@@ -70,17 +70,19 @@ const Home = () => {
         <div className="new_project content">
           <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
           <ProjectBoxList>
-            {projects.map((project) => (
-              <ProjectBox
-                key={project._id}
-                id={project._id}
-                title={project.title}
-                description={project.summary}
-                image={project.thumb}
-                state={[1, 4]}
-                category={project.field}
-              />
-            ))}
+            {recentProjects
+              ? recentProjects.map((project) => (
+                  <ProjectBox
+                    key={project._id}
+                    id={project._id}
+                    title={project.title}
+                    description={project.summary}
+                    image={project.thumb}
+                    state={[1, 4]}
+                    category={project.field}
+                  />
+                ))
+              : '신규 프로젝트가 없습니다.'}
           </ProjectBoxList>
         </div>
         <div className="join_project content">
