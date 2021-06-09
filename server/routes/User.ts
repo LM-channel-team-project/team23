@@ -57,12 +57,12 @@ router.get('/new', (req: Request, res: Response) => {
   User.find()
     .sort({ createdAt: -1 })
     .limit(3)
-    .exec((err: Error, user: IUserMethods) => {
+    .exec((err: Error, users: IUserMethods) => {
       if (err) {
         return res.status(404).send(err);
       }
       res.status(200).json({
-        user,
+        users,
       });
     });
 });
