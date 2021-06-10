@@ -5,6 +5,7 @@ import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
+import { FieldData } from '../Common/OptionData';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -171,18 +172,12 @@ const ProjectBox = ({
   state,
   category,
 }: IProjectProps) => {
-  const checkField = (field: string) => {
-    switch (field) {
-      case 'F1':
-        return '웹';
-      case 'F2':
-        return '모바일';
-      case 'F3':
-        return '게임';
-      default:
-        return field;
+  const fieldLabel = FieldData.find((item) => {
+    if (item.value === category) {
+      return item;
     }
-  };
+  });
+
   return (
     <Link to={`/project/${id}`}>
       <ProjectContent>
@@ -206,7 +201,7 @@ const ProjectBox = ({
           </ProjectInfo>
         </ProjectThumb>
         <ProjectTitle>
-          <ProjectCategory>[{checkField(category)}]</ProjectCategory>
+          <ProjectCategory>{`[${fieldLabel?.label}]`}</ProjectCategory>
           <ProjectName>{title}</ProjectName>
         </ProjectTitle>
       </ProjectContent>
