@@ -192,7 +192,9 @@ const ProjectBox = ({
               모집인원: {state[0]}/{state[1]}
             </Recruitment>
             <Description>
-              {description ? description : '프로젝트 설명이 없습니다.'}
+              {description && description.length > 0
+                ? description
+                : '프로젝트 설명이 없습니다.'}
             </Description>
             <FavoriteNumber>
               <HeartIcon />
