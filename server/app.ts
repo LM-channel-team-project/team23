@@ -10,8 +10,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-const fs = require('fs');
-
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('hello typescript!');
 });

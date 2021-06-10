@@ -28,6 +28,9 @@ const defaultProps: IUser[] = [];
 
 const PeoplePresenter = () => {
   const [users, setUsers] = useState(defaultProps);
+  const [filterLoc, setFilterLoc] = useState('');
+  const [filterPos, setFilterPos] = useState('');
+  const [filterProjectState, setFilterProjectState] = useState('');
   const page = useRef(1);
   const endpoint = useRef(`${USER_SERVER}`);
 
@@ -68,6 +71,23 @@ const PeoplePresenter = () => {
     LoadUser();
   }, []);
 
+  useEffect(() => {
+    let query = '';
+    if (filterLoc != '') {
+      query += `loc=${filterLoc}&`;
+    }
+    if (filterPos != '') {
+      query += `pos=${filterPos}&`;
+    }
+    if (filterProjectState) {
+      query += 'UserState = 1';
+    }
+    endpoint.current = `${USER_SERVER}?${query}`;
+    setUsers(defaultProps);
+    LoadUser();
+    page.current = 1;
+  }, [filterLoc, filterPos, filterProjectState]);
+
   return (
     <Container>
       <InfiniteScroll
@@ -76,7 +96,14 @@ const PeoplePresenter = () => {
         hasMore={true}
         loader={<h4></h4>}
       >
-        <PeopleHeader />
+        <PeopleHeader
+          location={filterLoc}
+          pos={filterPos}
+          projectState={filterProjectState}
+          submitLocation={setFilterLoc}
+          submitPos={setFilterPos}
+          submitProjectState={setFilterProjectState}
+        />
         <PeopleRecommendTable />
         {users && <PeopleList userList={users} />}
       </InfiniteScroll>
