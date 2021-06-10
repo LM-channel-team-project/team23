@@ -67,7 +67,18 @@ router.get('/new', (req: Request, res: Response) => {
     });
 });
 
-router.get('/waitList', (req: Request, res: Response) => {});
+router.get('/waitList', (req: Request, res: Response) => {
+  User.find({ 'join.0': { $exists: false } })
+    .limit(3)
+    .exec((err: Error, users: IUserMethods) => {
+      if (err) {
+        return res.status(404).send(err);
+      }
+      res.status(200).json({
+        users,
+      });
+    });
+});
 
 router.get('/show/:id', (req: Request, res: Response) => {
   const reqNickname = req.params.id;
