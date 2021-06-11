@@ -28,12 +28,12 @@ const defaultProps: IUser[] = [];
 
 const PeoplePresenter = () => {
   const [users, setUsers] = useState(defaultProps);
+  const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
-  const endpoint = useRef(`${USER_SERVER}`);
 
   const LoadUser = () => {
     axios
-      .get(endpoint.current, {
+      .get(endpoint, {
         params: {
           page: page.current,
         },
@@ -53,7 +53,7 @@ const PeoplePresenter = () => {
           return {
             avartarImg: userInfo.avartarImg
               ? userInfo.avartarImg
-              : 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
             nickname: userInfo.nickname,
             position: userInfo.position,
             positionLevel: userInfo.positionLevel,
@@ -68,6 +68,11 @@ const PeoplePresenter = () => {
     LoadUser();
   }, []);
 
+  useEffect(() => {
+    page.current = 1;
+    setUsers(defaultProps);
+  }, [endpoint]);
+
   return (
     <Container>
       <InfiniteScroll
@@ -76,7 +81,7 @@ const PeoplePresenter = () => {
         hasMore={true}
         loader={<h4></h4>}
       >
-        <PeopleHeader />
+        <PeopleHeader endpoint={endpoint} submitFilter={setEndpoint} />
         <PeopleRecommendTable />
         {users && <PeopleList userList={users} />}
       </InfiniteScroll>

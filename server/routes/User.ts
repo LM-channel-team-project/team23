@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require('../models/User');
 import { IUserMethods } from '../models/User.interface';
 import { auth } from '../middleware/auth.middleware';
+import UserRole from '../models/UserRole';
 
 const multer = require('multer');
 
@@ -17,6 +18,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single('profileImg');
 
+async function isJoin(_id: any) {
+  const result = await UserRole.find().where('userId').equals(_id)
+  if(result.length > 0) {
+    return true
+  }
+}
+
+async function filterById(id: any){
+  if ( await isJoin(id) ){
+    return true;
+  }
+  return false;
+}
+
 //api/users?loc=A0&pos=frontend&UserState=1&page=1
 //지역 필터/ 직무 필터/ 프로젝트 참여 여부
 // 프로젝트 참여 여부는 UserRole에서 찾아야 함. id가 userRole에 있으면 참여중, 없으면 미참여중
@@ -26,7 +41,7 @@ router.get('/', (req: Request, res: Response) => {
   const PosFilter = req.query.pos
   const skip = (parseInt(page)-1)*10;
   const limit = 10;
-  const UserStateFilter = req.query.UserState
+  const UserStateFilter = req.query.UserState ? true : false;
   let filterarg:any={}
   if(LocFilter){
     filterarg["availableLocation"]=LocFilter
@@ -37,19 +52,35 @@ router.get('/', (req: Request, res: Response) => {
   User.find(filterarg)
     .skip(skip)
     .limit(limit)
-    .exec((err: Error, user: IUserMethods) => {
+    .exec((err: Error, userList: Array<IUserMethods>) => {
       if(err){
         return res.json({
           success: false,
           err,
         })
       }
-      res.status(200).json({
-        success: true,
-        page,
-        filterarg,
-        user
-      })
+      if(UserStateFilter){
+        const data = (userList.filter(async (user) => {
+          await filterById(user._id).then((response) =>{
+            if(response){
+              console.log(user);
+            };
+          })
+        }));
+        res.status(200).json({
+          success: true,
+          page,
+          user: data,
+        })
+      }     
+      else {
+        res.status(200).json({
+          success: true,
+          page,
+          filterarg,
+          user: userList,
+        })
+      }
     })
 })
 
@@ -73,6 +104,24 @@ router.get('/new', (req: Request, res: Response) => {
 
 router.get('/waitList', (req:Request, res:Response) => {
   
+})
+
+router.get('/recommend', (req: Request, res: Response) => {
+  User.find()
+    .sort({ receivedLike: -1 })
+    .limit(6)
+    .exec((err: Error, user: IUserMethods) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        })
+      }
+      res.status(200).json({
+        success: true,
+        user,
+      })
+    })
 })
 
 router.get('/show/:id', (req: Request, res: Response) => {

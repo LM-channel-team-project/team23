@@ -217,6 +217,8 @@ function BuildProject() {
     }
   };
 
+  const userId = localStorage.getItem('userId');
+
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
@@ -229,6 +231,7 @@ function BuildProject() {
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
         info: descriptionPath,
         summary,
+        writer: userId,
         field,
         area: location,
         position: positions,
