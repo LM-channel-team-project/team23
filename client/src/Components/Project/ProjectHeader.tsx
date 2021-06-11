@@ -9,10 +9,15 @@ const HeaderContainer = styled.h2`
   padding: 40px 10px 24px;
 `;
 
-const ProjectHeader = () => (
+interface IProps {
+  setter: React.Dispatch<React.SetStateAction<string>>;
+  setIsRecruit: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ProjectHeader = ({ setter, setIsRecruit }: IProps) => (
   <HeaderContainer>
     <Title subtitle="Study with us!" title="함께 할 프로젝트 살펴보기" />
-    <ProjectSearchOption />
+    <ProjectSearchOption setter={setter} setIsRecruit={setIsRecruit} />
   </HeaderContainer>
 );
 
