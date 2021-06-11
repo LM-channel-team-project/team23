@@ -239,7 +239,6 @@ function BuildProject() {
         startAt: startDate,
         endAt: endDate,
         projectLV: level,
-        writer: userId,
         receivedLike: 0,
       };
       const { data } = await axios.post(
