@@ -84,7 +84,7 @@ const Home = () => {
         <div className="new_project content">
           <Title subtitle="New Project" title="신규 프로젝트가 나왔어요" />
           <ProjectBoxList>
-            {recentProjects.length > 0
+            {recentProjects && recentProjects.length > 0
               ? recentProjects.map((project) => (
                   <ProjectBox
                     key={project._id}
@@ -109,7 +109,7 @@ const Home = () => {
             title="모집중인 프로젝트를 둘러봐요"
           />
           <ProjectBoxList>
-            {recentProjects.length > 0
+            {recentProjects && recentProjects.length > 0
               ? recruitmentProjects.map((project) => (
                   <ProjectBox
                     key={project._id}
@@ -130,7 +130,7 @@ const Home = () => {
         </div>
         <div className="new_user content">
           <Title subtitle="New Co-Worker" title="가입을 축하드려요" />
-          {newUsers.length > 0 ? (
+          {newUsers && newUsers.length > 0 ? (
             <PeopleList userList={newUsers} />
           ) : (
             '최근 가입한 유저가 없습니다.'
@@ -138,7 +138,7 @@ const Home = () => {
         </div>
         <div className="find_coworker content">
           <Title subtitle="Be my Co-Worker" title="동료를 찾아보세요" />
-          {waitUsers.length > 0 ? (
+          {waitUsers && waitUsers.length > 0 ? (
             <PeopleList userList={waitUsers} />
           ) : (
             '프로젝트 미 참여 중인 유저가 없습니다.'

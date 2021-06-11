@@ -116,14 +116,20 @@ router.get('/new', (req: Request, res: Response) => {
 });
 
 router.get('/waitList', (req: Request, res: Response) => {
-  User.find({ 'join.0': { $exists: false } })
+  User.find()
     .limit(3)
-    .exec((err: Error, users: IUserMethods) => {
+    .exec(async (err: Error, users: Array<IUserMethods>) => {
+      const data = await filterAsync(
+        users,
+        async (value: any, index: number) => {
+          return !(await filterById(value._id));
+        }
+      );
       if (err) {
-        return res.status(404).send(err);
+        return res.status(400).send(err);
       }
       res.status(200).json({
-        users,
+        users: data,
       });
     });
 });
