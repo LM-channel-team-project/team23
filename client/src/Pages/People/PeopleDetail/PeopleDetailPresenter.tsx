@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../../../Components/Common/Button';
+import axios from 'axios';
+import { USER_SERVER } from '../../../Config';
 
 const UserContainer = styled.div`
   max-width: 1200px;
@@ -97,72 +99,114 @@ const CurrentProject = styled.p`
   font-size: 0.8em;
 `;
 
-const PeopleDetailPresenter = () => (
-  <UserContainer>
-    <ImgContainer>
-      <UserImg
-        src="http://kawala.in/assets/global/images/avatars/avatar4.png"
-        alt="Avatar"
-      />
-    </ImgContainer>
-    <UserInfo>
-      <UserInfoTop>
-        <Username>allmie</Username>
-        <ButtonGroup>
-          <Button
-            ButtonColor="red"
-            ButtonMode="active"
-            ButtonSize="medium"
-            ButtonName="1:1 대화"
-          />
-          <Button
-            ButtonColor="darkblue"
-            ButtonMode="active"
-            ButtonSize="medium"
-            ButtonName="프로젝트 초대"
-          />
-        </ButtonGroup>
-      </UserInfoTop>
-      <UserInfoMid>
-        <UserJob>
-          <Title>직무</Title>
-          <Contents>프론트엔드</Contents>
-        </UserJob>
-        <UserLearningDate>
-          <Title>숙련도</Title>
-          <Contents>6개월</Contents>
-        </UserLearningDate>
-        <UserStack>
-          <Title>Stack</Title>
-          <Contents>React, NodeJS, javascript</Contents>
-        </UserStack>
-        <UserInfoTable>
-          <UserInfoItem>
-            <Title>온/오프라인</Title>
-            <Contents>모두 가능</Contents>
-          </UserInfoItem>
-          <UserInfoItem>
-            <Title>장소</Title>
-            <Contents>서울</Contents>
-          </UserInfoItem>
-          <UserInfoItem>
-            <Title>모임 시간</Title>
-            <Contents>주중, 주말</Contents>
-          </UserInfoItem>
-        </UserInfoTable>
-        <UserIntro>
-          <Title>소개</Title>
-          <Contents>
-            안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
-          </Contents>
-        </UserIntro>
-      </UserInfoMid>
-      <ProjectTab>
-        <TabTitle>나의 프로젝트</TabTitle>
-        <CurrentProject>진행중인 프로젝트가 없습니다</CurrentProject>
-      </ProjectTab>
-    </UserInfo>
-  </UserContainer>
-);
+interface IUser {
+  avartarImg: string;
+  nickname: string;
+  position: string;
+  positionLevel: string;
+  interestSkills: string[];
+  availableTime: string;
+  availableLoc: string;
+  availableWeek: string;
+  receivedLike: number;
+  info: string;
+}
+
+const defaultProps: IUser[] = [];
+
+const PeopleDetailPresenter = () => {
+  const url = location.href.split('/');
+  const UserNickname = url.pop();
+
+  const [user, setUser] = useState(defaultProps);
+
+  useEffect(() => {
+    axios.get(`${USER_SERVER}/show/${UserNickname}`).then((response) => {
+      if (response.data.success) {
+        const userDB = response.data.user;
+        const data = {
+          avartarImg: userDB.avartarImg
+            ? userDB.avartarImg
+            : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+          nickname: userDB.nickname,
+          position: userDB.position,
+          positionLevel: userDB.positionLevel,
+          interestSkills: userDB.interestSkills,
+          availableLoc: userDB.availableLocation,
+          availableWeek: userDB.availableWeek,
+          availableTime: userDB.availableTime,
+          receivedLike: userDB.receivedLike,
+          info: userDB.intro,
+        };
+        setUser([data]);
+      }
+    });
+  }, []);
+
+  return (
+    <UserContainer>
+      <ImgContainer>
+        <UserImg src={user[0].avartarImg} alt="Avatar" />
+      </ImgContainer>
+      <UserInfo>
+        <UserInfoTop>
+          <Username>{user[0].nickname}</Username>
+          <ButtonGroup>
+            <Button
+              ButtonColor="red"
+              ButtonMode="active"
+              ButtonSize="medium"
+              ButtonName="1:1 대화"
+            />
+            <Button
+              ButtonColor="darkblue"
+              ButtonMode="active"
+              ButtonSize="medium"
+              ButtonName="프로젝트 초대"
+            />
+          </ButtonGroup>
+        </UserInfoTop>
+        <UserInfoMid>
+          <UserJob>
+            <Title>직무</Title>
+            <Contents>{user[0].position}</Contents>
+          </UserJob>
+          <UserLearningDate>
+            <Title>숙련도</Title>
+            <Contents>{user[0].positionLevel}</Contents>
+          </UserLearningDate>
+          <UserStack>
+            <Title>Stack</Title>
+            <Contents>{user[0].interestSkills}</Contents>
+          </UserStack>
+          <UserInfoTable>
+            <UserInfoItem>
+              <Title>온/오프라인</Title>
+              <Contents>모두 가능</Contents>
+            </UserInfoItem>
+            <UserInfoItem>
+              <Title>장소</Title>
+              <Contents>서울</Contents>
+            </UserInfoItem>
+            <UserInfoItem>
+              <Title>모임 시간</Title>
+              <Contents>주중, 주말</Contents>
+            </UserInfoItem>
+          </UserInfoTable>
+          <UserIntro>
+            <Title>소개</Title>
+            <Contents>
+              안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요
+            </Contents>
+          </UserIntro>
+        </UserInfoMid>
+        <ProjectTab>
+          <TabTitle>나의 프로젝트</TabTitle>
+          <CurrentProject>진행중인 프로젝트가 없습니다</CurrentProject>
+        </ProjectTab>
+      </UserInfo>
+    </UserContainer>
+  );
+};
 
 export default PeopleDetailPresenter;
