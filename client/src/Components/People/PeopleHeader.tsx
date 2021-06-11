@@ -28,8 +28,11 @@ const PeopleHeader = ({ endpoint, submitFilter }: IProps) => {
     if (filterPos != '' && filterPos != 'none') {
       query += `pos=${filterPos}&`;
     }
+    if (filterProjectState == 'P1') {
+      query += 'UserState=1';
+    }
     if (filterProjectState == 'P2') {
-      query += 'UserState = 1';
+      query += 'UserState=2';
     }
     submitFilter(`${USER_SERVER}?${query}`);
   }, [filterLoc, filterPos, filterProjectState]);

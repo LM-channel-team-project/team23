@@ -4,6 +4,8 @@ const { User } = require('../models/User');
 import { IUserMethods } from '../models/User.interface';
 import { auth } from '../middleware/auth.middleware';
 import UserRole from '../models/UserRole';
+import filterAsync from 'node-filter-async';
+import { NONAME } from 'dns';
 
 const multer = require('multer');
 
@@ -41,7 +43,7 @@ router.get('/', (req: Request, res: Response) => {
   const PosFilter = req.query.pos
   const skip = (parseInt(page)-1)*10;
   const limit = 10;
-  const UserStateFilter = req.query.UserState ? true : false;
+  const UserStateFilter = req.query.UserState==='1' ? 1 : req.query.UserState==='2' ? 2 : 0;
   let filterarg:any={}
   if(LocFilter){
     filterarg["availableLocation"]=LocFilter
@@ -52,27 +54,33 @@ router.get('/', (req: Request, res: Response) => {
   User.find(filterarg)
     .skip(skip)
     .limit(limit)
-    .exec((err: Error, userList: Array<IUserMethods>) => {
+    .exec(async (err: Error, userList: Array<IUserMethods>) => {
       if(err){
         return res.json({
           success: false,
           err,
         })
       }
-      if(UserStateFilter){
-        const data = (userList.filter(async (user) => {
-          await filterById(user._id).then((response) =>{
-            if(response){
-              console.log(user);
-            };
-          })
-        }));
+      if (UserStateFilter === 1) {
+        const data = await filterAsync(userList, async (value:any, index:number) => {
+          return ( await filterById(value._id));
+        })
         res.status(200).json({
           success: true,
           page,
           user: data,
         })
-      }     
+      }
+      if (UserStateFilter === 2) {
+        const data = await filterAsync(userList, async (value:any, index:number) => {
+          return !( await filterById(value._id));
+        })
+        res.status(200).json({
+          success: true,
+          page,
+          user: data,
+        })
+      }
       else {
         res.status(200).json({
           success: true,
