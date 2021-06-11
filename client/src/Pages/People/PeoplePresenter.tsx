@@ -71,6 +71,7 @@ const PeoplePresenter = () => {
   useEffect(() => {
     page.current = 1;
     setUsers(defaultProps);
+    LoadUser();
   }, [endpoint]);
 
   return (
