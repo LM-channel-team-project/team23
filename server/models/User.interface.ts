@@ -17,6 +17,8 @@ export interface IUser extends Document {
   tel?: string;
   portfolio?: string[];
   intro?: string;
+  role: string[];
+  join: number[];
 }
 
 export interface IUserMethods extends IUser {

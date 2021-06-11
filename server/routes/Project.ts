@@ -127,4 +127,31 @@ router.post('/buildProject', (req: Request, res: Response) => {
   });
 });
 
+router.get('/resent', (req: Request, res: Response) => {
+  Project.find()
+    .sort({ createdAt: -1 })
+    .limit(6)
+    .exec((err: Error, projects: IProject) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.status(200).json({
+        projects,
+      });
+    });
+});
+
+router.get('/recruitment', (req: Request, res: Response) => {
+  Project.find({ $expr: { $lt: ['$position.current', '$position.required'] } })
+    .limit(6)
+    .exec((err: Error, projects: IProject) => {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.status(200).json({
+        projects,
+      });
+    });
+});
+
 module.exports = router;

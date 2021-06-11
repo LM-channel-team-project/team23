@@ -21,14 +21,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single('profileImg');
 
 async function isJoin(_id: any) {
-  const result = await UserRole.find().where('userId').equals(_id)
-  if(result.length > 0) {
-    return true
+  const result = await UserRole.find().where('userId').equals(_id);
+  if (result.length > 0) {
+    return true;
   }
 }
 
-async function filterById(id: any){
-  if ( await isJoin(id) ){
+async function filterById(id: any) {
+  if (await isJoin(id)) {
     return true;
   }
   return false;
@@ -38,81 +38,101 @@ async function filterById(id: any){
 //지역 필터/ 직무 필터/ 프로젝트 참여 여부
 // 프로젝트 참여 여부는 UserRole에서 찾아야 함. id가 userRole에 있으면 참여중, 없으면 미참여중
 router.get('/', (req: Request, res: Response) => {
-  const page = typeof(req.query.page)==='string' ? req.query.page : "1";
-  const LocFilter = req.query.loc
-  const PosFilter = req.query.pos
-  const skip = (parseInt(page)-1)*10;
+  const page = typeof req.query.page === 'string' ? req.query.page : '1';
+  const LocFilter = req.query.loc;
+  const PosFilter = req.query.pos;
+  const skip = (parseInt(page) - 1) * 10;
   const limit = 10;
-  const UserStateFilter = req.query.UserState==='1' ? 1 : req.query.UserState==='2' ? 2 : 0;
-  let filterarg:any={}
-  if(LocFilter){
-    filterarg["availableLocation"]=LocFilter
+
+  const UserStateFilter =
+    req.query.UserState === '1' ? 1 : req.query.UserState === '2' ? 2 : 0;
+  let filterarg: any = {};
+  if (LocFilter) {
+    filterarg['availableLocation'] = LocFilter;
   }
-  if(PosFilter){
-    filterarg["position"]=PosFilter
+  if (PosFilter) {
+    filterarg['position'] = PosFilter;
   }
   User.find(filterarg)
     .skip(skip)
     .limit(limit)
+
     .exec(async (err: Error, userList: Array<IUserMethods>) => {
-      if(err){
+      if (err) {
         return res.json({
           success: false,
           err,
-        })
+        });
       }
+
       if (UserStateFilter === 1) {
-        const data = await filterAsync(userList, async (value:any, index:number) => {
-          return ( await filterById(value._id));
-        })
+        const data = await filterAsync(
+          userList,
+          async (value: any, index: number) => {
+            return await filterById(value._id);
+          }
+        );
         res.status(200).json({
           success: true,
           page,
           user: data,
-        })
+        });
       }
       if (UserStateFilter === 2) {
-        const data = await filterAsync(userList, async (value:any, index:number) => {
-          return !( await filterById(value._id));
-        })
+        const data = await filterAsync(
+          userList,
+          async (value: any, index: number) => {
+            return !(await filterById(value._id));
+          }
+        );
         res.status(200).json({
           success: true,
           page,
           user: data,
-        })
-      }
-      else {
+        });
+      } else {
         res.status(200).json({
           success: true,
           page,
           filterarg,
           user: userList,
-        })
+        });
       }
-    })
-})
+    });
+});
 
 router.get('/new', (req: Request, res: Response) => {
   User.find()
-    .sort({createdAt: -1})
+    .sort({ createdAt: -1 })
     .limit(3)
-    .exec((err: Error, user:IUserMethods) => {
-      if(err){
-        return res.json({
-          success: false,
-          err,
-        })
+    .exec((err: Error, users: IUserMethods) => {
+      if (err) {
+        return res.status(404).send(err);
       }
       res.status(200).json({
-        success: true,
-        user,
-      })
-    })
-})
+        users,
+      });
+    });
+});
 
-router.get('/waitList', (req:Request, res:Response) => {
-  
-})
+router.get('/waitList', (req: Request, res: Response) => {
+  User.find()
+    .limit(3)
+    .exec(async (err: Error, users: Array<IUserMethods>) => {
+      const data = await filterAsync(
+        users,
+        async (value: any, index: number) => {
+          return !(await filterById(value._id));
+        }
+      );
+      if (err) {
+        return res.status(400).send(err);
+      }
+      res.status(200).json({
+        users: data,
+      });
+    });
+});
 
 router.get('/recommend', (req: Request, res: Response) => {
   User.find()
@@ -123,27 +143,27 @@ router.get('/recommend', (req: Request, res: Response) => {
         return res.json({
           success: false,
           err,
-        })
+        });
       }
       res.status(200).json({
         success: true,
         user,
-      })
-    })
-})
+      });
+    });
+});
 
 router.get('/show/:id', (req: Request, res: Response) => {
   const reqNickname = req.params.id;
-  User.findOne({ nickname: reqNickname}, (err: Error, user:IUserMethods) => {
-    if(err) {
-      return res.json({ success: false, err});
+  User.findOne({ nickname: reqNickname }, (err: Error, user: IUserMethods) => {
+    if (err) {
+      return res.json({ success: false, err });
     }
     res.status(200).json({
       success: true,
       user,
-    })
-  })
-})
+    });
+  });
+});
 
 router.post('/nickname', (req: Request, res: Response) => {
   User.findOne(
