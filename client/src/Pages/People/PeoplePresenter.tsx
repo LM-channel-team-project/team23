@@ -28,15 +28,12 @@ const defaultProps: IUser[] = [];
 
 const PeoplePresenter = () => {
   const [users, setUsers] = useState(defaultProps);
-  const [filterLoc, setFilterLoc] = useState('');
-  const [filterPos, setFilterPos] = useState('');
-  const [filterProjectState, setFilterProjectState] = useState('');
+  const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
-  const endpoint = useRef(`${USER_SERVER}`);
 
   const LoadUser = () => {
     axios
-      .get(endpoint.current, {
+      .get(endpoint, {
         params: {
           page: page.current,
         },
@@ -56,7 +53,7 @@ const PeoplePresenter = () => {
           return {
             avartarImg: userInfo.avartarImg
               ? userInfo.avartarImg
-              : 'http://kawala.in/assets/global/images/avatars/avatar1.png',
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
             nickname: userInfo.nickname,
             position: userInfo.position,
             positionLevel: userInfo.positionLevel,
@@ -72,21 +69,9 @@ const PeoplePresenter = () => {
   }, []);
 
   useEffect(() => {
-    let query = '';
-    if (filterLoc != '') {
-      query += `loc=${filterLoc}&`;
-    }
-    if (filterPos != '') {
-      query += `pos=${filterPos}&`;
-    }
-    if (filterProjectState) {
-      query += 'UserState = 1';
-    }
-    endpoint.current = `${USER_SERVER}?${query}`;
-    setUsers(defaultProps);
-    LoadUser();
     page.current = 1;
-  }, [filterLoc, filterPos, filterProjectState]);
+    setUsers(defaultProps);
+  }, [endpoint]);
 
   return (
     <Container>
@@ -96,14 +81,7 @@ const PeoplePresenter = () => {
         hasMore={true}
         loader={<h4></h4>}
       >
-        <PeopleHeader
-          location={filterLoc}
-          pos={filterPos}
-          projectState={filterProjectState}
-          submitLocation={setFilterLoc}
-          submitPos={setFilterPos}
-          submitProjectState={setFilterProjectState}
-        />
+        <PeopleHeader endpoint={endpoint} submitFilter={setEndpoint} />
         <PeopleRecommendTable />
         {users && <PeopleList userList={users} />}
       </InfiniteScroll>

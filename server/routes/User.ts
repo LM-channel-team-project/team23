@@ -106,6 +106,24 @@ router.get('/waitList', (req:Request, res:Response) => {
   
 })
 
+router.get('/recommend', (req: Request, res: Response) => {
+  User.find()
+    .sort({ receivedLike: -1 })
+    .limit(6)
+    .exec((err: Error, user: IUserMethods) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        })
+      }
+      res.status(200).json({
+        success: true,
+        user,
+      })
+    })
+})
+
 router.get('/show/:id', (req: Request, res: Response) => {
   const reqNickname = req.params.id;
   User.findOne({ nickname: reqNickname}, (err: Error, user:IUserMethods) => {
