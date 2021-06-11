@@ -31,7 +31,7 @@ const PeoplePresenter = () => {
   const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
 
-  const LoadUser = () => {
+  const LoadUser = (filterChange = false) => {
     axios
       .get(endpoint, {
         params: {
@@ -60,7 +60,8 @@ const PeoplePresenter = () => {
             interestSkills: userInfo.interestSkills,
           };
         });
-        setUsers([...users, ...user]);
+        if (!filterChange) setUsers([...users, ...user]);
+        else setUsers([...user]);
       });
   };
 
@@ -70,7 +71,7 @@ const PeoplePresenter = () => {
 
   useEffect(() => {
     page.current = 1;
-    setUsers(defaultProps);
+    LoadUser(true);
   }, [endpoint]);
 
   return (
