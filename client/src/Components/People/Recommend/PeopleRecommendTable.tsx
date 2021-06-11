@@ -1,7 +1,8 @@
-import React, { ReactElement } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import users from '../userDB';
 import RecommendUser from './PeopleRecommendUser';
+import { USER_SERVER } from '../../../Config';
+import axios from 'axios';
 
 const RecommendTab = styled.div`
   width: 100%;
@@ -26,24 +27,52 @@ const RecommendList = styled.ul`
   overflow-x: auto;
 `;
 
-const PeopleRecommendTable = (): ReactElement => (
-  <RecommendTab>
-    <RecommendTabHeader>
-      [추천] 좌우 고민하지 말고 바로 이 멤버!
-    </RecommendTabHeader>
+interface IUser {
+  avartarImg: string;
+  nickname: string;
+  position: string;
+  interestSkills: string[];
+}
 
-    <RecommendList>
-      {users.map((user, index) => (
-        <RecommendUser
-          key={index}
-          avartarImg={user.avartarImg}
-          nickname={user.nickname}
-          position={user.position}
-          interestSkills={user.interestSkills}
-        />
-      ))}
-    </RecommendList>
-  </RecommendTab>
-);
+const defaultProps: IUser[] = [];
+
+const PeopleRecommendTable = () => {
+  const [users, setUsers] = useState(defaultProps);
+
+  useEffect(() => {
+    axios.get(`${USER_SERVER}/recommend`).then((response) => {
+      const reqUsers = response.data.user;
+      const data: [IUser] = reqUsers.map((user: any) => {
+        return {
+          avartarImg: user.avartarImg
+            ? user.avartarImg
+            : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+          nickname: user.nickname,
+          position: user.position,
+          interestSkills: user.interestSkills,
+        };
+      });
+      setUsers(data);
+    });
+  });
+  return (
+    <RecommendTab>
+      <RecommendTabHeader>
+        [추천] 좌우 고민하지 말고 바로 이 멤버!
+      </RecommendTabHeader>
+      <RecommendList>
+        {users.map((user, index) => (
+          <RecommendUser
+            key={index}
+            avartarImg={user.avartarImg}
+            nickname={user.nickname}
+            position={user.position}
+            interestSkills={user.interestSkills}
+          />
+        ))}
+      </RecommendList>
+    </RecommendTab>
+  );
+};
 
 export default PeopleRecommendTable;

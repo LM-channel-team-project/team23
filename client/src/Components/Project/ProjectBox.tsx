@@ -156,12 +156,13 @@ const ProjectName = styled.div`
 `;
 
 interface IProjectProps {
-  id: number;
+  id: string;
   title: string;
   description: string;
   image: string;
   state: Array<number>;
   category: string;
+  receivedLike: number;
 }
 
 const ProjectBox = ({
@@ -171,6 +172,7 @@ const ProjectBox = ({
   image,
   state,
   category,
+  receivedLike,
 }: IProjectProps) => {
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
@@ -198,7 +200,7 @@ const ProjectBox = ({
             </Description>
             <FavoriteNumber>
               <HeartIcon />
-              <FavoriteCount>0</FavoriteCount>
+              <FavoriteCount>{receivedLike}</FavoriteCount>
             </FavoriteNumber>
           </ProjectInfo>
         </ProjectThumb>

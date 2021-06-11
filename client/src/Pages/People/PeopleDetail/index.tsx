@@ -1,3 +1,3 @@
-import PeopleDetailComponents from './PeopleDetailComponents';
+import PeopleDetailPresenter from './PeopleDetailPresenter';
 
-export default PeopleDetailComponents;
+export default PeopleDetailPresenter;

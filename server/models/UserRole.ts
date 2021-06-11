@@ -3,7 +3,7 @@ import {IUserRole} from './UserRole.interface';
 
 const userRoleSchema: mongoose.Schema<IUserRole> = new Schema(
   {
-    prjectId: {
+    projectId: {
       type: Schema.Types.ObjectId,
       ref: 'Project'
     },

@@ -97,6 +97,7 @@ const Home = () => {
                       getRequiredMembers(project.position),
                     ]}
                     category={project.field}
+                    receivedLike={0}
                   />
                 ))
               : '신규 프로젝트가 없습니다.'}
@@ -121,6 +122,7 @@ const Home = () => {
                       getRequiredMembers(project.position),
                     ]}
                     category={project.field}
+                    receivedLike={0}
                   />
                 ))
               : '모집중인 프로젝트가 없습니다.'}

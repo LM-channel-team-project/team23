@@ -12,6 +12,7 @@ export const PosData = [
 ];
 
 export const LevelData = [
+  { value: 'level0', label: '레벨', text: '' },
   { value: 'level1', label: '초보', text: '6개월 미만으로 공부했어요.' },
   { value: 'level2', label: '중수', text: '1년 정도 공부했어요.' },
   { value: 'level3', label: '고수', text: '2년 이상 공부했어요.' },

@@ -45,6 +45,7 @@
     "node-filter-async": "^2.0.0",
     "react-datepicker": "^3.8.0",
     "ts-node-dev": "^1.1.6",
-    "type-dotenv": "^1.0.0-beta.2"
+    "type-dotenv": "^1.0.0-beta.2",
+    "urlencode": "^1.1.0"
   }
 }
