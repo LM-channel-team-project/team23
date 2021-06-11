@@ -231,7 +231,6 @@ function BuildProject() {
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
         info: descriptionPath,
         summary,
-        writer: userId,
         field,
         area: location,
         position: positions,

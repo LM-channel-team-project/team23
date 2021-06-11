@@ -186,11 +186,7 @@ const ProjectBox = ({
           <Recruitment>
             모집인원: {state[0]}/{state[1]}
           </Recruitment>
-          <Description>
-            {description.length > 40
-              ? `${description.substring(0, 40)}...`
-              : description}
-          </Description>
+          <Description>{description}</Description>
           <FavoriteNumber>
             <HeartIcon />
             <FavoriteCount>{receivedLike}</FavoriteCount>
