@@ -180,6 +180,10 @@ const ProjectBox = ({
     }
   });
 
+  const onHeartClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <Link to={`/project/${id}`}>
       <ProjectContent>
@@ -188,7 +192,7 @@ const ProjectBox = ({
           <RecruitmentStatus>
             {state[0] >= state[1] ? '모집완료' : '모집중'}
           </RecruitmentStatus>
-          <HeartBtn />
+          <HeartBtn onClick={onHeartClick} />
           <ProjectInfo>
             <Recruitment>
               모집인원: {state[0]}/{state[1]}
