@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PosData, LevelData } from '../Common/OptionData';
+import fullHeart from '../../img/full-heart.svg';
+import emptyHeart from '../../img/empty-heart.svg';
+import borderHeart from '../../img/border-heart.svg';
 
 const User = styled.div`
   width: 100%;
@@ -100,6 +103,19 @@ const UserStack = styled.span`
   line-height: 1.4em;
 `;
 
+const LikeButton = styled.span`
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  background-image: url(${emptyHeart});
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  &:hover {
+    background-image: url(${borderHeart});
+  }
+`;
+
 const Like = styled.span``;
 
 interface IUser {
@@ -158,7 +174,8 @@ const PeopleListItem = ({
             <UserStack key={index}>{stack}</UserStack>
           ))}
         </UserStackList>
-        <Like>♥ {receivedLike}</Like>
+        <LikeButton />
+        <Like>{receivedLike}</Like>
       </UserBottom>
     </User>
   );
