@@ -45,7 +45,7 @@ router.post('/upLike', (req: Request, res: Response) => {
     if (error) {
       return res.status(400).send(error);
     }
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
     });
   });

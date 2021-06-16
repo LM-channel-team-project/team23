@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import fullHeart from '../../img/full-heart.svg';
-import emptyHeart from '../../img/empty-heart.svg';
-import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
@@ -72,22 +69,6 @@ const RecruitmentStatus = styled.div`
   top: 15px;
   left: 20px;
 `;
-
-const HeartBtn = styled.div`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background-image: url(${emptyHeart});
-  background-repeat: no-repeat;
-  background-size: contain;
-  cursor: pointer;
-  &:hover {
-    background-image: url(${borderHeart});
-  }
-`;
-
 const ProjectInfo = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -175,6 +156,8 @@ const ProjectBox = ({
   category,
   receivedLike,
 }: IProjectProps) => {
+  const [like, setLike] = useState(0);
+
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
       return item;
@@ -193,6 +176,7 @@ const ProjectBox = ({
             isProject={true}
             userId={localStorage.getItem('userId')}
             projectId={id}
+            setLike={setLike}
           />
           <ProjectInfo>
             <Recruitment>
@@ -205,7 +189,7 @@ const ProjectBox = ({
             </Description>
             <FavoriteNumber>
               <HeartIcon />
-              <FavoriteCount>{receivedLike}</FavoriteCount>
+              <FavoriteCount>{like}</FavoriteCount>
             </FavoriteNumber>
           </ProjectInfo>
         </ProjectThumb>

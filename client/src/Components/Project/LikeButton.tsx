@@ -25,9 +25,10 @@ interface IProps {
   isProject: boolean;
   userId: null | string;
   projectId: null | string;
+  setLike: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const LikeButton = ({ isProject, userId, projectId }: IProps) => {
+const LikeButton = ({ isProject, userId, projectId, setLike }: IProps) => {
   const [isLike, setIsLike] = useState(false);
   let formData = {};
   if (isProject) {
@@ -44,6 +45,7 @@ const LikeButton = ({ isProject, userId, projectId }: IProps) => {
       } = await axios.post(`${LIKE_SERVER}/upLike`, formData);
       if (success) {
         setIsLike(true);
+        setLike((like) => like + 1);
       }
     } catch (error) {
       alert(`좋아요에 실패했습니다. ${error}`);
@@ -57,6 +59,7 @@ const LikeButton = ({ isProject, userId, projectId }: IProps) => {
       } = await axios.post(`${LIKE_SERVER}/unLike`, formData);
       if (success) {
         setIsLike(false);
+        setLike((like) => like - 1);
       }
     } catch (error) {
       alert(`좋아요 취소에 실패했습니다. ${error}`);
@@ -79,6 +82,7 @@ const LikeButton = ({ isProject, userId, projectId }: IProps) => {
         const {
           data: { likes },
         } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
+        setLike(likes.length);
         likes.forEach((like: any) => {
           if (like.SenduserId === userId) {
             setIsLike(true);
