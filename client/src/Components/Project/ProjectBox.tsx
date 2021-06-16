@@ -6,6 +6,7 @@ import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
+import LikeButton from './LikeButton';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -180,10 +181,6 @@ const ProjectBox = ({
     }
   });
 
-  const onHeartClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-  };
-
   return (
     <Link to={`/project/${id}`}>
       <ProjectContent>
@@ -192,7 +189,11 @@ const ProjectBox = ({
           <RecruitmentStatus>
             {state[0] >= state[1] ? '모집완료' : '모집중'}
           </RecruitmentStatus>
-          <HeartBtn onClick={onHeartClick} />
+          <LikeButton
+            isProject={true}
+            userId={localStorage.getItem('userId')}
+            projectId={id}
+          />
           <ProjectInfo>
             <Recruitment>
               모집인원: {state[0]}/{state[1]}
