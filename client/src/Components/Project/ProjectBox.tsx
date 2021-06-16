@@ -69,6 +69,7 @@ const RecruitmentStatus = styled.div`
   top: 15px;
   left: 20px;
 `;
+
 const ProjectInfo = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -156,8 +157,8 @@ const ProjectBox = ({
   category,
   receivedLike,
 }: IProjectProps) => {
-  const [like, setLike] = useState(0);
-
+  const [like, setLike] = useState(receivedLike);
+  console.log(receivedLike);
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
       return item;

@@ -1,21 +1,21 @@
 import mongoose, { Schema, Model } from 'mongoose';
-import {ILike} from './Like.interface';
+import { ILike } from './Like.interface';
 
 const LikeSchema: mongoose.Schema<ILike> = new Schema(
   {
     RecieveduserId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: String,
+      ref: 'User',
     },
     SenduserId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
     ProjectId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Project'
-    }
-},
+      type: Schema.Types.ObjectId,
+      ref: 'Project',
+    },
+  },
   {
     timestamps: true,
   }
