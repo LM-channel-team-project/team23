@@ -116,7 +116,9 @@ const LikeButton = styled.span`
   }
 `;
 
-const Like = styled.span``;
+const Like = styled.span`
+  margin-left: 25px;
+`;
 
 interface IUser {
   avartarImg: string;
@@ -175,7 +177,7 @@ const PeopleListItem = ({
           ))}
         </UserStackList>
         <LikeButton />
-        <Like>{receivedLike}</Like>
+        <Like>{receivedLike ? receivedLike : 0}</Like>
       </UserBottom>
     </User>
   );
