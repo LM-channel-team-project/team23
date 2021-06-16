@@ -38,6 +38,7 @@ const LikeButton = ({
 }: IProps) => {
   const [isLike, setIsLike] = useState(false);
   let formData = {};
+
   if (isProject) {
     formData = {
       projectId,
@@ -49,7 +50,7 @@ const LikeButton = ({
       userId,
     };
   }
-  console.log(formData);
+
   const handleUplike = async () => {
     try {
       const {

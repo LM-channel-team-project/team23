@@ -158,7 +158,7 @@ const ProjectBox = ({
   receivedLike,
 }: IProjectProps) => {
   const [like, setLike] = useState(receivedLike);
-  console.log(receivedLike);
+
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
       return item;
