@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
-import LikeButton from './LikeButton';
+import LikeButton from '../Common/LikeButton';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -176,6 +176,7 @@ const ProjectBox = ({
             isProject={true}
             userId={localStorage.getItem('userId')}
             projectId={id}
+            recieveduserId={null}
             setLike={setLike}
           />
           <ProjectInfo>

@@ -25,10 +25,17 @@ interface IProps {
   isProject: boolean;
   userId: null | string;
   projectId: null | string;
+  recieveduserId: null | string;
   setLike: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const LikeButton = ({ isProject, userId, projectId, setLike }: IProps) => {
+const LikeButton = ({
+  isProject,
+  userId,
+  projectId,
+  recieveduserId,
+  setLike,
+}: IProps) => {
   const [isLike, setIsLike] = useState(false);
   let formData = {};
   if (isProject) {
@@ -36,8 +43,13 @@ const LikeButton = ({ isProject, userId, projectId, setLike }: IProps) => {
       projectId,
       userId,
     };
+  } else {
+    formData = {
+      recieveduserId,
+      userId,
+    };
   }
-
+  console.log(formData);
   const handleUplike = async () => {
     try {
       const {
@@ -68,6 +80,10 @@ const LikeButton = ({ isProject, userId, projectId, setLike }: IProps) => {
 
   const onHeartClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    if (!userId) {
+      alert('로그인 후 사용 가능합니다.');
+      return;
+    }
 
     if (!isLike) {
       handleUplike();
@@ -82,7 +98,6 @@ const LikeButton = ({ isProject, userId, projectId, setLike }: IProps) => {
         const {
           data: { likes },
         } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
-        setLike(likes.length);
         likes.forEach((like: any) => {
           if (like.SenduserId === userId) {
             setIsLike(true);
