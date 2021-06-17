@@ -11,6 +11,7 @@ import Footer from './Components/Common/Footer';
 import Signup from './Pages/Signup';
 import Mypage from './Pages/Mypage';
 import BuildProject from './Pages/BuildProject';
+import UpdateProject from './Pages/UpdateProject';
 import Auth from './hoc/auth';
 
 const Style = styled.div`
@@ -30,6 +31,10 @@ const Router = () => (
         <Route path="/people/:username" component={Auth(PeopleDetail, null)} />
         <Route path="/my" component={Auth(Mypage, true)} />
         <Route path="/buildProject" component={Auth(BuildProject, true)} />
+        <Route
+          path="/updateProject/:id"
+          component={Auth(UpdateProject, true)}
+        />
         <Redirect path="*" to="/" />
       </Switch>
       <Footer />

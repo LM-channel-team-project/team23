@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { FieldData } from '../../Common/OptionData';
 
 const HeaderWrap = styled.div`
   padding: 40px 0 44px;
@@ -81,24 +83,53 @@ const StatusTag = styled.span`
   font-size: 0.7rem;
 `;
 
-const ProjectDetailHeader = () => {
+interface IProps {
+  field: string;
+  title: string;
+  avartarImg: string;
+  nickname: string;
+  recruitment: boolean;
+}
+
+const ProjectDetailHeader = ({
+  field,
+  title,
+  avartarImg,
+  nickname,
+  recruitment,
+}: IProps) => {
+  const [fieldLabel, setLabel] = useState<string>('');
+
+  useEffect(() => {
+    const f = FieldData.find((item) => {
+      return item.value === field;
+    });
+    setLabel(f ? f.label : '');
+  }, [field]);
+
   return (
     <HeaderWrap>
       <CategoryWrap>
-        <Category>게임</Category>
+        <Category>{fieldLabel}</Category>
       </CategoryWrap>
       <HeaderContents>
-        <ProjectTitle>간단한 웹 게임 사이드 프로젝트</ProjectTitle>
+        <ProjectTitle>{title}</ProjectTitle>
         <LeaderWrap>
           <UserIdWrap>
             <LeaderImageWrap>
-              <LeaderImage src="https://letspl.me/assets/images/prof-no-img.png"></LeaderImage>
+              <LeaderImage
+                src={
+                  avartarImg
+                    ? avartarImg
+                    : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                }
+              ></LeaderImage>
             </LeaderImageWrap>
-            <UserIdText>yongveloper</UserIdText>
+            <UserIdText>{nickname}</UserIdText>
           </UserIdWrap>
         </LeaderWrap>
         <StatusTagWrap>
-          <StatusTag>모집 중</StatusTag>
+          <StatusTag>{recruitment ? '모집중' : '모집완료'}</StatusTag>
         </StatusTagWrap>
       </HeaderContents>
     </HeaderWrap>
