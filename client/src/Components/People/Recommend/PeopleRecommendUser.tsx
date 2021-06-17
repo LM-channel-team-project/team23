@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { PostTransfer } from '../../Common/transformValue';
 
 const User = styled.li`
   width: 100%;
@@ -113,7 +114,7 @@ const RecommendUser = ({
         </UserStackList>
       </Userdetail>
     </UserTop>
-    <UserBottom>[직무] {position}</UserBottom>
+    <UserBottom>[직무] {PostTransfer(position)}</UserBottom>
   </User>
 );
 

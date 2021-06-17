@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { PosData, LevelData } from '../Common/OptionData';
+import { PostTransfer, LevelTransfer } from '../Common/transformValue';
 
 const User = styled.div`
   width: 100%;
@@ -119,16 +119,6 @@ const PeopleListItem = ({
   interestSkills,
   receivedLike,
 }: IUser) => {
-  const PosText = PosData.find((item) => {
-    if (item.value === position) {
-      return item;
-    }
-  });
-  const LevelText = LevelData.find((item) => {
-    if (item.value === positionLevel) {
-      return item;
-    }
-  });
   return (
     <User>
       <UserTop>
@@ -148,8 +138,8 @@ const PeopleListItem = ({
       </UserTop>
       <UserMid>
         <Major>
-          <MajorTitle>[직무] {PosText && PosText.label}</MajorTitle>
-          <MajorLV>{LevelText && LevelText.label}</MajorLV>
+          <MajorTitle>[직무] {PostTransfer(position)}</MajorTitle>
+          <MajorLV>{LevelTransfer(positionLevel)}</MajorLV>
         </Major>
       </UserMid>
       <UserBottom>
