@@ -154,4 +154,20 @@ router.get('/recruitment', (req: Request, res: Response) => {
     });
 });
 
+router.get('/:id', (req:Request, res: Response) => {
+  const projectId = req.params.id;
+  Project.find({ _id: projectId }, (err: Error, project: IProject) => {
+    if (err) {
+      return res.json({
+        success: false,
+        err,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      project,
+    });
+  });
+});
+
 module.exports = router;

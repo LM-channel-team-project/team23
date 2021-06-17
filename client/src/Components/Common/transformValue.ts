@@ -4,6 +4,7 @@ import {
   LocationData,
   AvailableTimeData,
   AvailableWeekData,
+  FieldData,
 } from './OptionData';
 
 export const PostTransfer = (value: string | undefined) => {
@@ -46,4 +47,11 @@ export const WeekTransfer = (value: string | undefined) => {
     if (item.value === value) return item;
   });
   return WeekText?.label;
+};
+
+export const FieldTransfer = (value: string | undefined) => {
+  const FieldText = FieldData.find((item) => {
+    if (item.value === value) return item;
+  });
+  return FieldText?.label;
 };

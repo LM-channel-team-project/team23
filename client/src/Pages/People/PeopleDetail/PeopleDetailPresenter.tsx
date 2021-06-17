@@ -5,7 +5,7 @@ import UserInfoTop from '../../../Components/People/PeopleDetail/UserInfoTop';
 import ProjectTab from '../../../Components/People/PeopleDetail/ProjectTab';
 import UserInfoBox from '../../../Components/People/PeopleDetail/UserInfoBox';
 import { useDispatch } from 'react-redux';
-import { getUserThunk } from '../../../modules/userInfo';
+import { getUserThunk, getProjectListThunk } from '../../../modules/userInfo';
 import { useParams } from 'react-router';
 
 const UserContainer = styled.div`
@@ -21,7 +21,7 @@ const UserInfo = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 `;
 
 const PeopleDetailPresenter = () => {
@@ -29,6 +29,7 @@ const PeopleDetailPresenter = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserThunk(username));
+    dispatch(getProjectListThunk(username));
   }, [username]);
   return (
     <UserContainer>

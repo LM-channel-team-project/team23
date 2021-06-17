@@ -11,6 +11,18 @@ export async function getUsersInfo(nickname: string): Promise<IUsers> {
   return response.data;
 }
 
+export async function getProjectList(nickname: string): Promise<IProjectList> {
+  const response = await axios.get<IProjectList>(
+    `${USER_SERVER}/show/projectList/${nickname}`
+  );
+  return response.data;
+}
+
+export interface IProjectList {
+  success: boolean;
+  data: Array<string>;
+}
+
 export interface IUsers {
   success: boolean;
   user: IUser;

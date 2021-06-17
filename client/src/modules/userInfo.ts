@@ -1,10 +1,18 @@
-import { getUsersInfo, IUsers } from '../api/users';
+import {
+  getUsersInfo,
+  IUsers,
+  getProjectList,
+  IProjectList,
+} from '../api/users';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '.';
 
 const GET_USER_BY_NICKNAME = 'GET_USER_BY_NICKNAME' as const;
 const GET_USER_BY_NICKNAME_SUCCESS = 'GET_USER_BY_NICKNAME_SUCCESS' as const;
 const GET_USER_BY_NICKNAME_ERROR = 'GET_USER_BY_NICKNAME_ERROR' as const;
+const GET_PROJECT_LIST_BY_NICKNAME = 'GET_PROJECT_LIST_BY_NICKNAME' as const;
+const GET_PROJECT_LIST_BY_NICKNAME_SUCCESS = 'GET_PROJECT_LIST_BY_NICKNAME_SUCCESS' as const;
+const GET_PROJECT_LIST_BY_NICKNAME_ERROR = 'GET_PROJECT_LIST_BY_NICKNAME_ERROR' as const;
 
 export const getUserByNickname = () => ({
   type: GET_USER_BY_NICKNAME,
@@ -20,10 +28,27 @@ export const getUserByNicknameError = (data: any) => ({
   payload: data,
 });
 
+export const getProjectListByNickname = () => ({
+  type: GET_PROJECT_LIST_BY_NICKNAME,
+});
+
+export const getProjectListByNicknameSuccess = (data: IProjectList) => ({
+  type: GET_PROJECT_LIST_BY_NICKNAME_SUCCESS,
+  payload: data,
+});
+
+export const getProjectListByNicknameError = (data: any) => ({
+  type: GET_PROJECT_LIST_BY_NICKNAME_ERROR,
+  payload: data,
+});
+
 type GetUsersAction =
   | ReturnType<typeof getUserByNickname>
   | ReturnType<typeof getUserByNicknameSuccess>
-  | ReturnType<typeof getUserByNicknameError>;
+  | ReturnType<typeof getUserByNicknameError>
+  | ReturnType<typeof getProjectListByNickname>
+  | ReturnType<typeof getProjectListByNicknameSuccess>
+  | ReturnType<typeof getProjectListByNicknameError>;
 
 export function getUserThunk(
   nickname: string
@@ -39,11 +64,25 @@ export function getUserThunk(
   };
 }
 
+export function getProjectListThunk(
+  nickname: string
+): ThunkAction<Promise<void>, RootState, null, GetUsersAction> {
+  return async (dispatch) => {
+    dispatch(getProjectListByNickname());
+    try {
+      const response = await getProjectList(nickname);
+      dispatch(getProjectListByNicknameSuccess(response));
+    } catch (error) {
+      dispatch(getProjectListByNicknameError(error));
+    }
+  };
+}
+
 type UserState = {
   loading: boolean;
   data: IUsers | null;
   error: Error | null;
-  project: null;
+  project: IProjectList | null;
 };
 
 const initialState: UserState = {
@@ -64,15 +103,13 @@ export default function getUser(
         loading: true,
         data: null,
         error: null,
-        project: null,
       };
     case GET_USER_BY_NICKNAME_SUCCESS:
       return {
         ...state,
         loading: false,
-        data: action.payload,
         error: null,
-        project: null,
+        data: action.payload,
       };
     case GET_USER_BY_NICKNAME_ERROR:
       return {
@@ -80,7 +117,27 @@ export default function getUser(
         loading: false,
         data: null,
         error: action.payload,
+      };
+    case GET_PROJECT_LIST_BY_NICKNAME:
+      return {
+        ...state,
+        loading: true,
         project: null,
+        error: null,
+      };
+    case GET_PROJECT_LIST_BY_NICKNAME_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        project: action.payload,
+        error: null,
+      };
+    case GET_PROJECT_LIST_BY_NICKNAME_ERROR:
+      return {
+        ...state,
+        loading: false,
+        project: null,
+        error: action.payload,
       };
     default:
       return state;

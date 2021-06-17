@@ -26,7 +26,6 @@ const ImgContainer = () => {
   if (data?.user.avartarImg) {
     ImgUrl = `http://localhost:5000/${data?.user.avartarImg}`;
   }
-  console.log(ImgUrl);
   return (
     <Container>
       <UserImg src={ImgUrl} alt="Avatar" />

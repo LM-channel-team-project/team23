@@ -175,9 +175,10 @@ router.get('/show/projectList/:id', (req: Request, res: Response) => {
       .where('userId')
       .equals(user._id)
       .exec((err: Error, result: any) => {
+        const data = result.map((item: any) => {return item.projectId})
         res.json({
           user: user._id,
-          result,
+          data,
         }) 
       })
   });
