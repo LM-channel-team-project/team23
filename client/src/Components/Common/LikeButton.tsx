@@ -5,6 +5,7 @@ import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import axios from 'axios';
 import { LIKE_SERVER } from '../../Config';
+import { ILike } from '../../../../server/models/Like.interface';
 
 const HeartBtn = styled.div<{ isLike: boolean }>`
   width: 24px;
@@ -92,7 +93,8 @@ const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
         const {
           data: { likes },
         } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
-        likes.forEach((like: any) => {
+        likes.forEach((like: ILike) => {
+          console.log(like);
           if (like.SenduserId === userId) {
             setIsLike(true);
           }
