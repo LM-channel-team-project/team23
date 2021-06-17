@@ -94,7 +94,6 @@ const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
           data: { likes },
         } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
         likes.forEach((like: ILike) => {
-          console.log(like);
           if (like.SenduserId === userId) {
             setIsLike(true);
           }
