@@ -111,7 +111,7 @@ router.post('/buildProject', (req: Request, res: Response) => {
       return res.json({ success: false, err });
     }
     const userRole = new UserRole({
-      prjectId: project._id,
+      projectId: project._id,
       userId: project.writer,
       role: 0,
     });

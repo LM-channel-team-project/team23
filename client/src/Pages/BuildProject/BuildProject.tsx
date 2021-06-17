@@ -239,6 +239,7 @@ function BuildProject() {
         endAt: endDate,
         projectLV: level,
         receivedLike: 0,
+        writer: userId,
       };
       const { data } = await axios.post(
         `${PROJECT_SERVER}/buildProject`,
