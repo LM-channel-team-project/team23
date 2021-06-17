@@ -24,29 +24,22 @@ const HeartBtn = styled.div<{ isLike: boolean }>`
 interface IProps {
   isProject: boolean;
   userId: null | string;
-  projectId: null | string;
-  recieveduserId: null | string;
+  targetId: null | string;
   setLike: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const LikeButton = ({
-  isProject,
-  userId,
-  projectId,
-  recieveduserId,
-  setLike,
-}: IProps) => {
+const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
   const [isLike, setIsLike] = useState(false);
   let formData = {};
 
   if (isProject) {
     formData = {
-      projectId,
+      projectId: targetId,
       userId,
     };
   } else {
     formData = {
-      recieveduserId,
+      recieveduserId: targetId,
       userId,
     };
   }

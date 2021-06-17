@@ -176,8 +176,7 @@ const ProjectBox = ({
           <LikeButton
             isProject={true}
             userId={localStorage.getItem('userId')}
-            projectId={id}
-            recieveduserId={null}
+            targetId={id}
             setLike={setLike}
           />
           <ProjectInfo>

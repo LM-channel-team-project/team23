@@ -180,8 +180,7 @@ const PeopleListItem = ({
         <SLikeButton
           isProject={false}
           userId={localStorage.getItem('userId')}
-          projectId={null}
-          recieveduserId={nickname}
+          targetId={nickname}
           setLike={setLike}
         />
         <LikeIcon>❤ </LikeIcon>
