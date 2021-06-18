@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const ProjectBoxGrid = styled.li`
   display: grid;
+  grid-column-gap: 30px;
   grid-row-gap: 45px;
   grid-template-columns: repeat(3, 1fr);
   @media screen and (max-width: 750px) {

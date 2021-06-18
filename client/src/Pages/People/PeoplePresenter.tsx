@@ -58,6 +58,7 @@ const PeoplePresenter = () => {
             position: userInfo.position,
             positionLevel: userInfo.positionLevel,
             interestSkills: userInfo.interestSkills,
+            receivedLike: userInfo.receivedLike,
           };
         });
         if (!filterChange) setUsers([...users, ...user]);

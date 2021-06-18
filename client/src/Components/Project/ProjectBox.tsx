@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import fullHeart from '../../img/full-heart.svg';
-import emptyHeart from '../../img/empty-heart.svg';
-import borderHeart from '../../img/border-heart.svg';
 import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
+import LikeButton from '../Common/LikeButton';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -70,21 +68,6 @@ const RecruitmentStatus = styled.div`
   position: absolute;
   top: 15px;
   left: 20px;
-`;
-
-const HeartBtn = styled.div`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background-image: url(${emptyHeart});
-  background-repeat: no-repeat;
-  background-size: contain;
-  cursor: pointer;
-  &:hover {
-    background-image: url(${borderHeart});
-  }
 `;
 
 const ProjectInfo = styled.div`
@@ -174,6 +157,8 @@ const ProjectBox = ({
   category,
   receivedLike,
 }: IProjectProps) => {
+  const [like, setLike] = useState(receivedLike);
+
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
       return item;
@@ -188,7 +173,12 @@ const ProjectBox = ({
           <RecruitmentStatus>
             {state[0] >= state[1] ? '모집완료' : '모집중'}
           </RecruitmentStatus>
-          <HeartBtn />
+          <LikeButton
+            isProject={true}
+            userId={localStorage.getItem('userId')}
+            targetId={id}
+            setLike={setLike}
+          />
           <ProjectInfo>
             <Recruitment>
               모집인원: {state[0]}/{state[1]}
@@ -200,7 +190,7 @@ const ProjectBox = ({
             </Description>
             <FavoriteNumber>
               <HeartIcon />
-              <FavoriteCount>{receivedLike}</FavoriteCount>
+              <FavoriteCount>{like}</FavoriteCount>
             </FavoriteNumber>
           </ProjectInfo>
         </ProjectThumb>
