@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+const { Like } = require('../models/Like');
+import { ILike } from '../models/Like.interface';
 const { Project } = require('../models/Project');
 import { IProject } from '../models/Project.interface';
 const { UserRole } = require('../models/UserRole');
@@ -38,9 +40,17 @@ router.post('/deleteProject', (req: Request, res: Response) => {
           if (err) {
             return res.json({ success: false, err });
           }
-          return res.status(200).json({
-            success: true,
-          });
+          Like.deleteMany(
+            { ProjectId: req.body.pid },
+            (err: Error, like: ILike) => {
+              if (err) {
+                return res.json({ success: false, err });
+              }
+              return res.status(200).json({
+                success: true,
+              });
+            }
+          );
         }
       );
     }
