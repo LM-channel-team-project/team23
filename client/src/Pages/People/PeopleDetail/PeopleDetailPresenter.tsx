@@ -27,10 +27,8 @@ const UserInfo = styled.div`
 const PeopleDetailPresenter = () => {
   const { username } = useParams<{ username: string }>();
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUserThunk(username));
-    dispatch(getProjectListThunk(username));
-  }, [username]);
+  dispatch(getUserThunk(username));
+  dispatch(getProjectListThunk(username));
   return (
     <UserContainer>
       <ImgContainer />

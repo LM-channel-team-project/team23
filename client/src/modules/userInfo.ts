@@ -2,7 +2,9 @@ import {
   getUsersInfo,
   IUsers,
   getProjectList,
-  IProjectList,
+  IProjectInfo,
+  IProject,
+  IPos,
 } from '../api/users';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '.';
@@ -32,7 +34,7 @@ export const getProjectListByNickname = () => ({
   type: GET_PROJECT_LIST_BY_NICKNAME,
 });
 
-export const getProjectListByNicknameSuccess = (data: IProjectList) => ({
+export const getProjectListByNicknameSuccess = (data: IProjectInfo) => ({
   type: GET_PROJECT_LIST_BY_NICKNAME_SUCCESS,
   payload: data,
 });
@@ -82,7 +84,7 @@ type UserState = {
   loading: boolean;
   data: IUsers | null;
   error: Error | null;
-  project: IProjectList | null;
+  project: IProjectInfo | null;
 };
 
 const initialState: UserState = {

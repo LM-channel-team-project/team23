@@ -174,6 +174,7 @@ router.get('/show/projectList/:id', (req: Request, res: Response) => {
     UserRole.find()
       .where('userId')
       .equals(user._id)
+      .populate('projectId')
       .exec((err: Error, result: any) => {
         const data = result.map((item: any) => {return item.projectId})
         res.json({

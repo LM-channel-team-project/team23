@@ -7,7 +7,6 @@ import ProfileModal from './ProfileModal';
 import Button from './Button';
 import { USER_SERVER } from '../../Config';
 import axios from 'axios';
-import querystring from 'query-string';
 
 const HeaderStyle = styled.nav`
   display: flex;

@@ -5,11 +5,11 @@ const userRoleSchema: mongoose.Schema<IUserRole> = new Schema(
   {
     projectId: {
       type: Schema.Types.ObjectId,
-      ref: 'Project'
+      ref: 'project'
     },
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'user'
     },
     role: Number},
   {

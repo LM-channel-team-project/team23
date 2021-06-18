@@ -55,6 +55,10 @@ const PeopleRecommendTable = () => {
       setUsers(data);
     });
   });
+
+  useEffect(() => {
+    return () => setUsers(defaultProps);
+  }, []);
   return (
     <RecommendTab>
       <RecommendTabHeader>

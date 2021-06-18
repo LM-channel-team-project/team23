@@ -11,16 +11,11 @@ export async function getUsersInfo(nickname: string): Promise<IUsers> {
   return response.data;
 }
 
-export async function getProjectList(nickname: string): Promise<IProjectList> {
-  const response = await axios.get<IProjectList>(
+export async function getProjectList(nickname: string): Promise<IProjectInfo> {
+  const response = await axios.get<IProjectInfo>(
     `${USER_SERVER}/show/projectList/${nickname}`
   );
   return response.data;
-}
-
-export interface IProjectList {
-  success: boolean;
-  data: Array<string>;
 }
 
 export interface IUsers {
@@ -45,4 +40,33 @@ export interface IUser {
   token: string;
   createdAt: Date;
   updatedAt: Date;
+}
+export interface IProjectInfo {
+  success: boolean;
+  data: Array<IProject>;
+}
+
+export interface IProject {
+  position: Array<IPos>;
+  referenceURL: Array<string>;
+  _id: string;
+  title: string;
+  thumb: string;
+  info: string;
+  summary: string;
+  field: string;
+  area: string;
+  startAt: Date;
+  endAt: Date;
+  projectLV: string;
+  receivedLike: number;
+  writer: string;
+  createAt: Date;
+  updatedAt: Date;
+}
+
+export interface IPos {
+  pos: string;
+  required: number;
+  current: number;
 }
