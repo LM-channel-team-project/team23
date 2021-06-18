@@ -156,51 +156,34 @@ const ProjectBox = ({
   state,
   category,
   receivedLike,
-}: IProjectProps) => {
-  const [like, setLike] = useState(receivedLike);
-
-  const fieldLabel = FieldData.find((item) => {
-    if (item.value === category) {
-      return item;
-    }
-  });
-
-  return (
-    <Link to={`/project/${id}`}>
-      <ProjectContent>
-        <ProjectThumb>
-          <Image src={image} alt="project" />
-          <RecruitmentStatus>
-            {state[0] >= state[1] ? '모집완료' : '모집중'}
-          </RecruitmentStatus>
-          <LikeButton
-            isProject={true}
-            userId={localStorage.getItem('userId')}
-            targetId={id}
-            setLike={setLike}
-          />
-          <ProjectInfo>
-            <Recruitment>
-              모집인원: {state[0]}/{state[1]}
-            </Recruitment>
-            <Description>
-              {description && description.length > 0
-                ? description
-                : '프로젝트 설명이 없습니다.'}
-            </Description>
-            <FavoriteNumber>
-              <HeartIcon />
-              <FavoriteCount>{like}</FavoriteCount>
-            </FavoriteNumber>
-          </ProjectInfo>
-        </ProjectThumb>
-        <ProjectTitle>
-          <ProjectCategory>{`[${fieldLabel?.label}]`}</ProjectCategory>
-          <ProjectName>{title}</ProjectName>
-        </ProjectTitle>
-      </ProjectContent>
-    </Link>
-  );
-};
+}: IProjectProps) => (
+  <Link to={`/project/${id}`}>
+    <ProjectContent>
+      <ProjectThumb>
+        <Image src={image} alt="project" />
+        <RecruitmentStatus>
+          {state[0] >= state[1] ? '모집완료' : '모집중'}
+        </RecruitmentStatus>
+        <HeartBtn />
+        <ProjectInfo>
+          <Recruitment>
+            모집인원: {state[0]}/{state[1]}
+          </Recruitment>
+          <Description>{description}</Description>
+          <FavoriteNumber>
+            <HeartIcon />
+            <FavoriteCount>{receivedLike}</FavoriteCount>
+          </FavoriteNumber>
+        </ProjectInfo>
+      </ProjectThumb>
+      <ProjectTitle>
+        <ProjectCategory>
+          [{FieldData.find((v) => v.value === category)?.label}]
+        </ProjectCategory>
+        <ProjectName>{title}</ProjectName>
+      </ProjectTitle>
+    </ProjectContent>
+  </Link>
+);
 
 export default ProjectBox;

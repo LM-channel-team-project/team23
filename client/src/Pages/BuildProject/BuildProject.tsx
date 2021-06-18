@@ -231,7 +231,6 @@ function BuildProject() {
         thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
         info: descriptionPath,
         summary,
-        writer: userId,
         field,
         area: location,
         position: positions,
@@ -240,6 +239,7 @@ function BuildProject() {
         endAt: endDate,
         projectLV: level,
         receivedLike: 0,
+        writer: userId,
       };
       const { data } = await axios.post(
         `${PROJECT_SERVER}/buildProject`,

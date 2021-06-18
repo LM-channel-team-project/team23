@@ -32,7 +32,10 @@ const userSchema: mongoose.Schema<IUser> = new mongoose.Schema(
     availableTime: String,
     interestSkills: [String],
     token: String,
-    receivedLike: Number,
+    receivedLike: {
+      type: Number,
+      default: 0,
+    },
     portfolio: [String],
     intro: String,
   },

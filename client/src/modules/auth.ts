@@ -16,7 +16,7 @@ export const getAuthSuccess = (data: IResponse) => ({
   payload: data,
 });
 
-export const getAuthError = (error: AxiosError) => ({
+export const getAuthError = (error: any) => ({
   type: GET_AUTH_ERROR,
   payload: error,
 });

@@ -28,52 +28,57 @@ const defaultProps: IUser[] = [];
 
 const PeoplePresenter = () => {
   const [users, setUsers] = useState(defaultProps);
+  const [moreData, setMoreData] = useState<boolean>(true);
   const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
 
   const LoadUser = (filterChange = false) => {
-    axios
-      .get(endpoint, {
-        params: {
-          page: page.current,
-        },
-      })
-      .then((response) => {
-        if (!response.data.success) {
-          alert('데이터를 가져오는데 실패했습니다.');
-          return false;
-        }
-        if (response.data.user.length == 0) {
-          alert('더 이상 데이터가 없습니다.');
-          return false;
-        }
-        page.current += 1;
-        const userList = response.data.user;
-        const user: [IUser] = userList.map((userInfo: any) => {
-          return {
-            avartarImg: userInfo.avartarImg
-              ? userInfo.avartarImg
-              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-            nickname: userInfo.nickname,
-            position: userInfo.position,
-            positionLevel: userInfo.positionLevel,
-            interestSkills: userInfo.interestSkills,
-            receivedLike: userInfo.receivedLike,
-          };
+    if (moreData) {
+      axios
+        .get(endpoint, {
+          params: {
+            page: page.current,
+          },
+        })
+        .then((response) => {
+          if (!response.data.success) {
+            alert('데이터를 가져오는데 실패했습니다.');
+            return false;
+          }
+          if (response.data.user.length == 0) {
+            setMoreData(false);
+            return false;
+          }
+          page.current += 1;
+          const userList = response.data.user;
+          const user: [IUser] = userList.map((userInfo: any) => {
+            return {
+              avartarImg: userInfo.avartarImg
+                ? userInfo.avartarImg
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+              nickname: userInfo.nickname,
+              position: userInfo.position,
+              positionLevel: userInfo.positionLevel,
+              interestSkills: userInfo.interestSkills,
+            };
+          });
+          if (!filterChange) setUsers([...users, ...user]);
+          else setUsers([...user]);
         });
-        if (!filterChange) setUsers([...users, ...user]);
-        else setUsers([...user]);
-      });
+    } else {
+      alert('더 이상 데이터가 없습니다.');
+    }
   };
 
   useEffect(() => {
-    LoadUser();
-  }, []);
+    setUsers(defaultProps);
+    setMoreData(true);
+    page.current = 1;
+  }, [endpoint]);
 
   useEffect(() => {
-    page.current = 1;
-    LoadUser(true);
-  }, [endpoint]);
+    LoadUser();
+  }, [page.current]);
 
   return (
     <Container>
@@ -85,7 +90,11 @@ const PeoplePresenter = () => {
       >
         <PeopleHeader endpoint={endpoint} submitFilter={setEndpoint} />
         <PeopleRecommendTable />
-        {users && <PeopleList userList={users} />}
+        {users.length < 1 ? (
+          <div style={{ textAlign: 'center' }}>해당 유저가 없습니다.</div>
+        ) : (
+          <PeopleList userList={users} />
+        )}
       </InfiniteScroll>
     </Container>
   );
