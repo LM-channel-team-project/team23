@@ -46,31 +46,34 @@ const PositionNumber = styled.span`
   margin-right: 34px;
 `;
 
-const Status = () => {
+interface Ipos {
+  pos: string;
+  required: number;
+  current: number;
+}
+
+interface IProps {
+  position: Ipos[];
+}
+
+const Status = ({ position }: IProps) => {
   return (
     <Container>
       <Title>모집 현황</Title>
       <Ul>
-        <Li>
-          <PostionText>프론트엔드</PostionText>
-          <PositionNumber>0/3</PositionNumber>
-          <Button
-            ButtonColor="white"
-            ButtonMode="active"
-            ButtonName="지원"
-            ButtonSize="medium"
-          />
-        </Li>
-        <Li>
-          <PostionText>웹서버</PostionText>
-          <PositionNumber>0/3</PositionNumber>
-          <Button
-            ButtonColor="white"
-            ButtonMode="active"
-            ButtonName="지원"
-            ButtonSize="medium"
-          />
-        </Li>
+        {position.length &&
+          position.map((item) => (
+            <Li key={item.pos}>
+              <PostionText>{item.pos}</PostionText>
+              <PositionNumber>{`${item.current}/${item.required}`}</PositionNumber>
+              <Button
+                ButtonColor="white"
+                ButtonMode="active"
+                ButtonName="지원"
+                ButtonSize="medium"
+              />
+            </Li>
+          ))}
       </Ul>
     </Container>
   );

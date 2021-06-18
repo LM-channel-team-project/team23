@@ -152,7 +152,14 @@ const PeopleListItem = ({
     <User>
       <UserTop>
         <Link to={`/people/${nickname}`}>
-          <UserImg src={avartarImg} alt="Avatar" />
+          <UserImg
+            src={
+              avartarImg
+                ? avartarImg
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+            }
+            alt="Avatar"
+          />
         </Link>
         <Username>
           {nickname}

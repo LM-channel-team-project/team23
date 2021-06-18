@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../Common/Button';
 import emptyHeart from '../../../img/empty-heart.svg';
 import borderHeart from '../../../img/border-heart.svg';
 import CheckIcon from '../../../img/check_icon.svg';
+import { FieldData } from '../../Common/OptionData';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   max-width: 280px;
@@ -124,7 +126,53 @@ const SubscribeImageWrap = styled.div`
   position: relative;
 `;
 
-const RightMenu = () => {
+const Clipboard = styled.input.attrs({ type: 'text' })`
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+`;
+
+interface IProps {
+  receivedLike: number;
+  avartarImg: string;
+  nickname: string;
+  startAt: string;
+  endAt: string;
+  date: string;
+  field: string;
+}
+
+const RightMenu = ({
+  receivedLike,
+  avartarImg,
+  nickname,
+  startAt,
+  endAt,
+  date,
+  field,
+}: IProps) => {
+  const [fieldLabel, setLabel] = useState<string>('');
+  const copyUrlRef = useRef<HTMLInputElement>(null);
+
+  const copyURL: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    if (!document.queryCommandSupported('copy')) {
+      return alert('복사 기능이 지원되지 않는 브라우저입니다');
+    }
+    if (copyUrlRef && copyUrlRef.current) {
+      copyUrlRef.current.select();
+      document.execCommand('copy');
+      alert('클립보드에 저장되었습니다');
+    }
+  };
+
+  useEffect(() => {
+    const f = FieldData.find((item) => {
+      return item.value === field;
+    });
+    setLabel(f ? f.label : '');
+  }, [field]);
+
   return (
     <Container>
       <Contents>
@@ -132,7 +180,7 @@ const RightMenu = () => {
           <HeartBtnWrap>
             <Button ButtonColor="white" ButtonMode="active" ButtonSize="medium">
               <HeartIcon />
-              <FavoriteNumber>3</FavoriteNumber>
+              <FavoriteNumber>{receivedLike}</FavoriteNumber>
             </Button>
           </HeartBtnWrap>
           <Button
@@ -140,27 +188,35 @@ const RightMenu = () => {
             ButtonMode="active"
             ButtonName="공유"
             ButtonSize="medium"
+            onClick={copyURL}
           />
+          <Clipboard ref={copyUrlRef} value={window.location.href} readOnly />
         </HeartAndShareWrap>
         <InfoWrap>
           <CheckTitle>리더 정보</CheckTitle>
           <LeaderInfo>
             <LeaderImage>
               <Image
-                src="https://letspl.me/assets/images/prof-no-img.png"
+                src={
+                  avartarImg
+                    ? avartarImg
+                    : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                }
                 alt="user_image"
               />
             </LeaderImage>
-            <LeaderName>용현준</LeaderName>
+            <LeaderName>{nickname}</LeaderName>
           </LeaderInfo>
         </InfoWrap>
         <InfoWrap>
           <CheckTitle>프로젝트 기간</CheckTitle>
-          <TabText>21.04.08 ~21.10.08 (184일)</TabText>
+          <TabText>
+            {startAt} ~ {endAt} ({date}일)
+          </TabText>
         </InfoWrap>
         <InfoWrap>
           <CheckTitle>프로젝트 분야</CheckTitle>
-          <TabText>게임</TabText>
+          <TabText>{fieldLabel}</TabText>
         </InfoWrap>
         <InfoWrap>
           <CheckTitle>구독중인 사람</CheckTitle>
