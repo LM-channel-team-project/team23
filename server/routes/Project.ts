@@ -61,6 +61,21 @@ router.get('/', (req: Request, res: Response) => {
     });
 });
 
+router.post('/info', (req: Request, res: Response) => {
+  Project.findOne({ _id: req.body._id }, (err: Error, project: IProject) => {
+    if (err) {
+      return res.json({
+        success: false,
+        err,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      project,
+    });
+  });
+});
+
 router.get('/recommendList', (req: Request, res: Response) => {
   Project.find()
     .sort({ receivedLike: -1 })

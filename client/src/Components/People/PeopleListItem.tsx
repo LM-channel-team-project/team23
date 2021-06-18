@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PostTransfer, LevelTransfer } from '../Common/transformValue';
+import fullHeart from '../../img/full-heart.svg';
+import emptyHeart from '../../img/empty-heart.svg';
+import borderHeart from '../../img/border-heart.svg';
+import LikeButton from '../Common/LikeButton';
 
 const User = styled.div`
   width: 100%;
@@ -100,6 +104,17 @@ const UserStack = styled.span`
   line-height: 1.4em;
 `;
 
+const SLikeButton = styled(LikeButton)`
+  width: 18px;
+  height: 18px;
+  top: 0;
+  right: 0;
+`;
+
+const LikeIcon = styled.span`
+  font-size: 1.5em;
+`;
+
 const Like = styled.span``;
 
 interface IUser {
@@ -119,11 +134,31 @@ const PeopleListItem = ({
   interestSkills,
   receivedLike,
 }: IUser) => {
+  const [like, setLike] = useState(receivedLike);
+
+  const PosText = PosData.find((item) => {
+    if (item.value === position) {
+      return item;
+    }
+  });
+
+  const LevelText = LevelData.find((item) => {
+    if (item.value === positionLevel) {
+      return item;
+    }
+  });
   return (
     <User>
       <UserTop>
         <Link to={`/people/${nickname}`}>
-          <UserImg src={avartarImg} alt="Avatar" />
+          <UserImg
+            src={
+              avartarImg
+                ? avartarImg
+                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+            }
+            alt="Avatar"
+          />
         </Link>
         <Username>
           {nickname}
@@ -148,7 +183,14 @@ const PeopleListItem = ({
             <UserStack key={index}>{stack}</UserStack>
           ))}
         </UserStackList>
-        <Like>♥ {receivedLike}</Like>
+        <SLikeButton
+          isProject={false}
+          userId={localStorage.getItem('userId')}
+          targetId={nickname}
+          setLike={setLike}
+        />
+        <LikeIcon>❤ </LikeIcon>
+        <Like>{like ? like : 0}</Like>
       </UserBottom>
     </User>
   );

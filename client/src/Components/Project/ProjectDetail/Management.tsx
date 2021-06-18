@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import UserInfo from './UserInfo';
 import Button from '../../../Components/Common/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { MANAGE_SERVER } from '../../../Config';
 
 const Container = styled.div``;
 const Section = styled.section`
@@ -21,7 +23,25 @@ const BtnBox = styled.div`
   align-items: center;
 `;
 
-function Management() {
+interface IProps {
+  projectId: string;
+}
+
+function Management({ projectId }: IProps) {
+  const history = useHistory();
+  const handleDelete: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    axios
+      .post(`${MANAGE_SERVER}/deleteProject`, { pid: projectId })
+      .then((res) => {
+        if (!res.data.success) {
+          alert(`프로젝트 삭제를 실패했습니다 (${res.data.err})`);
+          return;
+        }
+        alert('프로젝트 삭제 완료');
+        history.push('/');
+      });
+  };
+
   return (
     <Container>
       <Section>
@@ -69,8 +89,9 @@ function Management() {
             ButtonSize="medium"
             ButtonColor="darkblue"
             ButtonMode="active"
+            onClick={handleDelete}
           />
-          <Link to="/buildProject">
+          <Link to={`/updateProject/${projectId}`}>
             <Button
               ButtonName="프로젝트 수정"
               ButtonSize="medium"
