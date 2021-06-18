@@ -148,6 +148,7 @@ const ProjectDetail = () => {
           )}
         </Contents>
         <RightMenu
+          id={id}
           avartarImg={avartarImg}
           endAt={`${endAt.getFullYear()}/${
             endAt.getMonth() + 1

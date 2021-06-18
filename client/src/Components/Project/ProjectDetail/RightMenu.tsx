@@ -6,6 +6,7 @@ import borderHeart from '../../../img/border-heart.svg';
 import CheckIcon from '../../../img/check_icon.svg';
 import { FieldData } from '../../Common/OptionData';
 import { useLocation } from 'react-router-dom';
+import LikeButton from '../../Common/LikeButton';
 
 const Container = styled.div`
   max-width: 280px;
@@ -46,6 +47,10 @@ const HeartIcon = styled.div`
 `;
 
 const HeartBtnWrap = styled.div`
+  & div {
+    position: unset;
+  }
+
   &:hover {
     ${HeartIcon} {
       background-image: url(${borderHeart});
@@ -134,6 +139,7 @@ const Clipboard = styled.input.attrs({ type: 'text' })`
 `;
 
 interface IProps {
+  id: string;
   receivedLike: number;
   avartarImg: string;
   nickname: string;
@@ -144,6 +150,7 @@ interface IProps {
 }
 
 const RightMenu = ({
+  id,
   receivedLike,
   avartarImg,
   nickname,
@@ -152,6 +159,7 @@ const RightMenu = ({
   date,
   field,
 }: IProps) => {
+  const [like, setLike] = useState(receivedLike);
   const [fieldLabel, setLabel] = useState<string>('');
   const copyUrlRef = useRef<HTMLInputElement>(null);
 
@@ -173,14 +181,23 @@ const RightMenu = ({
     setLabel(f ? f.label : '');
   }, [field]);
 
+  useEffect(() => {
+    setLike(receivedLike);
+  }, [receivedLike]);
+
   return (
     <Container>
       <Contents>
         <HeartAndShareWrap>
           <HeartBtnWrap>
             <Button ButtonColor="white" ButtonMode="active" ButtonSize="medium">
-              <HeartIcon />
-              <FavoriteNumber>{receivedLike}</FavoriteNumber>
+              <LikeButton
+                isProject={true}
+                userId={localStorage.getItem('userId')}
+                targetId={id}
+                setLike={setLike}
+              />
+              <FavoriteNumber>{like}</FavoriteNumber>
             </Button>
           </HeartBtnWrap>
           <Button
