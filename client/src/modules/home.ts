@@ -10,6 +10,7 @@ interface HomeState {
   waitUsers: IUser[];
   loading: boolean;
   error: null | Error;
+  hasBeenSet: boolean;
 }
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   waitUsers: [],
   loading: false,
   error: null,
+  hasBeenSet: false,
 } as HomeState;
 
 export const fetchHomeList = createAsyncThunk<
@@ -51,14 +53,9 @@ export const fetchHomeList = createAsyncThunk<
   {
     condition: (_, { getState }) => {
       const {
-        home: { recentProjects, recruitmentProjects, newUsers, waitUsers },
+        home: { hasBeenSet },
       } = getState();
-      if (
-        recentProjects.length !== 0 &&
-        recruitmentProjects.length !== 0 &&
-        newUsers.length !== 0 &&
-        waitUsers.length !== 0
-      ) {
+      if (hasBeenSet) {
         return false;
       }
     },
@@ -87,6 +84,7 @@ const homeSlice = createSlice({
         waitUsers,
         loading: false,
         error: null,
+        hasBeenSet: true,
       };
     });
     builder.addCase(fetchHomeList.rejected, (state, action) => {
