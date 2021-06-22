@@ -80,14 +80,14 @@ const homeSlice = createSlice({
         newUsers,
         waitUsers,
       } = action.payload;
-      return (state = {
+      return {
         recentProjects,
         recruitmentProjects,
         newUsers,
         waitUsers,
         loading: false,
         error: null,
-      });
+      };
     });
     builder.addCase(fetchHomeList.rejected, (state, action) => {
       state.error = action.error as Error;
