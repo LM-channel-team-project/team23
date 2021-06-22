@@ -11,11 +11,11 @@ const List = styled.section`
 `;
 
 interface IUser {
-  avartarImg: string;
+  avartarImg?: string;
   nickname: string;
   position: string;
   positionLevel: string;
-  interestSkills: string[];
+  interestSkills?: string[];
   receivedLike: number;
 }
 

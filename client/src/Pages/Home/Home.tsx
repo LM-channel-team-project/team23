@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Title from '../../Components/Common/Title';
 import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import Info from '../../Components/Home/Info';
 import styled from 'styled-components';
 import PeopleList from '../../Components/People/PeopleList';
-import axios from 'axios';
-import { PROJECT_SERVER, USER_SERVER } from '../../Config';
-import { Ipos, IProject } from '../../../../server/models/Project.interface';
-import { IUser } from '../../../../server/models/User.interface';
+import { Ipos } from '../../../../server/models/Project.interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHomeList } from '../../modules/home';
+import { RootState } from '../../modules';
 
 const Style = styled.div`
   width: 100%;
@@ -24,15 +24,17 @@ const ContentWrapper = styled.div`
   }
 `;
 
-//users1은 신규 가입 3명 불러오기 => /api/users/new
-//users2는 프로젝트 미참여 중에 3명 불러오기 => api/users/waitList
 const Home = () => {
-  const [recentProjects, setRecentProjects] = useState<Array<IProject>>([]);
-  const [recruitmentProjects, setRecruitmentProjects] = useState<
-    Array<IProject>
-  >([]);
-  const [newUsers, setNewUsers] = useState<Array<IUser>>([]);
-  const [waitUsers, setWaitUsers] = useState<Array<IUser>>([]);
+  const {
+    recentProjects,
+    recruitmentProjects,
+    newUsers,
+    waitUsers,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.home);
+
+  const dispatch = useDispatch();
 
   const getCurrentMembers = (positions: Array<Ipos>): number => {
     const currentMembers = positions.map((position: Ipos) => position.current);
@@ -51,31 +53,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {
-          data: { projects: recentProjects },
-        } = await axios.get(`${PROJECT_SERVER}/resent`);
-        const {
-          data: { projects: recruitmentProjects },
-        } = await axios.get(`${PROJECT_SERVER}/recruitment`);
-        const {
-          data: { users: newUsers },
-        } = await axios.get(`${USER_SERVER}/new`);
-        const {
-          data: { users: waitUsers },
-        } = await axios.get(`${USER_SERVER}/waitList`);
-
-        setRecentProjects(recentProjects);
-        setRecruitmentProjects(recruitmentProjects);
-        setNewUsers(newUsers);
-        setWaitUsers(waitUsers);
-      } catch (error) {
-        alert(`정보를 받아오지 못했습니다. ${error}`);
-      }
-    };
-    fetchData();
+    dispatch(fetchHomeList());
   }, []);
+
+  // if (loading) return <div>불러오는 중입니다..</div>;
+  if (error) {
+    alert(`정보를 받아오지 못했습니다. ${error}`);
+  }
 
   return (
     <Style>

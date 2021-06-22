@@ -118,11 +118,11 @@ const LikeIcon = styled.span`
 const Like = styled.span``;
 
 interface IUser {
-  avartarImg: string;
+  avartarImg?: string;
   nickname: string;
   position: string;
   positionLevel: string;
-  interestSkills: string[];
+  interestSkills?: string[];
   receivedLike: number;
 }
 
@@ -168,9 +168,10 @@ const PeopleListItem = ({
       </UserMid>
       <UserBottom>
         <UserStackList>
-          {interestSkills.map((stack, index) => (
-            <UserStack key={index}>{stack}</UserStack>
-          ))}
+          {interestSkills &&
+            interestSkills.map((stack, index) => (
+              <UserStack key={index}>{stack}</UserStack>
+            ))}
         </UserStackList>
         <SLikeButton
           isProject={false}
