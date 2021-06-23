@@ -8,6 +8,7 @@ import PeopleList from '../../Components/People/PeopleList';
 import { Ipos } from '../../../../server/models/Project.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHomeList } from '../../modules/home';
+import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
 import { RootState } from '../../modules';
 
 const Style = styled.div`
@@ -54,6 +55,8 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchHomeList());
+    dispatch(fetchLikeProjects());
+    dispatch(fetchLikeUsers());
   }, []);
 
   // if (loading) return <div>불러오는 중입니다..</div>;
