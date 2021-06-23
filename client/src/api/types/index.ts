@@ -41,3 +41,9 @@ export interface IPos {
   required: number;
   current: number;
 }
+
+export interface ILike {
+  RecieveduserId?: string;
+  SenduserId: string;
+  ProjectId?: string;
+}

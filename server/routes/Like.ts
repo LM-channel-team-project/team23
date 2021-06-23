@@ -8,16 +8,20 @@ import { ILike } from '../models/Like.interface';
 
 const router = express.Router();
 
-router.post('/getLike', (req: Request, res: Response) => {
-  let data = {};
+router.get('/getLikeProjects', (req: Request, res: Response) => {
+  Like.find({ ProjectId: { $exists: true } }).exec((error, likes) => {
+    if (error) {
+      return res.status(400).send(error);
+    }
+    res.status(200).json({
+      success: true,
+      likes,
+    });
+  });
+});
 
-  if (req.body.projectId) {
-    data = { ProjectId: req.body.projectId };
-  } else {
-    data = { RecieveduserId: req.body.recieveduserId };
-  }
-
-  Like.find(data).exec((error, likes) => {
+router.get('/getLikeUsers', (req: Request, res: Response) => {
+  Like.find({ RecieveduserId: { $exists: true } }).exec((error, likes) => {
     if (error) {
       return res.status(400).send(error);
     }

@@ -5,6 +5,7 @@ import signup from './signup';
 import login from './login';
 import getUser from './userInfo';
 import homeReducer from './home';
+import LikeReducer from './like';
 
 const rootReducer = combineReducers({
   auth,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   login,
   user: getUser,
   home: homeReducer,
+  like: LikeReducer,
 });
 
 export default rootReducer;
