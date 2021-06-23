@@ -8,6 +8,7 @@ import axios from 'axios';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAuthThunk } from '../../modules/auth';
+import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
 
 const ModalWrapper = styled.div<{ openLoginSignup: boolean }>`
   display: ${(props) => (props.openLoginSignup ? 'block' : 'none')};
@@ -134,6 +135,8 @@ const LoginAndSignUpModal = ({
           window.localStorage.setItem('userId', response.data.userId);
           setLoginSuccess(true);
           dispatch(getAuthThunk());
+          dispatch(fetchLikeProjects());
+          dispatch(fetchLikeUsers());
           history.push('/');
         } else {
           onToggle(true);
