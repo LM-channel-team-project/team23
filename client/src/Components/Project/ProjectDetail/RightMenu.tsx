@@ -7,6 +7,8 @@ import CheckIcon from '../../../img/check_icon.svg';
 import { FieldData } from '../../Common/OptionData';
 import { useLocation } from 'react-router-dom';
 import LikeButton from '../../Common/LikeButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../modules';
 
 const Container = styled.div`
   max-width: 280px;
@@ -159,9 +161,15 @@ const RightMenu = ({
   date,
   field,
 }: IProps) => {
-  const [like, setLike] = useState(receivedLike);
+  const [likeCount, setLikeCount] = useState(receivedLike);
+  const [isLike, setIsLike] = useState(false);
   const [fieldLabel, setLabel] = useState<string>('');
   const copyUrlRef = useRef<HTMLInputElement>(null);
+
+  const {
+    likeProjects: { projects },
+  } = useSelector((state: RootState) => state.like);
+  const userId = localStorage.getItem('userId');
 
   const copyURL: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     if (!document.queryCommandSupported('copy')) {
@@ -182,8 +190,17 @@ const RightMenu = ({
   }, [field]);
 
   useEffect(() => {
-    setLike(receivedLike);
-  }, [receivedLike]);
+    const likeCount = projects.filter((project) => project.ProjectId === id);
+    const likeStatus = projects.find(
+      (project) => project.ProjectId === id && project.SenduserId === userId
+    );
+    if (likeStatus) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+    setLikeCount(likeCount.length);
+  }, [projects]);
 
   return (
     <Container>
@@ -195,9 +212,9 @@ const RightMenu = ({
                 isProject={true}
                 userId={localStorage.getItem('userId')}
                 targetId={id}
-                setLike={setLike}
+                isLike={isLike}
               />
-              <FavoriteNumber>{like}</FavoriteNumber>
+              <FavoriteNumber>{likeCount}</FavoriteNumber>
             </Button>
           </HeartBtnWrap>
           <Button
