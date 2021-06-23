@@ -4,6 +4,7 @@ import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
 import LikeButton from '../Common/LikeButton';
+import { useEffect } from 'react';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -164,6 +165,10 @@ const ProjectBox = ({
       return item;
     }
   });
+
+  useEffect(() => {
+    setLike(receivedLike);
+  }, [receivedLike]);
 
   return (
     <Link to={`/project/${id}`}>
