@@ -10,7 +10,6 @@ interface HomeState {
   waitUsers: IUser[];
   loading: boolean;
   error: null | Error;
-  hasBeenSet: boolean;
 }
 
 const initialState = {
@@ -20,7 +19,6 @@ const initialState = {
   waitUsers: [],
   loading: false,
   error: null,
-  hasBeenSet: false,
 } as HomeState;
 
 export const fetchHomeList = createAsyncThunk<
@@ -32,35 +30,22 @@ export const fetchHomeList = createAsyncThunk<
   },
   undefined,
   { state: RootState }
->(
-  'home/fetchHomeList',
-  async (_, { rejectWithValue }) => {
-    try {
-      const recentProjects = await homeApi.getResentProjects();
-      const recruitmentProjects = await homeApi.getRecruitmentProjects();
-      const newUsers = await homeApi.getNewUsers();
-      const waitUsers = await homeApi.getWaitUsers();
-      return {
-        recentProjects: recentProjects.data.projects,
-        recruitmentProjects: recruitmentProjects.data.projects,
-        newUsers: newUsers.data.users,
-        waitUsers: waitUsers.data.users,
-      };
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  },
-  {
-    condition: (_, { getState }) => {
-      const {
-        home: { hasBeenSet },
-      } = getState();
-      if (hasBeenSet) {
-        return false;
-      }
-    },
+>('home/fetchHomeList', async (_, { rejectWithValue }) => {
+  try {
+    const recentProjects = await homeApi.getResentProjects();
+    const recruitmentProjects = await homeApi.getRecruitmentProjects();
+    const newUsers = await homeApi.getNewUsers();
+    const waitUsers = await homeApi.getWaitUsers();
+    return {
+      recentProjects: recentProjects.data.projects,
+      recruitmentProjects: recruitmentProjects.data.projects,
+      newUsers: newUsers.data.users,
+      waitUsers: waitUsers.data.users,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response.data);
   }
-);
+});
 
 const homeSlice = createSlice({
   name: 'home',
@@ -84,7 +69,6 @@ const homeSlice = createSlice({
         waitUsers,
         loading: false,
         error: null,
-        hasBeenSet: true,
       };
     });
     builder.addCase(fetchHomeList.rejected, (state, action) => {
