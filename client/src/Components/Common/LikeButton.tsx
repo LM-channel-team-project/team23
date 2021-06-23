@@ -6,6 +6,8 @@ import borderHeart from '../../img/border-heart.svg';
 import axios from 'axios';
 import { LIKE_SERVER } from '../../Config';
 import { ILike } from '../../../../server/models/Like.interface';
+import { useDispatch } from 'react-redux';
+import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
 
 const HeartBtn = styled.div<{ isLike: boolean }>`
   width: 24px;
@@ -26,11 +28,11 @@ interface IProps {
   isProject: boolean;
   userId: null | string;
   targetId: null | string;
-  setLike: React.Dispatch<React.SetStateAction<number>>;
+  isLike: boolean;
 }
 
-const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
-  const [isLike, setIsLike] = useState(false);
+const LikeButton = ({ isProject, userId, targetId, isLike }: IProps) => {
+  const dispatch = useDispatch();
   let formData = {};
 
   if (isProject) {
@@ -50,9 +52,11 @@ const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
       const {
         data: { success },
       } = await axios.post(`${LIKE_SERVER}/upLike`, formData);
-      if (success) {
-        setIsLike(true);
-        setLike((like) => like + 1);
+      if (!success) return;
+      if (isProject) {
+        dispatch(fetchLikeProjects());
+      } else {
+        dispatch(fetchLikeUsers());
       }
     } catch (error) {
       alert(`좋아요에 실패했습니다. ${error}`);
@@ -64,9 +68,11 @@ const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
       const {
         data: { success },
       } = await axios.post(`${LIKE_SERVER}/unLike`, formData);
-      if (success) {
-        setIsLike(false);
-        setLike((like) => like - 1);
+      if (!success) return;
+      if (isProject) {
+        dispatch(fetchLikeProjects());
+      } else {
+        dispatch(fetchLikeUsers());
       }
     } catch (error) {
       alert(`좋아요 취소에 실패했습니다. ${error}`);
@@ -86,24 +92,6 @@ const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
       handleUnLike();
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {
-          data: { likes },
-        } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
-        likes.forEach((like: ILike) => {
-          if (like.SenduserId === userId) {
-            setIsLike(true);
-          }
-        });
-      } catch (error) {
-        alert(`좋아요 정보를 받아오지 못했습니다. ${error}`);
-      }
-    };
-    fetchData();
-  }, []);
 
   return <HeartBtn onClick={onHeartClick} isLike={isLike} />;
 };
