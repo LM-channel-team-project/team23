@@ -54,7 +54,7 @@ const PeopleRecommendTable = () => {
       });
       setUsers(data);
     });
-  });
+  }, []);
 
   useEffect(() => {
     return () => setUsers(defaultProps);
