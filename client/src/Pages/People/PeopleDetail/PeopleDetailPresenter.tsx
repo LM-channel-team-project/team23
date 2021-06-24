@@ -7,6 +7,7 @@ import UserInfoBox from '../../../Components/People/PeopleDetail/UserInfoBox';
 import { useDispatch } from 'react-redux';
 import { getUserThunk, getProjectListThunk } from '../../../modules/userInfo';
 import { useParams } from 'react-router';
+import { fetchLikeProjects } from '../../../modules/like';
 
 const UserContainer = styled.div`
   max-width: 1200px;
@@ -29,6 +30,8 @@ const PeopleDetailPresenter = () => {
   const dispatch = useDispatch();
   dispatch(getUserThunk(username));
   dispatch(getProjectListThunk(username));
+  dispatch(fetchLikeProjects());
+
   return (
     <UserContainer>
       <ImgContainer />
