@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { likeApi } from '../api/like';
-import { ILike } from '../api/types';
+import { ILike, IMyLikeProject, IProject } from '../api/types';
 
 type LikeState = {
   likeProjects: {
@@ -11,6 +11,11 @@ type LikeState = {
   };
   likeUsers: {
     users: ILike[];
+    loading: boolean;
+    error: null | Error;
+  };
+  myLikeProjects: {
+    projects: IMyLikeProject[];
     loading: boolean;
     error: null | Error;
   };
@@ -24,6 +29,11 @@ const initialState: LikeState = {
   },
   likeUsers: {
     users: [],
+    loading: false,
+    error: null,
+  },
+  myLikeProjects: {
+    projects: [],
     loading: false,
     error: null,
   },
@@ -57,6 +67,23 @@ export const fetchLikeUsers = createAsyncThunk<
     const likeUsers = await likeApi.getLikeUsers();
     return {
       likeUsers: likeUsers.data.likes,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+export const fetchMyLikeProjects = createAsyncThunk<
+  {
+    myLikeProjects: IMyLikeProject[];
+  },
+  { id: string | null },
+  { state: RootState }
+>('like/fetchMyLikeProjects', async (id, { rejectWithValue }) => {
+  try {
+    const myLikeProjects = await likeApi.postMyLikeProjects(id);
+    return {
+      myLikeProjects: myLikeProjects.data.projects,
     };
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -100,6 +127,23 @@ const likeSlice = createSlice({
     builder.addCase(fetchLikeUsers.rejected, (state, action) => {
       state.likeUsers.error = action.error as Error;
       state.likeUsers.loading = false;
+    });
+
+    // myLikeProjects
+    builder.addCase(fetchMyLikeProjects.pending, (state, action) => {
+      state.myLikeProjects.loading = true;
+    });
+    builder.addCase(fetchMyLikeProjects.fulfilled, (state, action) => {
+      const { myLikeProjects } = action.payload;
+      state.myLikeProjects = {
+        projects: myLikeProjects,
+        loading: false,
+        error: null,
+      };
+    });
+    builder.addCase(fetchMyLikeProjects.rejected, (state, action) => {
+      state.myLikeProjects.error = action.error as Error;
+      state.myLikeProjects.loading = false;
     });
   },
 });

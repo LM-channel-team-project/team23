@@ -47,3 +47,7 @@ export interface ILike {
   SenduserId: string;
   ProjectId?: string;
 }
+
+export interface IMyLikeProject {
+  ProjectId: IProject;
+}
