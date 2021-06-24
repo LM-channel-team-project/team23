@@ -6,6 +6,8 @@ import PeopleList from '../../Components/People/PeopleList';
 import { USER_SERVER } from '../../Config';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch } from 'react-redux';
+import { fetchLikeUsers } from '../../modules/like';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -31,6 +33,7 @@ const PeoplePresenter = () => {
   const [moreData, setMoreData] = useState<boolean>(true);
   const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
+  const dispatch = useDispatch();
 
   const LoadUser = (filterChange = false) => {
     if (moreData) {
@@ -80,6 +83,10 @@ const PeoplePresenter = () => {
   useEffect(() => {
     LoadUser();
   }, [page.current]);
+
+  useEffect(() => {
+    dispatch(fetchLikeUsers());
+  }, []);
 
   return (
     <Container>
