@@ -5,15 +5,15 @@ const LikeSchema: mongoose.Schema<ILike> = new Schema(
   {
     RecieveduserId: {
       type: String,
-      ref: 'User',
+      ref: 'user',
     },
     SenduserId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'user',
     },
     ProjectId: {
       type: Schema.Types.ObjectId,
-      ref: 'Project',
+      ref: 'project',
     },
   },
   {
