@@ -7,8 +7,9 @@ import CheckIcon from '../../../img/check_icon.svg';
 import { FieldData } from '../../Common/OptionData';
 import { useLocation } from 'react-router-dom';
 import LikeButton from '../../Common/LikeButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../modules';
+import { fetchLikeProjects } from '../../../modules/like';
 
 const Container = styled.div`
   max-width: 280px;
@@ -165,6 +166,7 @@ const RightMenu = ({
   const [isLike, setIsLike] = useState(false);
   const [fieldLabel, setLabel] = useState<string>('');
   const copyUrlRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
 
   const {
     likeProjects: { projects },
@@ -201,6 +203,10 @@ const RightMenu = ({
     }
     setLikeCount(likeCount.length);
   }, [projects]);
+
+  useEffect(() => {
+    dispatch(fetchLikeProjects());
+  }, []);
 
   return (
     <Container>
