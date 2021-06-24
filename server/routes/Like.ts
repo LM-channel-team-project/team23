@@ -8,6 +8,24 @@ import { ILike } from '../models/Like.interface';
 
 const router = express.Router();
 
+// 로그인 유저가 좋아요한 프로젝트
+router.post('/myLikeProjects', (req: Request, res: Response) => {
+  Like.find({
+    $and: [{ SenduserId: req.body.id }, { ProjectId: { $exists: true } }],
+  })
+    .populate('ProjectId')
+    .exec((error, projects) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      res.status(200).json({
+        success: true,
+        projects,
+      });
+    });
+});
+
+// 좋아요가 있는 프로젝트
 router.get('/getLikeProjects', (req: Request, res: Response) => {
   Like.find({ ProjectId: { $exists: true } }).exec((error, likes) => {
     if (error) {
@@ -20,6 +38,7 @@ router.get('/getLikeProjects', (req: Request, res: Response) => {
   });
 });
 
+// 좋아요가 있는 유저
 router.get('/getLikeUsers', (req: Request, res: Response) => {
   Like.find({ RecieveduserId: { $exists: true } }).exec((error, likes) => {
     if (error) {
@@ -32,6 +51,7 @@ router.get('/getLikeUsers', (req: Request, res: Response) => {
   });
 });
 
+// 좋아요 +1
 router.post('/upLike', (req: Request, res: Response) => {
   let data = {};
 
@@ -82,6 +102,7 @@ router.post('/upLike', (req: Request, res: Response) => {
   });
 });
 
+// 좋아요 -1
 router.post('/unLike', (req: Request, res: Response) => {
   let data = {};
 
