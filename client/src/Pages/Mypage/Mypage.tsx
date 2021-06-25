@@ -30,7 +30,7 @@ const InfoContainer = styled.div`
 function Mypage() {
   const {
     myLikeProjects: { projects },
-    likeProjects,
+    likeProjects: { projects: likeProjects },
   } = useSelector((state: RootState) => state.like);
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
