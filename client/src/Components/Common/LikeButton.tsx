@@ -32,68 +32,44 @@ interface IProps {
 }
 
 const LikeButton = ({ isProject, userId, targetId, isLike }: IProps) => {
+  const LIKE = isLike ? 'unLike' : 'upLike';
   const dispatch = useDispatch();
-  let formData = {};
 
-  if (isProject) {
-    formData = {
-      projectId: targetId,
-      userId,
-    };
-  } else {
-    formData = {
-      recieveduserId: targetId,
-      userId,
-    };
-  }
-
-  const handleUplike = async () => {
-    try {
-      const {
-        data: { success },
-      } = await axios.post(`${LIKE_SERVER}/upLike`, formData);
-      if (!success) return;
-      if (isProject) {
-        dispatch(fetchLikeProjects());
-      } else {
-        dispatch(fetchLikeUsers());
-      }
-    } catch (error) {
-      alert(`좋아요에 실패했습니다. ${error}`);
+  const handleFetchLikeList = () => {
+    if (isProject) {
+      dispatch(fetchLikeProjects());
+    } else {
+      dispatch(fetchLikeUsers());
     }
   };
 
-  const handleUnLike = async () => {
+  const handleLike = async () => {
     try {
+      const formData = {
+        [isProject ? 'projectId' : 'recieveduserId']: targetId,
+        userId,
+      };
       const {
         data: { success },
-      } = await axios.post(`${LIKE_SERVER}/unLike`, formData);
-      if (!success) return;
-      if (isProject) {
-        dispatch(fetchLikeProjects());
-      } else {
-        dispatch(fetchLikeUsers());
+      } = await axios.post(`${LIKE_SERVER}/${LIKE}`, formData);
+      if (success) {
+        handleFetchLikeList();
       }
     } catch (error) {
-      alert(`좋아요 취소에 실패했습니다. ${error}`);
+      alert(`좋아요 관련 오류가 발생했습니다. ${error}`);
     }
   };
 
-  const onHeartClick = (event: React.MouseEvent<HTMLElement>) => {
+  const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     if (!userId) {
       alert('로그인 후 사용 가능합니다.');
       return;
     }
-
-    if (!isLike) {
-      handleUplike();
-    } else {
-      handleUnLike();
-    }
+    handleLike();
   };
 
-  return <HeartBtn onClick={onHeartClick} isLike={isLike} />;
+  return <HeartBtn onClick={onClickLike} isLike={isLike} />;
 };
 
 export default LikeButton;
