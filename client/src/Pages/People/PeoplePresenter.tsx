@@ -18,6 +18,7 @@ const Container = styled.div`
 `;
 
 interface IUser {
+  _id: string;
   avartarImg: string;
   nickname: string;
   position: string;

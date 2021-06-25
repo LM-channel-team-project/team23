@@ -120,6 +120,7 @@ const LikeIcon = styled.span`
 const Like = styled.span``;
 
 interface IUser {
+  id: string;
   avartarImg?: string;
   nickname: string;
   position: string;
@@ -129,6 +130,7 @@ interface IUser {
 }
 
 const PeopleListItem = ({
+  id,
   avartarImg,
   nickname,
   position,
@@ -138,16 +140,15 @@ const PeopleListItem = ({
 }: IUser) => {
   const [likeCount, setLikeCount] = useState(receivedLike);
   const [isLike, setIsLike] = useState(false);
-
   const {
     likeUsers: { users },
   } = useSelector((state: RootState) => state.like);
 
   const userId = localStorage.getItem('userId');
   useEffect(() => {
-    const likeCount = users.filter((user) => user.RecieveduserId === nickname);
+    const likeCount = users.filter((user) => user.RecieveduserId === id);
     const likeStatus = users.find(
-      (user) => user.RecieveduserId === nickname && user.SenduserId === userId
+      (user) => user.RecieveduserId === id && user.SenduserId === userId
     );
     if (likeStatus) {
       setIsLike(true);
@@ -201,7 +202,7 @@ const PeopleListItem = ({
         <SLikeButton
           isProject={false}
           userId={localStorage.getItem('userId')}
-          targetId={nickname}
+          targetId={id}
           isLike={isLike}
         />
         <LikeIcon>❤ </LikeIcon>

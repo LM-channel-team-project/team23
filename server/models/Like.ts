@@ -4,7 +4,7 @@ import { ILike } from './Like.interface';
 const LikeSchema: mongoose.Schema<ILike> = new Schema(
   {
     RecieveduserId: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: 'user',
     },
     SenduserId: {

@@ -11,6 +11,7 @@ const List = styled.section`
 `;
 
 interface IUser {
+  _id: string;
   avartarImg?: string;
   nickname: string;
   position: string;
@@ -24,12 +25,14 @@ interface IProps {
 }
 
 const PeopleList = ({ userList }: IProps) => {
+  console.log(userList);
   return (
     <List>
       {userList ? (
         userList.map((user: IUser, index: number) => (
           <PeopleListItem
             key={index}
+            id={user._id}
             avartarImg={user.avartarImg}
             nickname={user.nickname}
             position={user.position}

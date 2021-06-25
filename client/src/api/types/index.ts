@@ -1,4 +1,5 @@
 export interface IUser {
+  _id: string;
   avartarImg?: string;
   nickname: string;
   email: string;
