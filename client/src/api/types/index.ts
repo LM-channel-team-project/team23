@@ -52,3 +52,7 @@ export interface ILike {
 export interface IMyLikeProject {
   ProjectId: IProject;
 }
+
+export interface IMyLikeUser {
+  RecieveduserId: IUser;
+}

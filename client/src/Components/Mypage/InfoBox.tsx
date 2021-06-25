@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { IPos, IProject } from '../../api/types';
+import { IPos, IProject, IUser } from '../../api/types';
 import ProjectBox from '../../Components/Project/ProjectBox';
 import ProjectBoxList from '../../Components/Project/ProjectBoxList';
+import PeopleList from '../People/PeopleList';
 import AlarmBox from './alarmBox';
 import AlarmBoxList from './alarmBoxList';
 
@@ -35,7 +36,7 @@ const InfoStyle = styled.div`
 
 interface InfoProps {
   title: string;
-  array: IProject[];
+  array: any;
   defaultText: string;
   type: string;
 }
@@ -62,7 +63,7 @@ function InfoBox({ title, array, defaultText, type }: InfoProps) {
       <MaintitleStyle>{title}</MaintitleStyle>
       {array.length > 0 && type === 'project' ? (
         <ProjectBoxList>
-          {array.map((project) => (
+          {array.map((project: IProject) => (
             <ProjectBox
               key={project._id}
               id={project._id}
@@ -80,10 +81,7 @@ function InfoBox({ title, array, defaultText, type }: InfoProps) {
         </ProjectBoxList>
       ) : null}
       {array.length > 0 && type === 'user' ? (
-        <div>
-          <h2>Username</h2>
-          <p>UserInfo</p>
-        </div>
+        <PeopleList userList={array} />
       ) : null}
       {array.length > 0 && type === 'alarm' ? (
         <AlarmBoxList>

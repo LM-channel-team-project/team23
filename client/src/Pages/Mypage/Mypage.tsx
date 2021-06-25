@@ -6,7 +6,12 @@ import InfoBox from '../../Components/Mypage/InfoBox';
 import styled from 'styled-components';
 import ProfilePage from '../../Components/Mypage/ProfilePage';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchLikeProjects, fetchMyLikeProjects } from '../../modules/like';
+import {
+  fetchLikeProjects,
+  fetchLikeUsers,
+  fetchMyLikeProjects,
+  fetchMyLikeUsers,
+} from '../../modules/like';
 import { RootState } from '../../modules';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 
@@ -30,11 +35,15 @@ const InfoContainer = styled.div`
 function Mypage() {
   const {
     myLikeProjects: { projects },
+    myLikeUsers: { users },
     likeProjects: { projects: likeProjects },
+    likeUsers: { users: likeUsers },
   } = useSelector((state: RootState) => state.like);
-  const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
+
+  const dispatch = useDispatch();
   const projectsArray = projects.map((project) => project.ProjectId);
+  const userArray = users.map((user) => user.RecieveduserId);
   const type = { info: false, project: false, favorite: false, alarm: false };
   const query = querystring.parse(location.search);
   const tab = query.tab;
@@ -53,22 +62,17 @@ function Mypage() {
       type.info = true;
   }
 
-  // if (tab === 'project') {
-  //   type.project = true;
-  // } else if (tab === 'favorite') {
-  //   type.favorite = true;
-  // } else if (tab === 'alarm') {
-  //   type.alarm = true;
-  // } else {
-  //   type.info = true;
-  // }
-
   useEffect(() => {
     dispatch(fetchMyLikeProjects({ id: userId }));
   }, [likeProjects]);
 
   useEffect(() => {
+    dispatch(fetchMyLikeUsers({ id: userId }));
+  }, [likeUsers]);
+
+  useEffect(() => {
     dispatch(fetchLikeProjects());
+    dispatch(fetchLikeUsers());
   }, []);
 
   return (
@@ -108,7 +112,7 @@ function Mypage() {
             />
             <InfoBox
               title="구독중인 사람"
-              array={[]}
+              array={userArray}
               defaultText="구독중인 사람이 없습니다."
               type="user"
             />

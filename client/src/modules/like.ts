@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { likeApi } from '../api/like';
-import { ILike, IMyLikeProject, IProject } from '../api/types';
+import { ILike, IMyLikeProject, IMyLikeUser } from '../api/types';
 
 type LikeState = {
   likeProjects: {
@@ -16,6 +16,11 @@ type LikeState = {
   };
   myLikeProjects: {
     projects: IMyLikeProject[];
+    loading: boolean;
+    error: null | Error;
+  };
+  myLikeUsers: {
+    users: IMyLikeUser[];
     loading: boolean;
     error: null | Error;
   };
@@ -34,6 +39,11 @@ const initialState: LikeState = {
   },
   myLikeProjects: {
     projects: [],
+    loading: false,
+    error: null,
+  },
+  myLikeUsers: {
+    users: [],
     loading: false,
     error: null,
   },
@@ -84,6 +94,23 @@ export const fetchMyLikeProjects = createAsyncThunk<
     const myLikeProjects = await likeApi.postMyLikeProjects(id);
     return {
       myLikeProjects: myLikeProjects.data.projects,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+export const fetchMyLikeUsers = createAsyncThunk<
+  {
+    myLikeUsers: IMyLikeUser[];
+  },
+  { id: string | null },
+  { state: RootState }
+>('like/fetchMyLikeUsers', async (id, { rejectWithValue }) => {
+  try {
+    const myLikeUsers = await likeApi.postMyLikeUsers(id);
+    return {
+      myLikeUsers: myLikeUsers.data.users,
     };
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -144,6 +171,23 @@ const likeSlice = createSlice({
     builder.addCase(fetchMyLikeProjects.rejected, (state, action) => {
       state.myLikeProjects.error = action.error as Error;
       state.myLikeProjects.loading = false;
+    });
+
+    // myLikeUsers
+    builder.addCase(fetchMyLikeUsers.pending, (state, action) => {
+      state.myLikeUsers.loading = true;
+    });
+    builder.addCase(fetchMyLikeUsers.fulfilled, (state, action) => {
+      const { myLikeUsers } = action.payload;
+      state.myLikeUsers = {
+        users: myLikeUsers,
+        loading: false,
+        error: null,
+      };
+    });
+    builder.addCase(fetchMyLikeUsers.rejected, (state, action) => {
+      state.myLikeUsers.error = action.error as Error;
+      state.myLikeUsers.loading = false;
     });
   },
 });
