@@ -4,6 +4,8 @@ const router = express.Router();
 const multer = require('multer');
 const { Project } = require('../models/Project');
 import { IProject } from '../models/Project.interface';
+const { User } = require('../models/User');
+import { IUserMethods } from '../models/User.interface';
 const { UserRole } = require('../models/UserRole');
 import { IUserRole } from '../models/UserRole.interface';
 const fs = require('fs');
@@ -74,6 +76,69 @@ router.post('/info', (req: Request, res: Response) => {
       project,
     });
   });
+});
+
+router.get('/joinList/:id', (req: Request, res: Response) => {
+  UserRole.find(
+    { projectId: req.params.id, role: 2 },
+    (err: Error, role: IUserRole[]) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        });
+      }
+      // role 배열에 담긴 유저아이디 참조해서 유저 정보 배열 구한 뒤 결과로 보내기
+      Promise.all(role.map((r) => User.findOne({ _id: r.userId })))
+        .then((result) => {
+          const mappedResult = result.map((item, idx) => ({
+            item,
+            msg: role[idx].msg,
+          }));
+          return res.status(200).json({
+            success: true,
+            result: mappedResult,
+          });
+        })
+        .catch((err) =>
+          res.status(200).json({
+            success: false,
+            err,
+          })
+        );
+    }
+  );
+});
+
+router.get('/memberList/:id', (req: Request, res: Response) => {
+  UserRole.find(
+    { projectId: req.params.id, role: 1 },
+    (err: Error, role: IUserRole[]) => {
+      if (err) {
+        return res.json({
+          success: false,
+          err,
+        });
+      }
+      // role 배열에 담긴 유저아이디 참조해서 유저 정보 배열 구한 뒤 결과로 보내기
+      Promise.all(role.map((r) => User.findOne({ _id: r.userId })))
+        .then((result) => {
+          const mappedResult = result.map((item, idx) => ({
+            item,
+          }));
+          return res.status(200).json({
+            success: true,
+            result: mappedResult,
+          });
+        })
+        .catch((err) =>
+          res.status(200).json({
+            success: false,
+            err,
+          })
+        );
+    }
+  );
 });
 
 router.get('/recommendList', (req: Request, res: Response) => {

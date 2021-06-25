@@ -36,7 +36,7 @@ interface Ipos {
 const ProjectDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const { id } = useParams<{ id: string }>();
-  const [pid, setPid] = useState('');
+  const [pid, setPid] = useState(id);
   const [title, setTitle] = useState('');
   const [thumb, setThumb] = useState('');
   const [info, setInfo] = useState('');
@@ -51,6 +51,10 @@ const ProjectDetail = () => {
   const [receivedLike, setReceivedLike] = useState(0);
   const [avartarImg, setAvartarImg] = useState('');
   const [nickname, setNickname] = useState('');
+  const [uPos, setUPos] = useState('');
+  const [uPosLv, setUPosLv] = useState('');
+  const [uInterestSkills, setUInterestSkills] = useState([]);
+  const [uReceivedLike, setUReceivedLike] = useState(0);
   const [recruitment, setRecruitment] = useState(true);
   const userId = useRef(localStorage.getItem('userId'));
 
@@ -58,6 +62,29 @@ const ProjectDetail = () => {
     if (currentTab !== index) {
       setCurrentTab(index);
     }
+  };
+
+  const cleanup = () => {
+    setPid(id);
+    setTitle('');
+    setThumb('');
+    setInfo('');
+    setField('');
+    setArea('');
+    setPosition([]);
+    setReferenceURL([]);
+    setStartAt(new Date());
+    setEndAt(new Date());
+    setWriter('');
+    setProjectLV('');
+    setReceivedLike(0);
+    setAvartarImg('');
+    setNickname('');
+    setUPos('');
+    setUPosLv('');
+    setUInterestSkills([]);
+    setUReceivedLike(0);
+    setRecruitment(true);
   };
 
   useEffect(() => {
@@ -115,12 +142,24 @@ const ProjectDetail = () => {
           alert(`리더 정보를 가져오는데 실패했습니다 (${response.data.err})`);
           return;
         }
-        const { avartarImg, nickname } = response.data.user;
+        const {
+          avartarImg,
+          nickname,
+          position,
+          positionLevel,
+          interestSkills,
+          receivedLike,
+        } = response.data.user;
         setAvartarImg(avartarImg);
         setNickname(nickname);
+        setUPos(position);
+        setUPosLv(positionLevel);
+        setUInterestSkills(interestSkills);
+        setUReceivedLike(receivedLike);
       });
     });
-  }, []);
+    return () => cleanup();
+  }, [currentTab]);
 
   return (
     <Container>
@@ -140,9 +179,15 @@ const ProjectDetail = () => {
               referenceURL={referenceURL}
               nickname={nickname}
               position={position}
+              projectId={pid}
+              uPos={uPos}
+              uPosLv={uPosLv}
+              uInterestSkills={uInterestSkills}
+              uReceivedLike={uReceivedLike}
+              avartarImg={avartarImg}
             />
           )}
-          {currentTab === 1 && <Question />}
+          {currentTab === 1 && <Question projectId={pid} />}
           {currentTab === 2 && writer === userId.current && (
             <Management projectId={pid} />
           )}

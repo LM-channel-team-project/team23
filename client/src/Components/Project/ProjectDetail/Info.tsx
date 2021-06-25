@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Status from './Status';
 import Reference from './Reference';
 import { Link } from 'react-router-dom';
 import theme from '../../../theme';
+import PeopleListItem from '../../People/PeopleListItem';
+import axios from 'axios';
+import { PROJECT_SERVER } from '../../../Config';
 
 const Container = styled.div``;
 
@@ -20,6 +23,7 @@ const TabTitle = styled.h3`
 
 const P = styled.p`
   line-height: 1.5;
+  margin-top: 1rem;
 `;
 
 const TabText = styled.p`
@@ -37,13 +41,54 @@ interface IProps {
   referenceURL: string[];
   nickname: string;
   position: Ipos[];
+  projectId: string;
+  uPos: string;
+  uPosLv: string;
+  uInterestSkills: string[];
+  uReceivedLike: number;
+  avartarImg: string;
 }
 
-const Info = ({ info, referenceURL, nickname, position }: IProps) => {
+interface IUser extends Document {
+  item: {
+    _id: string;
+    avartarImg: string;
+    nickname: string;
+    email: string;
+    position: string;
+    positionLevel: string;
+    interestSkills: string[];
+    receivedLike: number;
+  };
+}
+
+const Info = ({
+  info,
+  referenceURL,
+  nickname,
+  position,
+  projectId,
+  uPos,
+  uPosLv,
+  uInterestSkills,
+  uReceivedLike,
+  avartarImg,
+}: IProps) => {
+  const [memberList, setMemberList] = useState<IUser[]>([]);
+  useEffect(() => {
+    axios.get(`${PROJECT_SERVER}/memberList/${projectId}`).then((res) => {
+      if (!res.data.success) {
+        alert(`현재 멤버 정보를 가져오는 데 실패했습니다 (${res.data.err})`);
+        return;
+      }
+      setMemberList(res.data.result);
+    });
+  }, [memberList]);
+
   return (
     <Container>
       <Section>
-        <Status position={position} />
+        <Status position={position} projectId={projectId} />
       </Section>
       <Section>
         <TabTitle>- 소개</TabTitle>
@@ -59,13 +104,32 @@ const Info = ({ info, referenceURL, nickname, position }: IProps) => {
       </Section>
       <Section>
         <TabTitle>리더</TabTitle>
-        <Link to={`/people/${nickname}`} style={{ color: theme.palette.jade }}>
-          {nickname}
-        </Link>
+        <PeopleListItem
+          avartarImg={avartarImg}
+          interestSkills={uInterestSkills}
+          nickname={nickname}
+          position={uPos}
+          positionLevel={uPosLv}
+          receivedLike={uReceivedLike}
+        />
       </Section>
       <Section>
         <TabTitle>멤버</TabTitle>
-        214214
+        {memberList.length ? (
+          memberList.map((user) => (
+            <PeopleListItem
+              key={user.item._id}
+              avartarImg={user.item.avartarImg}
+              interestSkills={user.item.interestSkills}
+              nickname={user.item.nickname}
+              position={user.item.position}
+              positionLevel={user.item.positionLevel}
+              receivedLike={user.item.receivedLike}
+            />
+          ))
+        ) : (
+          <P>참가한 멤버가 없습니다</P>
+        )}
       </Section>
     </Container>
   );
