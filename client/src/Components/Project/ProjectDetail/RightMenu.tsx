@@ -9,7 +9,10 @@ import { useLocation } from 'react-router-dom';
 import LikeButton from '../../Common/LikeButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../modules';
-import { fetchLikeProjects } from '../../../modules/like';
+import {
+  fetchLikeProjects,
+  fetchProjectLikeUsers,
+} from '../../../modules/like';
 
 const Container = styled.div`
   max-width: 280px;
@@ -171,8 +174,12 @@ const RightMenu = ({
   const {
     likeProjects: { projects },
   } = useSelector((state: RootState) => state.like);
+  const { users } = useSelector(
+    (state: RootState) => state.like.projectLikeUsers[id]
+  ) || {
+    users: [],
+  };
   const userId = localStorage.getItem('userId');
-
   const copyURL: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     if (!document.queryCommandSupported('copy')) {
       return alert('복사 기능이 지원되지 않는 브라우저입니다');
@@ -203,6 +210,10 @@ const RightMenu = ({
     }
     setLikeCount(likeCount.length);
   }, [projects]);
+
+  useEffect(() => {
+    dispatch(fetchProjectLikeUsers(id));
+  }, [id, projects]);
 
   useEffect(() => {
     dispatch(fetchLikeProjects());
@@ -261,30 +272,18 @@ const RightMenu = ({
         <InfoWrap>
           <CheckTitle>구독중인 사람</CheckTitle>
           <Ul>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
+            {users.length > 0
+              ? users.map((user) => (
+                  <Li key={user.SenduserId._id}>
+                    <SubscribeImageWrap>
+                      <Image
+                        src={user.SenduserId.avartarImg}
+                        alt="user_image"
+                      />
+                    </SubscribeImageWrap>
+                  </Li>
+                ))
+              : '구독중인 사람이 없습니다.'}
           </Ul>
         </InfoWrap>
       </Contents>

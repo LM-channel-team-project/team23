@@ -13,4 +13,6 @@ export const likeApi = {
     axios.post(`${LIKE_SERVER}/myLikeProjects`, id),
   postMyLikeUsers: (id: { id: string | null }): Promise<AxiosResponse> =>
     axios.post(`${LIKE_SERVER}/myLikeUsers`, id),
+  postProjectLikeUsers: (id: string): Promise<AxiosResponse> =>
+    axios.post(`${LIKE_SERVER}/projectLikeUsers`, { id }),
 };

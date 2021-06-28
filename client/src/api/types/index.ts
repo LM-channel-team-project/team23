@@ -55,4 +55,5 @@ export interface IMyLikeProject {
 
 export interface IMyLikeUser {
   RecieveduserId: IUser;
+  SenduserId: IUser;
 }

@@ -24,6 +24,13 @@ type LikeState = {
     loading: boolean;
     error: null | Error;
   };
+  projectLikeUsers: {
+    [id: string]: {
+      users: IMyLikeUser[];
+      loading: boolean;
+      error: null | Error;
+    };
+  };
 };
 
 const initialState: LikeState = {
@@ -47,6 +54,7 @@ const initialState: LikeState = {
     loading: false,
     error: null,
   },
+  projectLikeUsers: {},
 };
 
 export const fetchLikeProjects = createAsyncThunk<
@@ -111,6 +119,23 @@ export const fetchMyLikeUsers = createAsyncThunk<
     const myLikeUsers = await likeApi.postMyLikeUsers(id);
     return {
       myLikeUsers: myLikeUsers.data.users,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+export const fetchProjectLikeUsers = createAsyncThunk<
+  {
+    projectLikeUsers: IMyLikeUser[];
+  },
+  string,
+  { state: RootState }
+>('like/fetchProjectLikeUsers', async (id, { rejectWithValue }) => {
+  try {
+    const projectLikeUsers = await likeApi.postProjectLikeUsers(id);
+    return {
+      projectLikeUsers: projectLikeUsers.data.users,
     };
   } catch (error) {
     return rejectWithValue(error.response.data);
@@ -188,6 +213,27 @@ const likeSlice = createSlice({
     builder.addCase(fetchMyLikeUsers.rejected, (state, action) => {
       state.myLikeUsers.error = action.error as Error;
       state.myLikeUsers.loading = false;
+    });
+
+    // projectLikeUsers
+    builder.addCase(fetchProjectLikeUsers.pending, (state, action) => {
+      state.projectLikeUsers[action.meta.arg] = {
+        users: [],
+        loading: true,
+        error: null,
+      };
+    });
+    builder.addCase(fetchProjectLikeUsers.fulfilled, (state, action) => {
+      const { projectLikeUsers } = action.payload;
+      state.projectLikeUsers[action.meta.arg] = {
+        users: projectLikeUsers,
+        loading: false,
+        error: null,
+      };
+    });
+    builder.addCase(fetchProjectLikeUsers.rejected, (state, action) => {
+      state.projectLikeUsers[action.meta.arg].error = action.error as Error;
+      state.projectLikeUsers[action.meta.arg].loading = false;
     });
   },
 });

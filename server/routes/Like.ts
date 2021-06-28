@@ -5,6 +5,21 @@ import { User } from '../models/User';
 
 const router = express.Router();
 
+// 프로젝트를 좋아요한 유저
+router.post('/projectLikeUsers', (req: Request, res: Response) => {
+  Like.find({ ProjectId: req.body.id })
+    .populate('SenduserId')
+    .exec((error, users) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      res.status(200).json({
+        success: true,
+        users,
+      });
+    });
+});
+
 // 로그인 유저가 좋아요한 유저
 router.post('/myLikeUsers', (req: Request, res: Response) => {
   Like.find({
@@ -24,6 +39,9 @@ router.post('/myLikeUsers', (req: Request, res: Response) => {
 
 // 로그인 유저가 좋아요한 프로젝트
 router.post('/myLikeProjects', (req: Request, res: Response) => {
+  // const data = {
+  //   $exists: true,
+  // }
   Like.find({
     $and: [{ SenduserId: req.body.id }, { ProjectId: { $exists: true } }],
   })
