@@ -37,6 +37,7 @@ interface Ipos {
 }
 
 interface IProps {
+  leaderId: string;
   info: string;
   referenceURL: string[];
   nickname: string;
@@ -63,6 +64,7 @@ interface IUser extends Document {
 }
 
 const Info = ({
+  leaderId,
   info,
   referenceURL,
   nickname,
@@ -109,6 +111,7 @@ const Info = ({
       <Section>
         <TabTitle>리더</TabTitle>
         <PeopleListItem
+          id={leaderId}
           avartarImg={avartarImg}
           interestSkills={uInterestSkills}
           nickname={nickname}
@@ -122,6 +125,7 @@ const Info = ({
         {memberList.length ? (
           memberList.map((user) => (
             <PeopleListItem
+              id={user.item._id}
               key={user.item._id}
               avartarImg={user.item.avartarImg}
               interestSkills={user.item.interestSkills}

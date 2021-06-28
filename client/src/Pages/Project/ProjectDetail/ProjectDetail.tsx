@@ -66,6 +66,7 @@ const initProject: IProject = {
 };
 
 interface ILeader {
+  _id: string;
   avartarImg: string;
   nickname: string;
   position: string;
@@ -75,6 +76,7 @@ interface ILeader {
 }
 
 const initLeader = {
+  _id: '',
   avartarImg: '',
   nickname: '',
   position: '',
@@ -165,6 +167,7 @@ const ProjectDetail = () => {
           return;
         }
         const {
+          _id,
           avartarImg,
           nickname,
           position,
@@ -174,6 +177,7 @@ const ProjectDetail = () => {
         } = response.data.user;
 
         setLeader({
+          _id,
           avartarImg,
           nickname,
           position,
@@ -203,6 +207,7 @@ const ProjectDetail = () => {
           <ProjectTab current={currentTab} onClick={handleChangeTab} />
           {currentTab === 0 && (
             <Info
+              leaderId={leader._id}
               info={project.info}
               referenceURL={project.referenceURL}
               nickname={leader.nickname}
@@ -221,7 +226,7 @@ const ProjectDetail = () => {
           )}
         </Contents>
         <RightMenu
-          id={id}        
+          id={id}
           avartarImg={leader.avartarImg}
           endAt={`${project.endAt.getFullYear()}/${
             project.endAt.getMonth() + 1
@@ -229,7 +234,6 @@ const ProjectDetail = () => {
           startAt={`${project.startAt.getFullYear()}/${
             project.startAt.getMonth() + 1
           }/${project.startAt.getDate()}`}
-
           date={`${Math.ceil(
             (project.endAt.getTime() - project.startAt.getTime()) /
               (1000 * 3600 * 24)
