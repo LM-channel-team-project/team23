@@ -31,60 +31,85 @@ const defaultProps: IUser[] = [];
 
 const PeoplePresenter = () => {
   const [users, setUsers] = useState(defaultProps);
-  const [moreData, setMoreData] = useState<boolean>(true);
-  const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
+  const [endpoint, setEndpoint] = useState(`${USER_SERVER}?`);
   const page = useRef(1);
   const dispatch = useDispatch();
 
-  const LoadUser = (filterChange = false) => {
-    if (moreData) {
-      axios
-        .get(endpoint, {
-          params: {
-            page: page.current,
-          },
-        })
-        .then((response) => {
-          if (!response.data.success) {
-            alert('데이터를 가져오는데 실패했습니다.');
-            return false;
-          }
-          if (response.data.user.length == 0) {
-            setMoreData(false);
-            return false;
-          }
-          page.current += 1;
-          const userList = response.data.user;
-          const user: [IUser] = userList.map((userInfo: any) => {
-            return {
-              _id: userInfo._id,
-              avartarImg: userInfo.avartarImg
-                ? userInfo.avartarImg
-                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-              nickname: userInfo.nickname,
-              position: userInfo.position,
-              positionLevel: userInfo.positionLevel,
-              interestSkills: userInfo.interestSkills,
-              receivedLike: userInfo.receivedLike,
-            };
-          });
-          if (!filterChange) setUsers([...users, ...user]);
-          else setUsers([...user]);
+  const refreshList = () => {
+    page.current = 1;
+    axios
+      .get(endpoint, {
+        params: {
+          page: page.current,
+        },
+      })
+      .then((response) => {
+        if (!response.data.success) {
+          alert('데이터를 가져오는데 실패했습니다.');
+          return false;
+        }
+        if (response.data.user.length == 0) {
+          alert('데이터가 없습니다.');
+          return false;
+        }
+        page.current += 1;
+        const userList = response.data.user;
+        const user: [IUser] = userList.map((userInfo: any) => {
+          return {
+            _id: userInfo._id,
+            avartarImg: userInfo.avartarImg
+              ? userInfo.avartarImg
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+            nickname: userInfo.nickname,
+            position: userInfo.position,
+            positionLevel: userInfo.positionLevel,
+            interestSkills: userInfo.interestSkills,
+            receivedLike: userInfo.receivedLike,
+          };
         });
-    } else {
-      alert('더 이상 데이터가 없습니다.');
-    }
+        setUsers([...user]);
+      });
+  };
+
+  const LoadUser = () => {
+    axios
+      .get(endpoint, {
+        params: {
+          page: page.current,
+        },
+      })
+      .then((response) => {
+        if (!response.data.success) {
+          alert('데이터를 가져오는데 실패했습니다.');
+          return false;
+        }
+        if (response.data.user.length == 0) {
+          alert('더 이상 데이터가 없습니다.');
+          return false;
+        }
+        page.current += 1;
+        const userList = response.data.user;
+        const user: [IUser] = userList.map((userInfo: any) => {
+          return {
+            _id: userInfo._id,
+            avartarImg: userInfo.avartarImg
+              ? userInfo.avartarImg
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+            nickname: userInfo.nickname,
+            position: userInfo.position,
+            positionLevel: userInfo.positionLevel,
+            interestSkills: userInfo.interestSkills,
+            receivedLike: userInfo.receivedLike,
+          };
+        });
+        setUsers([...users, ...user]);
+      });
   };
 
   useEffect(() => {
-    setUsers(defaultProps);
-    setMoreData(true);
-    page.current = 1;
+    console.log(endpoint);
+    refreshList();
   }, [endpoint]);
-
-  useEffect(() => {
-    LoadUser();
-  }, [page.current]);
 
   useEffect(() => {
     dispatch(fetchLikeUsers());
