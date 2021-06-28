@@ -33,24 +33,61 @@ interface Ipos {
   current: number;
 }
 
+interface IProject {
+  _id: string;
+  title: string;
+  thumb: string;
+  info: string;
+  field: string;
+  area: string;
+  position: Ipos[];
+  referenceURL: string[];
+  startAt: Date;
+  endAt: Date;
+  writer: string;
+  projectLV: string;
+  receivedLike: number;
+}
+
+const initProject: IProject = {
+  _id: '',
+  title: '',
+  thumb: '',
+  info: '',
+  field: '',
+  area: '',
+  position: [],
+  referenceURL: [],
+  startAt: new Date(),
+  endAt: new Date(),
+  writer: '',
+  projectLV: '',
+  receivedLike: 0,
+};
+
+interface ILeader {
+  avartarImg: string;
+  nickname: string;
+  position: string;
+  positionLevel: string;
+  interestSkills: string[];
+  receivedLike: number;
+}
+
+const initLeader = {
+  avartarImg: '',
+  nickname: '',
+  position: '',
+  positionLevel: '',
+  interestSkills: [],
+  receivedLike: 0,
+};
+
 const ProjectDetail = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const { id } = useParams<{ id: string }>();
-  const [pid, setPid] = useState('');
-  const [title, setTitle] = useState('');
-  const [thumb, setThumb] = useState('');
-  const [info, setInfo] = useState('');
-  const [field, setField] = useState('');
-  const [area, setArea] = useState('');
-  const [position, setPosition] = useState<Ipos[]>([]);
-  const [referenceURL, setReferenceURL] = useState<string[]>([]);
-  const [startAt, setStartAt] = useState<Date>(new Date());
-  const [endAt, setEndAt] = useState<Date>(new Date());
-  const [writer, setWriter] = useState('');
-  const [projectLV, setProjectLV] = useState('');
-  const [receivedLike, setReceivedLike] = useState(0);
-  const [avartarImg, setAvartarImg] = useState('');
-  const [nickname, setNickname] = useState('');
+  const [project, setProject] = useState<IProject>(initProject);
+  const [leader, setLeader] = useState<ILeader>(initLeader);
   const [recruitment, setRecruitment] = useState(true);
   const userId = useRef(localStorage.getItem('userId'));
 
@@ -60,8 +97,14 @@ const ProjectDetail = () => {
     }
   };
 
+  const cleanup = () => {
+    setProject(initProject);
+    setLeader(initLeader);
+    setRecruitment(true);
+  };
+
   useEffect(() => {
-    if (currentTab === 2 && writer !== userId.current) {
+    if (currentTab === 2 && project.writer !== userId.current) {
       alert('접근 권한이 없습니다');
       setCurrentTab(0);
     }
@@ -89,79 +132,111 @@ const ProjectDetail = () => {
         receivedLike,
       } = res.data.project;
 
-      setPid(_id);
-      setTitle(title);
-      setThumb(thumb);
-      axios.get(`${info}`).then((response) => {
-        setInfo(response.data);
+      setProject({
+        _id,
+        title,
+        thumb,
+        info: '',
+        field,
+        area,
+        position,
+        referenceURL,
+        startAt: new Date(startAt),
+        endAt: new Date(endAt),
+        writer,
+        projectLV,
+        receivedLike,
       });
-      setField(field);
-      setArea(area);
-      setPosition(position);
+
+      axios.get(`${info}`).then((response) => {
+        setProject((prev) => ({ ...prev, info: response.data }));
+      });
+
       setRecruitment(
         !position.reduce(
           (acc: boolean, v: any) => acc && v['current'] === v['required'],
           true
         )
       );
-      setReferenceURL(referenceURL);
-      setStartAt(new Date(startAt));
-      setEndAt(new Date(endAt));
-      setWriter(writer);
-      setProjectLV(projectLV);
-      setReceivedLike(receivedLike);
+
       axios.post(`${USER_SERVER}/info`, { _id: writer }).then((response) => {
         if (!response.data.user) {
           alert(`리더 정보를 가져오는데 실패했습니다 (${response.data.err})`);
           return;
         }
-        const { avartarImg, nickname } = response.data.user;
-        setAvartarImg(avartarImg);
-        setNickname(nickname);
+        const {
+          avartarImg,
+          nickname,
+          position,
+          positionLevel,
+          interestSkills,
+          receivedLike,
+        } = response.data.user;
+
+        setLeader({
+          avartarImg,
+          nickname,
+          position,
+          positionLevel,
+          interestSkills,
+          receivedLike,
+        });
       });
     });
+  }, [currentTab]);
+
+  useEffect(() => {
+    return () => cleanup();
   }, []);
 
   return (
     <Container>
       <ProjectDtailHeader
-        field={field}
-        nickname={nickname}
+        field={project.field}
+        nickname={leader.nickname}
         recruitment={recruitment}
-        avartarImg={avartarImg}
-        title={title}
+        avartarImg={leader.avartarImg}
+        title={project.title}
       />
       <ProjectPageWrap>
         <Contents>
           <ProjectTab current={currentTab} onClick={handleChangeTab} />
           {currentTab === 0 && (
             <Info
-              info={info}
-              referenceURL={referenceURL}
-              nickname={nickname}
-              position={position}
+              info={project.info}
+              referenceURL={project.referenceURL}
+              nickname={leader.nickname}
+              position={project.position}
+              projectId={id}
+              uPos={leader.position}
+              uPosLv={leader.positionLevel}
+              uInterestSkills={leader.interestSkills}
+              uReceivedLike={leader.receivedLike}
+              avartarImg={leader.avartarImg}
             />
           )}
-          {currentTab === 1 && <Question />}
-          {currentTab === 2 && writer === userId.current && (
-            <Management projectId={pid} />
+          {currentTab === 1 && <Question projectId={id} />}
+          {currentTab === 2 && project.writer === userId.current && (
+            <Management projectId={id} />
           )}
         </Contents>
         <RightMenu
-          id={id}
-          avartarImg={avartarImg}
-          endAt={`${endAt.getFullYear()}/${
-            endAt.getMonth() + 1
-          }/${endAt.getDate()}`}
-          startAt={`${startAt.getFullYear()}/${
-            startAt.getMonth() + 1
-          }/${startAt.getDate()}`}
+          id={id}        
+          avartarImg={leader.avartarImg}
+          endAt={`${project.endAt.getFullYear()}/${
+            project.endAt.getMonth() + 1
+          }/${project.endAt.getDate()}`}
+          startAt={`${project.startAt.getFullYear()}/${
+            project.startAt.getMonth() + 1
+          }/${project.startAt.getDate()}`}
+
           date={`${Math.ceil(
-            (endAt.getTime() - startAt.getTime()) / (1000 * 3600 * 24)
+            (project.endAt.getTime() - project.startAt.getTime()) /
+              (1000 * 3600 * 24)
           )}`}
-          field={field}
-          nickname={nickname}
-          receivedLike={receivedLike}
+          field={project.field}
+          nickname={leader.nickname}
+          receivedLike={project.receivedLike}
         />
       </ProjectPageWrap>
     </Container>
