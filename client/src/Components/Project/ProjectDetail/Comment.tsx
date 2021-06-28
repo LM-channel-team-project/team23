@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../Common/Button';
 
 const Container = styled.div`
   margin-bottom: 5px;
@@ -65,23 +66,49 @@ const Text = styled.textarea`
   font-family: 'Noto Sans KR', sans-serif;
 `;
 
-const Comment = () => {
+interface IProps {
+  avartarImg: string | undefined;
+  nickname: string;
+  time: Date;
+  content: string;
+  remove: React.MouseEventHandler<HTMLButtonElement> | undefined;
+}
+
+const Comment = ({ avartarImg, nickname, time, content, remove }: IProps) => {
   return (
     <Container>
       <ContentsWrap>
         <Top>
           <UserInfo>
             <ImageWrap>
-              <Image src="https://phinf.pstatic.net/contact/20200810_233/1597002626521vhHs0_JPEG/%C8%BF_%BF%F8%BA%BB.jpg" />
+              <Image
+                src={
+                  avartarImg
+                    ? avartarImg
+                    : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                }
+                alt="userImg"
+              />
             </ImageWrap>
-            <Name>용현준</Name>
+            <Name>{nickname}</Name>
           </UserInfo>
-          <Time>21.03.30 13:16</Time>
+          <Time>
+            {`${time.getFullYear()}.${
+              time.getMonth() + 1
+            }.${time.getDate()} / ${time.getHours()}:${time.getMinutes()}`}
+            {remove && (
+              <Button
+                ButtonColor="red"
+                ButtonMode="active"
+                ButtonName="삭제"
+                ButtonSize="small"
+                onClick={remove}
+              />
+            )}
+          </Time>
         </Top>
         <CommentContentWrap>
-          <Text disabled rows={2} maxLength={1000}>
-            안녕하세요
-          </Text>
+          <Text disabled rows={2} maxLength={1000} value={content} />
         </CommentContentWrap>
       </ContentsWrap>
     </Container>

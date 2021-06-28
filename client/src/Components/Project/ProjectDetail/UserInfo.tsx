@@ -65,7 +65,14 @@ function UserInfo({
   return (
     <Container>
       <InfoBox>
-        <UserImg src={avatarImg} alt="Avartar" />
+        <UserImg
+          src={
+            avatarImg
+              ? avatarImg
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+          }
+          alt="Avartar"
+        />
         <Info>
           <Text>{nickName}</Text>
           <Text>{pos}</Text>
