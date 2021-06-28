@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PostTransfer, LevelTransfer } from '../Common/transformValue';
@@ -6,6 +6,8 @@ import fullHeart from '../../img/full-heart.svg';
 import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import LikeButton from '../Common/LikeButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../modules';
 
 const User = styled.div`
   width: 100%;
@@ -118,15 +120,17 @@ const LikeIcon = styled.span`
 const Like = styled.span``;
 
 interface IUser {
-  avartarImg: string;
+  id: string;
+  avartarImg?: string;
   nickname: string;
   position: string;
   positionLevel: string;
-  interestSkills: string[];
+  interestSkills?: string[];
   receivedLike: number;
 }
 
 const PeopleListItem = ({
+  id,
   avartarImg,
   nickname,
   position,
@@ -134,7 +138,29 @@ const PeopleListItem = ({
   interestSkills,
   receivedLike,
 }: IUser) => {
-  const [like, setLike] = useState(receivedLike);
+  const [likeCount, setLikeCount] = useState(receivedLike);
+  const [isLike, setIsLike] = useState(false);
+  const {
+    likeUsers: { users },
+  } = useSelector((state: RootState) => state.like);
+
+  const userId = localStorage.getItem('userId');
+  useEffect(() => {
+    const likeCount = users.filter((user) => user.RecieveduserId === id);
+    const likeStatus = users.find(
+      (user) => user.RecieveduserId === id && user.SenduserId === userId
+    );
+    if (likeStatus) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+    setLikeCount(likeCount.length);
+  }, [users]);
+
+  useEffect(() => {
+    setLikeCount(receivedLike);
+  }, [receivedLike]);
 
   return (
     <User>
@@ -168,18 +194,19 @@ const PeopleListItem = ({
       </UserMid>
       <UserBottom>
         <UserStackList>
-          {interestSkills.map((stack, index) => (
-            <UserStack key={index}>{stack}</UserStack>
-          ))}
+          {interestSkills &&
+            interestSkills.map((stack, index) => (
+              <UserStack key={index}>{stack}</UserStack>
+            ))}
         </UserStackList>
         <SLikeButton
           isProject={false}
           userId={localStorage.getItem('userId')}
-          targetId={nickname}
-          setLike={setLike}
+          targetId={id}
+          isLike={isLike}
         />
         <LikeIcon>❤ </LikeIcon>
-        <Like>{like ? like : 0}</Like>
+        <Like>{likeCount ? likeCount : 0}</Like>
       </UserBottom>
     </User>
   );

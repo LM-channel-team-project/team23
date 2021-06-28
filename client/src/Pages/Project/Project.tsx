@@ -8,6 +8,8 @@ import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { PROJECT_SERVER } from '../../Config';
+import { fetchLikeProjects } from '../../modules/like';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.section`
   max-width: 1200px;
@@ -45,6 +47,7 @@ const Project = () => {
   const page = useRef(1);
   const [endpoint, setEndpoint] = useState(`${PROJECT_SERVER}`);
   const [isRecruit, setIsRecruit] = useState(false);
+  const dispatch = useDispatch();
 
   const refreshProject = () => {
     page.current = 1;
@@ -183,6 +186,7 @@ const Project = () => {
   useEffect(() => {
     LoadProject();
     LoadRecommend();
+    dispatch(fetchLikeProjects());
   }, []);
 
   return (

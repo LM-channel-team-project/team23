@@ -8,6 +8,7 @@ import { GOOGLE_CLINET_ID } from '../../Config';
 import { PosData, LevelData } from './OptionData';
 import { useDispatch } from 'react-redux';
 import { getAuthThunk } from '../../modules/auth';
+import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
 
 const ProfileModalWrapper = styled.div`
   display: block;
@@ -201,6 +202,8 @@ function ProfileModal({
         alert('로그아웃 되었습니다.');
         setLoginSuccess(false);
         dispatch(getAuthThunk());
+        dispatch(fetchLikeUsers());
+        dispatch(fetchLikeProjects());
         history.push('/');
       } else {
         alert('다시 시도해주세요.');

@@ -6,6 +6,8 @@ import borderHeart from '../../img/border-heart.svg';
 import axios from 'axios';
 import { LIKE_SERVER } from '../../Config';
 import { ILike } from '../../../../server/models/Like.interface';
+import { useDispatch } from 'react-redux';
+import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
 
 const HeartBtn = styled.div<{ isLike: boolean }>`
   width: 24px;
@@ -26,86 +28,48 @@ interface IProps {
   isProject: boolean;
   userId: null | string;
   targetId: null | string;
-  setLike: React.Dispatch<React.SetStateAction<number>>;
+  isLike: boolean;
 }
 
-const LikeButton = ({ isProject, userId, targetId, setLike }: IProps) => {
-  const [isLike, setIsLike] = useState(false);
-  let formData = {};
+const LikeButton = ({ isProject, userId, targetId, isLike }: IProps) => {
+  const LIKE = isLike ? 'unLike' : 'upLike';
+  const dispatch = useDispatch();
 
-  if (isProject) {
-    formData = {
-      projectId: targetId,
-      userId,
-    };
-  } else {
-    formData = {
-      recieveduserId: targetId,
-      userId,
-    };
-  }
-
-  const handleUplike = async () => {
-    try {
-      const {
-        data: { success },
-      } = await axios.post(`${LIKE_SERVER}/upLike`, formData);
-      if (success) {
-        setIsLike(true);
-        setLike((like) => like + 1);
-      }
-    } catch (error) {
-      alert(`좋아요에 실패했습니다. ${error}`);
+  const handleFetchLikeList = () => {
+    if (isProject) {
+      dispatch(fetchLikeProjects());
+    } else {
+      dispatch(fetchLikeUsers());
     }
   };
 
-  const handleUnLike = async () => {
+  const handleLike = async () => {
     try {
+      const formData = {
+        [isProject ? 'projectId' : 'recieveduserId']: targetId,
+        userId,
+      };
       const {
         data: { success },
-      } = await axios.post(`${LIKE_SERVER}/unLike`, formData);
+      } = await axios.post(`${LIKE_SERVER}/${LIKE}`, formData);
       if (success) {
-        setIsLike(false);
-        setLike((like) => like - 1);
+        handleFetchLikeList();
       }
     } catch (error) {
-      alert(`좋아요 취소에 실패했습니다. ${error}`);
+      alert(`좋아요 관련 오류가 발생했습니다. ${error}`);
     }
   };
 
-  const onHeartClick = (event: React.MouseEvent<HTMLElement>) => {
+  const onClickLike = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     if (!userId) {
       alert('로그인 후 사용 가능합니다.');
       return;
     }
-
-    if (!isLike) {
-      handleUplike();
-    } else {
-      handleUnLike();
-    }
+    handleLike();
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {
-          data: { likes },
-        } = await axios.post(`${LIKE_SERVER}/getLike`, formData);
-        likes.forEach((like: ILike) => {
-          if (like.SenduserId === userId) {
-            setIsLike(true);
-          }
-        });
-      } catch (error) {
-        alert(`좋아요 정보를 받아오지 못했습니다. ${error}`);
-      }
-    };
-    fetchData();
-  }, []);
-
-  return <HeartBtn onClick={onHeartClick} isLike={isLike} />;
+  return <HeartBtn onClick={onClickLike} isLike={isLike} />;
 };
 
 export default LikeButton;

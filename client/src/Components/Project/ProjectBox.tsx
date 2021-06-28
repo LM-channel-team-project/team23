@@ -4,6 +4,9 @@ import basicHeart from '../../img/basic-heart.svg';
 import { Link } from 'react-router-dom';
 import { FieldData } from '../Common/OptionData';
 import LikeButton from '../Common/LikeButton';
+import { useEffect } from 'react';
+import { RootState } from '../../modules';
+import { useSelector } from 'react-redux';
 
 const ProjectTitle = styled.div`
   display: flex;
@@ -157,13 +160,32 @@ const ProjectBox = ({
   category,
   receivedLike,
 }: IProjectProps) => {
-  const [like, setLike] = useState(receivedLike);
+  const [likeCount, setLikeCount] = useState(receivedLike);
+  const [isLike, setIsLike] = useState(false);
+
+  const {
+    likeProjects: { projects },
+  } = useSelector((state: RootState) => state.like);
+  const userId = localStorage.getItem('userId');
 
   const fieldLabel = FieldData.find((item) => {
     if (item.value === category) {
       return item;
     }
   });
+
+  useEffect(() => {
+    const likeCount = projects.filter((project) => project.ProjectId === id);
+    const likeStatus = projects.find(
+      (project) => project.ProjectId === id && project.SenduserId === userId
+    );
+    if (likeStatus) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+    setLikeCount(likeCount.length);
+  }, [projects]);
 
   return (
     <Link to={`/project/${id}`}>
@@ -177,7 +199,7 @@ const ProjectBox = ({
             isProject={true}
             userId={localStorage.getItem('userId')}
             targetId={id}
-            setLike={setLike}
+            isLike={isLike}
           />
           <ProjectInfo>
             <Recruitment>
@@ -186,7 +208,7 @@ const ProjectBox = ({
             <Description>{description}</Description>
             <FavoriteNumber>
               <HeartIcon />
-              <FavoriteCount>{like}</FavoriteCount>
+              <FavoriteCount>{likeCount}</FavoriteCount>
             </FavoriteNumber>
           </ProjectInfo>
         </ProjectThumb>

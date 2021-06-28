@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import querystring from 'query-string';
 import Title from '../../Components/Common/Title';
 import MypageTab from '../../Components/Mypage/Tab';
 import InfoBox from '../../Components/Mypage/InfoBox';
 import styled from 'styled-components';
 import ProfilePage from '../../Components/Mypage/ProfilePage';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  fetchLikeProjects,
+  fetchLikeUsers,
+  fetchMyLikeProjects,
+  fetchMyLikeUsers,
+} from '../../modules/like';
+import { RootState } from '../../modules';
+import { sampleImages } from '../../Components/BuildProject/sampleImages';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -24,18 +33,48 @@ const InfoContainer = styled.div`
 `;
 
 function Mypage() {
+  const {
+    myLikeProjects: { projects },
+    myLikeUsers: { users },
+    likeProjects: { projects: likeProjects },
+    likeUsers: { users: likeUsers },
+  } = useSelector((state: RootState) => state.like);
+  const userId = localStorage.getItem('userId');
+
+  const dispatch = useDispatch();
+  const projectsArray = projects.map((project) => project.ProjectId);
+  const userArray = users.map((user) => user.RecieveduserId);
   const type = { info: false, project: false, favorite: false, alarm: false };
   const query = querystring.parse(location.search);
   const tab = query.tab;
-  if (tab === 'project') {
-    type.project = true;
-  } else if (tab === 'favorite') {
-    type.favorite = true;
-  } else if (tab === 'alarm') {
-    type.alarm = true;
-  } else {
-    type.info = true;
+
+  switch (tab) {
+    case 'project':
+      type.project = true;
+      break;
+    case 'favorite':
+      type.favorite = true;
+      break;
+    case 'alarm':
+      type.alarm = true;
+      break;
+    default:
+      type.info = true;
   }
+
+  useEffect(() => {
+    dispatch(fetchMyLikeProjects(userId));
+  }, [likeProjects]);
+
+  useEffect(() => {
+    dispatch(fetchMyLikeUsers(userId));
+  }, [likeUsers]);
+
+  useEffect(() => {
+    dispatch(fetchLikeProjects());
+    dispatch(fetchLikeUsers());
+  }, []);
+
   return (
     <Container>
       <Title subtitle="LET`s study" title="마이페이지" />
@@ -57,7 +96,7 @@ function Mypage() {
             />
             <InfoBox
               title="진행중인 프로젝트"
-              array={[1, 4]}
+              array={[]}
               defaultText="진행중인 프로젝트가 없습니다."
               type="project"
             />
@@ -67,13 +106,13 @@ function Mypage() {
           <>
             <InfoBox
               title="구독중인 프로젝트"
-              array={[]}
+              array={projectsArray}
               defaultText="구독중인 프로젝트가 없습니다."
               type="project"
             />
             <InfoBox
               title="구독중인 사람"
-              array={[1, 5]}
+              array={userArray}
               defaultText="구독중인 사람이 없습니다."
               type="user"
             />
@@ -82,7 +121,7 @@ function Mypage() {
         {type.alarm && (
           <InfoBox
             title="알람"
-            array={[2]}
+            array={[]}
             defaultText="알림 내용이 없습니다."
             type="alarm"
           />

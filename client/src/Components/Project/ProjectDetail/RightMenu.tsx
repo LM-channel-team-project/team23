@@ -6,6 +6,13 @@ import borderHeart from '../../../img/border-heart.svg';
 import CheckIcon from '../../../img/check_icon.svg';
 import { FieldData } from '../../Common/OptionData';
 import { useLocation } from 'react-router-dom';
+import LikeButton from '../../Common/LikeButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../modules';
+import {
+  fetchLikeProjects,
+  fetchProjectLikeUsers,
+} from '../../../modules/like';
 
 const Container = styled.div`
   max-width: 280px;
@@ -46,6 +53,10 @@ const HeartIcon = styled.div`
 `;
 
 const HeartBtnWrap = styled.div`
+  & div {
+    position: unset;
+  }
+
   &:hover {
     ${HeartIcon} {
       background-image: url(${borderHeart});
@@ -134,6 +145,7 @@ const Clipboard = styled.input.attrs({ type: 'text' })`
 `;
 
 interface IProps {
+  id: string;
   receivedLike: number;
   avartarImg: string;
   nickname: string;
@@ -144,6 +156,7 @@ interface IProps {
 }
 
 const RightMenu = ({
+  id,
   receivedLike,
   avartarImg,
   nickname,
@@ -152,9 +165,21 @@ const RightMenu = ({
   date,
   field,
 }: IProps) => {
+  const [likeCount, setLikeCount] = useState(receivedLike);
+  const [isLike, setIsLike] = useState(false);
   const [fieldLabel, setLabel] = useState<string>('');
   const copyUrlRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
 
+  const {
+    likeProjects: { projects },
+  } = useSelector((state: RootState) => state.like);
+  const { users } = useSelector(
+    (state: RootState) => state.like.projectLikeUsers[id]
+  ) || {
+    users: [],
+  };
+  const userId = localStorage.getItem('userId');
   const copyURL: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     if (!document.queryCommandSupported('copy')) {
       return alert('복사 기능이 지원되지 않는 브라우저입니다');
@@ -173,14 +198,40 @@ const RightMenu = ({
     setLabel(f ? f.label : '');
   }, [field]);
 
+  useEffect(() => {
+    const likeCount = projects.filter((project) => project.ProjectId === id);
+    const likeStatus = projects.find(
+      (project) => project.ProjectId === id && project.SenduserId === userId
+    );
+    if (likeStatus) {
+      setIsLike(true);
+    } else {
+      setIsLike(false);
+    }
+    setLikeCount(likeCount.length);
+  }, [projects]);
+
+  useEffect(() => {
+    dispatch(fetchProjectLikeUsers(id));
+  }, [id, projects]);
+
+  useEffect(() => {
+    dispatch(fetchLikeProjects());
+  }, []);
+
   return (
     <Container>
       <Contents>
         <HeartAndShareWrap>
           <HeartBtnWrap>
             <Button ButtonColor="white" ButtonMode="active" ButtonSize="medium">
-              <HeartIcon />
-              <FavoriteNumber>{receivedLike}</FavoriteNumber>
+              <LikeButton
+                isProject={true}
+                userId={localStorage.getItem('userId')}
+                targetId={id}
+                isLike={isLike}
+              />
+              <FavoriteNumber>{likeCount}</FavoriteNumber>
             </Button>
           </HeartBtnWrap>
           <Button
@@ -221,30 +272,18 @@ const RightMenu = ({
         <InfoWrap>
           <CheckTitle>구독중인 사람</CheckTitle>
           <Ul>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
-            <Li>
-              <SubscribeImageWrap>
-                <Image
-                  src="https://letspl.me/assets/images/prof-no-img.png"
-                  alt="user_image"
-                />
-              </SubscribeImageWrap>
-            </Li>
+            {users.length > 0
+              ? users.map((user) => (
+                  <Li key={user.SenduserId._id}>
+                    <SubscribeImageWrap>
+                      <Image
+                        src={user.SenduserId.avartarImg}
+                        alt="user_image"
+                      />
+                    </SubscribeImageWrap>
+                  </Li>
+                ))
+              : '구독중인 사람이 없습니다.'}
           </Ul>
         </InfoWrap>
       </Contents>

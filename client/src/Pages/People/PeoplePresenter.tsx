@@ -6,6 +6,8 @@ import PeopleList from '../../Components/People/PeopleList';
 import { USER_SERVER } from '../../Config';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch } from 'react-redux';
+import { fetchLikeUsers } from '../../modules/like';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -16,6 +18,7 @@ const Container = styled.div`
 `;
 
 interface IUser {
+  _id: string;
   avartarImg: string;
   nickname: string;
   position: string;
@@ -31,6 +34,7 @@ const PeoplePresenter = () => {
   const [moreData, setMoreData] = useState<boolean>(true);
   const [endpoint, setEndpoint] = useState(`${USER_SERVER}`);
   const page = useRef(1);
+  const dispatch = useDispatch();
 
   const LoadUser = (filterChange = false) => {
     if (moreData) {
@@ -53,6 +57,7 @@ const PeoplePresenter = () => {
           const userList = response.data.user;
           const user: [IUser] = userList.map((userInfo: any) => {
             return {
+              _id: userInfo._id,
               avartarImg: userInfo.avartarImg
                 ? userInfo.avartarImg
                 : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
@@ -80,6 +85,10 @@ const PeoplePresenter = () => {
   useEffect(() => {
     LoadUser();
   }, [page.current]);
+
+  useEffect(() => {
+    dispatch(fetchLikeUsers());
+  }, []);
 
   return (
     <Container>

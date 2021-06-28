@@ -221,6 +221,7 @@ const ProjectDetail = () => {
           )}
         </Contents>
         <RightMenu
+          id={id}        
           avartarImg={leader.avartarImg}
           endAt={`${project.endAt.getFullYear()}/${
             project.endAt.getMonth() + 1
@@ -228,6 +229,7 @@ const ProjectDetail = () => {
           startAt={`${project.startAt.getFullYear()}/${
             project.startAt.getMonth() + 1
           }/${project.startAt.getDate()}`}
+
           date={`${Math.ceil(
             (project.endAt.getTime() - project.startAt.getTime()) /
               (1000 * 3600 * 24)

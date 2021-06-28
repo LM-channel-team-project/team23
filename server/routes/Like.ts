@@ -1,23 +1,65 @@
 import express, { Request, Response } from 'express';
 import Like from '../models/Like';
 import { Project } from '../models/Project';
-import { IProject } from '../models/Project.interface';
 import { User } from '../models/User';
-import { IUser } from '../models/User.interface';
-import { ILike } from '../models/Like.interface';
 
 const router = express.Router();
 
-router.post('/getLike', (req: Request, res: Response) => {
-  let data = {};
+// 프로젝트를 좋아요한 유저
+router.post('/projectLikeUsers', (req: Request, res: Response) => {
+  Like.find({ ProjectId: req.body.id })
+    .populate('SenduserId')
+    .exec((error, users) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      res.status(200).json({
+        success: true,
+        users,
+      });
+    });
+});
 
-  if (req.body.projectId) {
-    data = { ProjectId: req.body.projectId };
-  } else {
-    data = { RecieveduserId: req.body.recieveduserId };
-  }
+// 로그인 유저가 좋아요한 유저
+router.post('/myLikeUsers', (req: Request, res: Response) => {
+  Like.find({
+    $and: [{ SenduserId: req.body.id }, { RecieveduserId: { $exists: true } }],
+  })
+    .populate('RecieveduserId')
+    .exec((error, users) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      res.status(200).json({
+        success: true,
+        users,
+      });
+    });
+});
 
-  Like.find(data).exec((error, likes) => {
+// 로그인 유저가 좋아요한 프로젝트
+router.post('/myLikeProjects', (req: Request, res: Response) => {
+  // const data = {
+  //   $exists: true,
+  // }
+  Like.find({
+    $and: [{ SenduserId: req.body.id }, { ProjectId: { $exists: true } }],
+  })
+    .populate('ProjectId')
+    .exec((error, projects) => {
+      if (error) {
+        return res.status(400).send(error);
+      }
+      res.status(200).json({
+        success: true,
+        projects,
+      });
+    });
+});
+
+// 좋아요가 있는 프로젝트
+router.get('/getLikeProjects', (req: Request, res: Response) => {
+  Like.find({ ProjectId: { $exists: true } }).exec((error, likes) => {
     if (error) {
       return res.status(400).send(error);
     }
@@ -28,6 +70,20 @@ router.post('/getLike', (req: Request, res: Response) => {
   });
 });
 
+// 좋아요가 있는 유저
+router.get('/getLikeUsers', (req: Request, res: Response) => {
+  Like.find({ RecieveduserId: { $exists: true } }).exec((error, likes) => {
+    if (error) {
+      return res.status(400).send(error);
+    }
+    res.status(200).json({
+      success: true,
+      likes,
+    });
+  });
+});
+
+// 좋아요 +1
 router.post('/upLike', (req: Request, res: Response) => {
   let data = {};
 
@@ -64,7 +120,7 @@ router.post('/upLike', (req: Request, res: Response) => {
       });
     } else {
       User.findOneAndUpdate(
-        { nickname: req.body.recieveduserId },
+        { _id: req.body.recieveduserId },
         { $inc: { receivedLike: 1 } }
       ).exec((error, result) => {
         if (error) {
@@ -78,6 +134,7 @@ router.post('/upLike', (req: Request, res: Response) => {
   });
 });
 
+// 좋아요 -1
 router.post('/unLike', (req: Request, res: Response) => {
   let data = {};
 
@@ -111,7 +168,7 @@ router.post('/unLike', (req: Request, res: Response) => {
       });
     } else {
       User.findOneAndUpdate(
-        { nickname: req.body.recieveduserId },
+        { _id: req.body.recieveduserId },
         { $inc: { receivedLike: -1 } }
       ).exec((error, result) => {
         if (error) {

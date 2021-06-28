@@ -27,16 +27,14 @@ const ImgArea = styled.div`
 
 const ImgStyle = styled.div`
   position: relative;
-  top: 10px;
-  left: 10px;
+  width: 100%;
+  height: 100%;
 `;
 
 const ShowImg = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
   position: relative;
-  bottom: 50px;
-  right: 50px;
   background: cover;
 `;
 
@@ -93,10 +91,10 @@ function ImgInfo({ value, submitValue }: IProps) {
                 <ShowImg src={beforeUrl} />
               )
             ) : (
-              <BsFillPersonFill size="120" />
+              <BsFillPersonFill size="100%" />
             )
           ) : (
-            <BsFillPersonFill size="120" />
+            <BsFillPersonFill size="100%" />
           )}
         </ImgStyle>
       </ImgArea>
