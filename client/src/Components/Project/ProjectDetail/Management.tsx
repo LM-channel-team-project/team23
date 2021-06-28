@@ -122,6 +122,13 @@ function Management({ projectId }: IProps) {
     });
   }, [memberList]);
 
+  useEffect(() => {
+    return () => {
+      setJoinList([]);
+      setMemberList([]);
+    };
+  }, []);
+
   return (
     <Container>
       <Section>

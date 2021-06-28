@@ -85,6 +85,10 @@ const Info = ({
     });
   }, [memberList]);
 
+  useEffect(() => {
+    return () => setMemberList([]);
+  }, []);
+
   return (
     <Container>
       <Section>
