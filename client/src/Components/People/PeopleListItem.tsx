@@ -135,18 +135,6 @@ const PeopleListItem = ({
   receivedLike,
 }: IUser) => {
   const [like, setLike] = useState(receivedLike);
-
-  const PosText = PosData.find((item) => {
-    if (item.value === position) {
-      return item;
-    }
-  });
-
-  const LevelText = LevelData.find((item) => {
-    if (item.value === positionLevel) {
-      return item;
-    }
-  });
   return (
     <User>
       <UserTop>

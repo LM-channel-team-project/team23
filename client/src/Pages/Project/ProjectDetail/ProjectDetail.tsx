@@ -120,7 +120,7 @@ const ProjectDetail = () => {
         setNickname(nickname);
       });
     });
-  }, []);
+  }, [id]);
 
   return (
     <Container>

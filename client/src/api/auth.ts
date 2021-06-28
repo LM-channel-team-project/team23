@@ -24,6 +24,11 @@ export async function postLogin(info: IMyInfo): Promise<IResponse> {
 export interface IResponse {
   isAuth: boolean;
   error: string;
+  success: boolean;
+  _id: string;
+  email: string;
+  name: string;
+  avartarImg: string;
 }
 
 export interface IMyInfo {

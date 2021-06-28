@@ -12,6 +12,7 @@ import Signup from './Pages/Signup';
 import Mypage from './Pages/Mypage';
 import BuildProject from './Pages/BuildProject';
 import UpdateProject from './Pages/UpdateProject';
+import Chatbutton from './Components/chat/chatbutton';
 import Auth from './hoc/auth';
 
 const Style = styled.div`
@@ -37,6 +38,7 @@ const Router = () => (
         />
         <Redirect path="*" to="/" />
       </Switch>
+      <Chatbutton />
       <Footer />
     </BrowserRouter>
   </Style>
