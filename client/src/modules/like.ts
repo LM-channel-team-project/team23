@@ -95,7 +95,7 @@ export const fetchMyLikeProjects = createAsyncThunk<
   {
     myLikeProjects: IMyLikeProject[];
   },
-  { id: string | null },
+  string | null,
   { state: RootState }
 >('like/fetchMyLikeProjects', async (id, { rejectWithValue }) => {
   try {
@@ -112,7 +112,7 @@ export const fetchMyLikeUsers = createAsyncThunk<
   {
     myLikeUsers: IMyLikeUser[];
   },
-  { id: string | null },
+  string | null,
   { state: RootState }
 >('like/fetchMyLikeUsers', async (id, { rejectWithValue }) => {
   try {

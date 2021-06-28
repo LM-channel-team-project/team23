@@ -63,11 +63,11 @@ function Mypage() {
   }
 
   useEffect(() => {
-    dispatch(fetchMyLikeProjects({ id: userId }));
+    dispatch(fetchMyLikeProjects(userId));
   }, [likeProjects]);
 
   useEffect(() => {
-    dispatch(fetchMyLikeUsers({ id: userId }));
+    dispatch(fetchMyLikeUsers(userId));
   }, [likeUsers]);
 
   useEffect(() => {
