@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { PROJECT_SERVER, MANAGE_SERVER } from '../../Config';
+import { PROJECT_SERVER, MANAGE_SERVER, LOCAL_HOST } from '../../Config';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
@@ -263,7 +263,7 @@ function UpdateProject() {
       const formData = {
         _id: id,
         title: projectTitle,
-        thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+        thumb: thumbnailPath ? `${LOCAL_HOST}/${thumbnailPath}` : thumbnailUrl,
         info: descriptionPath,
         summary,
         writer: userId,

@@ -59,7 +59,7 @@ const LeaderImageWrap = styled.div`
 
 const LeaderImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
 `;
 
 const UserIdText = styled.span`

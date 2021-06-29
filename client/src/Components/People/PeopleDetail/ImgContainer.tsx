@@ -24,7 +24,7 @@ const ImgContainer = () => {
   let ImgUrl =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
   if (data?.user.avartarImg) {
-    ImgUrl = `http://localhost:5000/${data?.user.avartarImg}`;
+    ImgUrl = data?.user.avartarImg;
   }
   return (
     <Container>
