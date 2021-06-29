@@ -120,6 +120,7 @@ const TabText = styled.span`
 
 const Ul = styled.ul`
   display: flex;
+  min-height: 20px;
   overflow-x: auto;
 `;
 
