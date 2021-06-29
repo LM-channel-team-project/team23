@@ -278,7 +278,11 @@ const RightMenu = ({
                   <Li key={user.SenduserId._id}>
                     <SubscribeImageWrap>
                       <Image
-                        src={user.SenduserId.avartarImg}
+                        src={
+                          user.SenduserId.avartarImg
+                            ? user.SenduserId.avartarImg
+                            : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                        }
                         alt="user_image"
                       />
                     </SubscribeImageWrap>
