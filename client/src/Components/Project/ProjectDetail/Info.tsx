@@ -30,6 +30,39 @@ const TabText = styled.p`
   color: ${(props) => props.theme.palette.gray};
 `;
 
+const Description = styled.div`
+  & h1,
+  h2,
+  h3,
+  h4,
+  ul,
+  ol,
+  li,
+  blockquote,
+  em,
+  a {
+    margin: revert;
+    padding: revert;
+    border: revert;
+    font-size: revert;
+    font: revert;
+    vertical-align: revert;
+    list-style: revert;
+  }
+  & blockquote {
+    border-left: 4px solid #ccc;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 16px;
+  }
+  & h1 {
+    font-size: 2em;
+  }
+  & h2 {
+    font-size: 1.5em;
+  }
+`;
+
 interface Ipos {
   pos: string;
   required: number;
@@ -98,7 +131,7 @@ const Info = ({
       </Section>
       <Section>
         <TabTitle>- 소개</TabTitle>
-        <div dangerouslySetInnerHTML={{ __html: info }} />
+        <Description dangerouslySetInnerHTML={{ __html: info }} />
       </Section>
       <Section>
         <TabTitle>- 참고자료</TabTitle>
