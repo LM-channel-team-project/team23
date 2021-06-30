@@ -7,6 +7,9 @@ import ProfileModal from './ProfileModal';
 import Button from './Button';
 import { USER_SERVER } from '../../Config';
 import axios from 'axios';
+import { getMyAlarm } from '../../api/alarm';
+import { IAlarm } from '../../api/types/alarm';
+import { IProject, getProjectList } from '../../api/users';
 
 const HeaderStyle = styled.nav`
   display: flex;
@@ -106,11 +109,12 @@ function Header() {
     name: '',
     pos: '',
     level: '',
-    join: '',
-    alarm: [''],
     avartarImg:
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
   });
+
+  const [joinData, setJoinData] = useState<Array<IProject>>([]);
+  const [alarmList, setAlarmList] = useState<Array<IAlarm>>([]);
 
   // api/user/info 에서 name, pos, level 값 가져오기
   // api/alarm 에서 get 방식으로 (token으로) 해당 되는 알람정보 받아오기
@@ -131,6 +135,12 @@ function Header() {
       setLoginSuccess(false);
     } else {
       setLoginSuccess(true);
+      getMyAlarm(userId, false).then((response) => {
+        if (!response.success) {
+          alert('사용자 알람을 가져오지 못했습니다.');
+        }
+        setAlarmList(response.result);
+      });
     }
     if (LoginSuccess) {
       setOpenProfile(false);
@@ -145,6 +155,9 @@ function Header() {
             UserInfo.avartarImg = user.avartarImg;
           }
           setProfileInfo(UserInfo);
+          getProjectList(UserInfo.name).then((response) =>
+            setJoinData(response.data)
+          );
         } else {
           alert('정보를 가져오는데 실패했습니다.');
         }
@@ -182,8 +195,8 @@ function Header() {
                 name={profileInfo.name}
                 level={profileInfo.level}
                 pos={profileInfo.pos}
-                alarm={profileInfo.alarm}
-                join={profileInfo.join}
+                alarm={alarmList}
+                joinData={joinData}
                 avartarImg={profileInfo.avartarImg}
                 setLoginSuccess={setLoginSuccess}
               />

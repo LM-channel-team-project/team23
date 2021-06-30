@@ -187,7 +187,7 @@ const ProjectDetail = () => {
         });
       });
     });
-  }, [currentTab]);
+  }, [currentTab, id]);
 
   useEffect(() => {
     return () => cleanup();

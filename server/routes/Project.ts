@@ -78,6 +78,21 @@ router.post('/info', (req: Request, res: Response) => {
   });
 });
 
+router.get('/info/:nickname', (req: Request, res: Response) => {
+  Project.findOne({ nickname: req.params.nickname }, (err: Error, project: IProject) => {
+    if (err) {
+      return res.json({
+        success: false,
+        err,
+      });
+    }
+    res.status(200).json({
+      success: true,
+      project,
+    });
+  });
+});
+
 router.get('/joinList/:id', (req: Request, res: Response) => {
   UserRole.find(
     { projectId: req.params.id, role: 2 },

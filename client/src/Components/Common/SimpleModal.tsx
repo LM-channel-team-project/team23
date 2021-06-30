@@ -9,7 +9,7 @@ const ModalWrapper = styled.div<{ openModal: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 50;
+  z-index: 70;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -17,21 +17,16 @@ const ModalWrapper = styled.div<{ openModal: boolean }>`
 `;
 
 const ModalContent = styled.div`
-  border-radius: 25px;
-  min-width: 400px;
-  min-height: 300px;
-  background: ${(props) => props.theme.palette.white};
-  padding: 1.2rem 2rem;
-  box-sizing: border-box;
+  position: relative;
 `;
 
 const CloseIcon = styled(MdClose)`
   cursor: pointer;
-  position: relative;
+  position: absolute;
   width: 36px;
   height: 36px;
-  top: 0px;
-  left: 90%;
+  top: 5px;
+  right: 24px;
   border-radius: 50%;
   margin: 0.4rem;
   padding: 0.4rem;
@@ -42,15 +37,29 @@ const CloseIcon = styled(MdClose)`
 
 interface IProps {
   open: boolean;
-  onToggle: (login: boolean) => void;
+  onToggle: (open: boolean) => void;
+  reset?: boolean;
+  onResetToggle?: (reset: boolean) => void;
   children: JSX.Element;
 }
 
-const SimpleModal = ({ open, onToggle, children }: IProps) => {
+const SimpleModal = ({
+  open,
+  onToggle,
+  reset,
+  onResetToggle,
+  children,
+}: IProps) => {
+  const onClick = () => {
+    onToggle(!open);
+    if (onResetToggle) {
+      onResetToggle(true);
+    }
+  };
   return (
     <ModalWrapper openModal={open}>
       <ModalContent>
-        <CloseIcon onClick={() => onToggle(!open)} />
+        <CloseIcon onClick={onClick} />
         {children}
       </ModalContent>
     </ModalWrapper>
