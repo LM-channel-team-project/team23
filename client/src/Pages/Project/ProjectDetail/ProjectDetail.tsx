@@ -220,7 +220,9 @@ const ProjectDetail = () => {
               avartarImg={leader.avartarImg}
             />
           )}
-          {currentTab === 1 && <Question projectId={id} />}
+          {currentTab === 1 && (
+            <Question projectId={id} leaderId={leader._id} />
+          )}
           {currentTab === 2 && project.writer === userId.current && (
             <Management projectId={id} />
           )}
