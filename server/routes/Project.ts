@@ -78,6 +78,58 @@ router.post('/info', (req: Request, res: Response) => {
   });
 });
 
+router.get('/joined/:uid', (req: Request, res: Response) => {
+  UserRole.find(
+    { userId: req.params.uid, role: 2 },
+    (err: Error, roles: IUserRole[]) => {
+      if (err)
+        return res.json({
+          success: false,
+          err,
+        });
+      Promise.all(roles.map((role) => Project.findOne({ _id: role.projectId })))
+        .then((result) => {
+          return res.status(200).json({
+            success: true,
+            result,
+          });
+        })
+        .catch((err) =>
+          res.json({
+            success: false,
+            err,
+          })
+        );
+    }
+  );
+});
+
+router.get('/progress/:uid', (req: Request, res: Response) => {
+  UserRole.find(
+    { userId: req.params.uid, role: { $in: [0, 1] } },
+    (err: Error, roles: IUserRole[]) => {
+      if (err)
+        return res.json({
+          success: false,
+          err,
+        });
+      Promise.all(roles.map((role) => Project.findOne({ _id: role.projectId })))
+        .then((result) => {
+          return res.status(200).json({
+            success: true,
+            result,
+          });
+        })
+        .catch((err) =>
+          res.json({
+            success: false,
+            err,
+          })
+        );
+    }
+  );
+});
+
 router.get('/joinList/:id', (req: Request, res: Response) => {
   UserRole.find(
     { projectId: req.params.id, role: 2 },

@@ -17,7 +17,7 @@ router.post('/find', (req: Request, res: Response) => {
     (err: Error, role: IUserRole) => {
       if (err) return res.json({ success: false, err });
       let msg = '';
-      switch (role.role) {
+      switch (role?.role) {
         case 0:
           msg = '이미 해당 프로젝트의 리더입니다';
           break;
