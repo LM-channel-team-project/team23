@@ -104,6 +104,7 @@ const LeaderImage = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  height: 100%;
 `;
 
 const LeaderName = styled.span`
@@ -119,6 +120,7 @@ const TabText = styled.span`
 
 const Ul = styled.ul`
   display: flex;
+  min-height: 20px;
   overflow-x: auto;
 `;
 
@@ -277,7 +279,11 @@ const RightMenu = ({
                   <Li key={user.SenduserId._id}>
                     <SubscribeImageWrap>
                       <Image
-                        src={user.SenduserId.avartarImg}
+                        src={
+                          user.SenduserId.avartarImg
+                            ? user.SenduserId.avartarImg
+                            : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+                        }
                         alt="user_image"
                       />
                     </SubscribeImageWrap>

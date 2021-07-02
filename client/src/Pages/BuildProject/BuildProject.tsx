@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { PROJECT_SERVER } from '../../Config';
+import { LOCAL_HOST, PROJECT_SERVER } from '../../Config';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';
@@ -228,7 +228,7 @@ function BuildProject() {
       const userId = localStorage.getItem('userId');
       const formData = {
         title: projectTitle,
-        thumb: thumbnailPath ? thumbnailPath : thumbnailUrl,
+        thumb: thumbnailPath ? `${LOCAL_HOST}/${thumbnailPath}` : thumbnailUrl,
         info: descriptionPath,
         summary,
         field,
