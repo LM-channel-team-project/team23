@@ -94,7 +94,7 @@ const Info = ({
   return (
     <Container>
       <Section>
-        <Status position={position} projectId={projectId} />
+        <Status position={position} projectId={projectId} leaderId={leaderId} />
       </Section>
       <Section>
         <TabTitle>- 소개</TabTitle>
