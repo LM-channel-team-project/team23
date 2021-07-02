@@ -59,7 +59,7 @@ const ProjectInvitedContents = ({ projectList, nickname }: IProps) => {
     if (selectProject === 'noData') {
       alert('프로젝트를 선택해주세요.');
     } else {
-      sendMessage(`${selectProject}`);
+      sendMessage(selectProject);
     }
   };
   return (

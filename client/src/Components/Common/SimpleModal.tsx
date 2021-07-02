@@ -39,7 +39,7 @@ interface IProps {
   open: boolean;
   onToggle: (open: boolean) => void;
   reset?: boolean;
-  onResetToggle?: (reset: boolean) => void;
+  onResetToggle?: (state: boolean) => void;
   children: JSX.Element;
 }
 

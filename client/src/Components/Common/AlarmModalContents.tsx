@@ -47,7 +47,7 @@ interface IProps {
   contents: string;
   type: 0 | 1 | 2;
   reset: boolean;
-  onResetToggle: (reset: boolean) => void;
+  onResetToggle: (state: boolean) => void;
 }
 
 const AlarmModalContents = ({
@@ -58,7 +58,6 @@ const AlarmModalContents = ({
   reset,
   onResetToggle,
 }: IProps) => {
-  console.log(reset);
   const tab = {
     0: <ChatRequest sendNickname={sendNickname} contents={contents} />,
     1: <InvitedProject contents={contents} />,
@@ -83,7 +82,7 @@ const AlarmModalContents = ({
               ButtonSize="small"
               ButtonName="답장"
               type="button"
-              onClick={() => onResetToggle(!reset)}
+              onClick={() => onResetToggle(false)}
             />
           </ToUserContainer>
           {tab[type]}

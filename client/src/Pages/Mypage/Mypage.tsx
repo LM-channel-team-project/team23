@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import querystring from 'query-string';
 import Title from '../../Components/Common/Title';
 import MypageTab from '../../Components/Mypage/Tab';
@@ -13,7 +13,8 @@ import {
   fetchMyLikeUsers,
 } from '../../modules/like';
 import { RootState } from '../../modules';
-import { sampleImages } from '../../Components/BuildProject/sampleImages';
+import { getMyAlarm } from '../../api/alarm';
+import { IAlarm } from '../../api/types/alarm';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -40,10 +41,10 @@ function Mypage() {
     likeUsers: { users: likeUsers },
   } = useSelector((state: RootState) => state.like);
   const userId = localStorage.getItem('userId');
-
   const dispatch = useDispatch();
   const projectsArray = projects.map((project) => project.ProjectId);
   const userArray = users.map((user) => user.RecieveduserId);
+  const [alarmArray, setAlarmArray] = useState<Array<IAlarm>>([]);
   const type = { info: false, project: false, favorite: false, alarm: false };
   const query = querystring.parse(location.search);
   const tab = query.tab;
@@ -74,6 +75,16 @@ function Mypage() {
     dispatch(fetchLikeProjects());
     dispatch(fetchLikeUsers());
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      getMyAlarm(userId).then((response) => {
+        setAlarmArray(response.result);
+      });
+    }
+  }, []);
+
+  console.log(alarmArray);
 
   return (
     <Container>
@@ -121,7 +132,7 @@ function Mypage() {
         {type.alarm && (
           <InfoBox
             title="알람"
-            array={[]}
+            array={alarmArray}
             defaultText="알림 내용이 없습니다."
             type="alarm"
           />

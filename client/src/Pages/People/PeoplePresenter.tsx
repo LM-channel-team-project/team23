@@ -107,7 +107,6 @@ const PeoplePresenter = () => {
   };
 
   useEffect(() => {
-    console.log(endpoint);
     refreshList();
   }, [endpoint]);
 

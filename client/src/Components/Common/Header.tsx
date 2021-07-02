@@ -7,7 +7,7 @@ import ProfileModal from './ProfileModal';
 import Button from './Button';
 import { USER_SERVER } from '../../Config';
 import axios from 'axios';
-import { getMyAlarm } from '../../api/alarm';
+import { getNewMyAlarm } from '../../api/alarm';
 import { IAlarm } from '../../api/types/alarm';
 import { IProject, getProjectList } from '../../api/users';
 
@@ -135,7 +135,7 @@ function Header() {
       setLoginSuccess(false);
     } else {
       setLoginSuccess(true);
-      getMyAlarm(userId, false).then((response) => {
+      getNewMyAlarm(userId).then((response) => {
         if (!response.success) {
           alert('사용자 알람을 가져오지 못했습니다.');
         }

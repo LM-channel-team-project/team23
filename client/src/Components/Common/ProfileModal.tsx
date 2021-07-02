@@ -235,8 +235,8 @@ function ProfileModal({
   const handleOnChange = () => {
     setOpen(!open);
   };
-  const handleReset = () => {
-    setReset(!reset);
+  const handleReset = (state: boolean) => {
+    setReset(state);
   };
   const showAlarmInfo = (
     _id: string,
@@ -290,12 +290,15 @@ function ProfileModal({
           <span className="projectCnt">({joinData && joinData.length})</span>
         </MyProjectTitle>
         <MyProjectContent>
-          {joinData &&
+          {joinData && joinData.length > 0 ? (
             joinData.map((item, index) => (
               <ProjectContainer key={index}>
                 <Link to={`/project/${item._id}`}>{item.title}</Link>
               </ProjectContainer>
-            ))}
+            ))
+          ) : (
+            <p>진행 중인 프로젝트가 없습니다.</p>
+          )}
           <CreateProjectText>
             <Link to="/BuildProject">프로젝트 만들기 &gt;</Link>
           </CreateProjectText>
@@ -307,7 +310,7 @@ function ProfileModal({
           <span className="noticeCnt">({alarm && alarm.length})</span>
         </NewNoticeTitle>
         <NewNoticeContent>
-          {alarm &&
+          {alarm && alarm.length > 0 ? (
             alarm.map((item, index) => (
               <p
                 key={index}
@@ -322,7 +325,10 @@ function ProfileModal({
               >
                 {item.senderId.nickname} 님께 {AlarmTransfer(item.type)}
               </p>
-            ))}
+            ))
+          ) : (
+            <p>알람이 없습니다.</p>
+          )}
           <SimpleModal
             open={open}
             onToggle={handleOnChange}

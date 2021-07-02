@@ -53,25 +53,44 @@ const UserInfoBox = () => {
       </div>
       <div>
         <Title>Stack</Title>
-        <Contents>{data?.user.interestSkills?.join('  ')}</Contents>
+        <Contents>
+          {data?.user.interestSkills && data.user.interestSkills.length > 0
+            ? data?.user.interestSkills.join('  ')
+            : '아직 관심 기술을 입력하지 않았어요.'}
+        </Contents>
       </div>
       <UserInfoTable>
         <UserInfoItem>
           <Title>장소</Title>
-          <Contents>{LocationTransfer(data?.user.availableLocation)}</Contents>
+          <Contents>
+            {data?.user.availableLocation &&
+            data.user.availableLocation.length > 0
+              ? LocationTransfer(data?.user.availableLocation)
+              : '지역 미정'}
+          </Contents>
         </UserInfoItem>
         <UserInfoItem>
           <Title>요일</Title>
-          <Contents>{WeekTransfer(data?.user.availableWeek)}</Contents>
+          <Contents>
+            {data?.user.availableWeek && data.user.availableWeek.length > 0
+              ? WeekTransfer(data?.user.availableWeek)
+              : '요일 미정'}
+          </Contents>
         </UserInfoItem>
         <UserInfoItem>
           <Title>모임 시간</Title>
-          <Contents>{TimeTransfer(data?.user.availableTime)}</Contents>
+          <Contents>
+            {data?.user.availableTime && data.user.availableTime.length > 0
+              ? TimeTransfer(data?.user.availableTime)
+              : '시간 미정'}
+          </Contents>
         </UserInfoItem>
       </UserInfoTable>
       <UserIntro>
         <Title>소개</Title>
-        <Contents>{data?.user.intro}</Contents>
+        <Contents>
+          {data?.user.intro ? data.user.intro : '소개를 입력하지 않았어요.'}
+        </Contents>
       </UserIntro>
     </UserInfoMid>
   );
