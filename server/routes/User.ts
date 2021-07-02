@@ -65,6 +65,13 @@ router.get('/', (req: Request, res: Response) => {
       }
 
       if (UserStateFilter === 1) {
+        if (userList.length === 0) {
+          return res.json({
+            success: true,
+            page,
+            user: userList,
+          });
+        }
         const data = await filterAsync(
           userList,
           async (value: any, index: number) => {
@@ -78,6 +85,13 @@ router.get('/', (req: Request, res: Response) => {
         });
       }
       if (UserStateFilter === 2) {
+        if (userList.length === 0) {
+          return res.json({
+            success: true,
+            page,
+            user: userList,
+          });
+        }
         const data = await filterAsync(
           userList,
           async (value: any, index: number) => {

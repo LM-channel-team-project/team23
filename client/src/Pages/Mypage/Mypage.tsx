@@ -13,6 +13,8 @@ import {
   fetchMyLikeUsers,
 } from '../../modules/like';
 import { RootState } from '../../modules';
+import { getMyAlarm } from '../../api/alarm';
+import { IAlarm } from '../../api/types/alarm';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { IProject } from '../../api/types';
 import axios from 'axios';
@@ -43,13 +45,12 @@ function Mypage() {
     likeUsers: { users: likeUsers },
   } = useSelector((state: RootState) => state.like);
   const userId = localStorage.getItem('userId');
-
   const [joined, setJoined] = useState<IProject[]>([]);
   const [progress, setProgress] = useState<IProject[]>([]);
-
   const dispatch = useDispatch();
   const projectsArray = projects.map((project) => project.ProjectId);
   const userArray = users.map((user) => user.RecieveduserId);
+  const [alarmArray, setAlarmArray] = useState<Array<IAlarm>>([]);
   const type = { info: false, project: false, favorite: false, alarm: false };
   const query = querystring.parse(location.search);
   const tab = query.tab;
@@ -99,6 +100,16 @@ function Mypage() {
     });
   }, []);
 
+  useEffect(() => {
+    if (userId) {
+      getMyAlarm(userId).then((response) => {
+        setAlarmArray(response.result);
+      });
+    }
+  }, []);
+
+  console.log(alarmArray);
+
   return (
     <Container>
       <Title subtitle="LET`s study" title="마이페이지" />
@@ -145,7 +156,7 @@ function Mypage() {
         {type.alarm && (
           <InfoBox
             title="알람"
-            array={[]}
+            array={alarmArray}
             defaultText="알림 내용이 없습니다."
             type="alarm"
           />

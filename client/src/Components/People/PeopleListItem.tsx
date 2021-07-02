@@ -8,6 +8,10 @@ import borderHeart from '../../img/border-heart.svg';
 import LikeButton from '../Common/LikeButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
+import SimpleModal from '../Common/SimpleModal';
+import ChattingModalContents from './PeopleDetail/ChattingModalContents';
+import ProjectInvitedContents from './PeopleDetail/ProjectInvitedContents';
+import { getProjectList } from '../../api/users';
 
 const User = styled.div`
   width: 100%;
@@ -145,6 +149,42 @@ const PeopleListItem = ({
   } = useSelector((state: RootState) => state.like);
 
   const userId = localStorage.getItem('userId');
+  const { auth } = useSelector((state: RootState) => state.auth);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState(false);
+  const [projectList, setProjectList] = useState<Array<any>>();
+  const handleOnChange = () => {
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    }
+    setOpen(!open);
+  };
+  const ChattingModalOpen = () => {
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    } else {
+      setOpen(!open);
+      setMode(true);
+    }
+  };
+  const ProjectInvitedModalOpen = () => {
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    } else {
+      setOpen(!open);
+      setMode(false);
+    }
+  };
+  useEffect(() => {
+    if (auth.data) {
+      getProjectList(auth.data.name).then((response) =>
+        setProjectList(response.data)
+      );
+    }
+  }, []);
   useEffect(() => {
     const likeCount = users.filter((user) => user.RecieveduserId === id);
     const likeStatus = users.find(
@@ -163,52 +203,66 @@ const PeopleListItem = ({
   }, [receivedLike]);
 
   return (
-    <User>
-      <UserTop>
-        <Link to={`/people/${nickname}`}>
-          <UserImg
-            src={
-              avartarImg
-                ? avartarImg
-                : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
-            }
-            alt="Avatar"
+    <>
+      <User>
+        <UserTop>
+          <Link to={`/people/${nickname}`}>
+            <UserImg
+              src={
+                avartarImg
+                  ? avartarImg
+                  : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'
+              }
+              alt="Avatar"
+            />
+          </Link>
+          <Username>
+            {nickname}
+            <Menu>
+              <MenuItem>
+                <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
+              </MenuItem>
+              <MenuItem onClick={ChattingModalOpen}>1:1 대화</MenuItem>
+              <MenuItem onClick={ProjectInvitedModalOpen}>
+                프로젝트 초대
+              </MenuItem>
+            </Menu>
+          </Username>
+        </UserTop>
+        <UserMid>
+          <Major>
+            <MajorTitle>[직무] {PostTransfer(position)}</MajorTitle>
+            <MajorLV>{LevelTransfer(positionLevel)}</MajorLV>
+          </Major>
+        </UserMid>
+        <UserBottom>
+          <UserStackList>
+            {interestSkills &&
+              interestSkills.map((stack, index) => (
+                <UserStack key={index}>{stack}</UserStack>
+              ))}
+          </UserStackList>
+          <SLikeButton
+            isProject={false}
+            userId={localStorage.getItem('userId')}
+            targetId={id}
+            isLike={isLike}
           />
-        </Link>
-        <Username>
-          {nickname}
-          <Menu>
-            <MenuItem>
-              <ToProfile to={`/people/${nickname}`}>프로필</ToProfile>
-            </MenuItem>
-            <MenuItem>1:1 대화</MenuItem>
-            <MenuItem>프로젝트 초대</MenuItem>
-          </Menu>
-        </Username>
-      </UserTop>
-      <UserMid>
-        <Major>
-          <MajorTitle>[직무] {PostTransfer(position)}</MajorTitle>
-          <MajorLV>{LevelTransfer(positionLevel)}</MajorLV>
-        </Major>
-      </UserMid>
-      <UserBottom>
-        <UserStackList>
-          {interestSkills &&
-            interestSkills.map((stack, index) => (
-              <UserStack key={index}>{stack}</UserStack>
-            ))}
-        </UserStackList>
-        <SLikeButton
-          isProject={false}
-          userId={localStorage.getItem('userId')}
-          targetId={id}
-          isLike={isLike}
-        />
-        <LikeIcon>❤ </LikeIcon>
-        <Like>{likeCount ? likeCount : 0}</Like>
-      </UserBottom>
-    </User>
+          <LikeIcon>❤ </LikeIcon>
+          <Like>{likeCount ? likeCount : 0}</Like>
+        </UserBottom>
+      </User>
+      <SimpleModal open={open} onToggle={handleOnChange}>
+        {mode ? (
+          <ChattingModalContents nickname={nickname} />
+        ) : (
+          <ProjectInvitedContents
+            nickname={nickname}
+            projectList={projectList}
+          />
+        )}
+      </SimpleModal>
+    </>
   );
 };
 

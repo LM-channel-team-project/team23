@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../../Components/Common/Button';
+import useCreateAlarm from '../../../hook/useCreateAlarm';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 2rem 1.2rem;
+  width: 450px;
+  height: 240px;
+  border-radius: 15px;
+  padding: 2rem;
+  padding-top: 4rem;
   align-items: center;
+  background-color: ${(props) => props.theme.palette.white};
 `;
 
 const SelectArea = styled.div`
@@ -36,19 +41,39 @@ const Option = styled.option`
   padding: 0px 2px 1px;
 `;
 
-const ProjectInvitedContents = () => {
+interface IProps {
+  projectList: Array<any> | undefined;
+  nickname: string;
+}
+
+const ProjectInvitedContents = ({ projectList, nickname }: IProps) => {
   const [selectProject, setSelectProject] = useState('');
   const handleChangeSelect = (event: React.FormEvent<HTMLSelectElement>) => {
     setSelectProject(event.currentTarget.value);
+  };
+  const { sendMessage } = useCreateAlarm({
+    receivedNickname: nickname,
+    type: 1,
+  });
+  const SendMessage = () => {
+    if (selectProject === 'noData') {
+      alert('프로젝트를 선택해주세요.');
+    } else {
+      sendMessage(selectProject);
+    }
   };
   return (
     <Container>
       <h2>함께 할 프로젝트를 골라주세요.</h2>
       <SelectArea>
         <Select value={selectProject} onChange={handleChangeSelect}>
-          <Option value="프로젝트ID">프로젝트 제목</Option>
-          <Option value="프로젝트ID">프로젝트 리스트1</Option>
-          <Option value="프로젝트ID">프로젝트 리스트2</Option>
+          <Option value="noData">프로젝트를 골라주세요</Option>
+          {projectList &&
+            projectList.map((item, index) => (
+              <Option value={item._id} key={index}>
+                {item.title}
+              </Option>
+            ))}
         </Select>
       </SelectArea>
       <Button
@@ -56,6 +81,8 @@ const ProjectInvitedContents = () => {
         ButtonMode="active"
         ButtonSize="xLarge"
         ButtonName="프로젝트 초대하기"
+        onClick={SendMessage}
+        type="button"
       />
     </Container>
   );

@@ -1,66 +1,92 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { AiFillCopyrightCircle } from 'react-icons/ai';
+import { FiGithub } from 'react-icons/fi';
+import { AiFillGithub } from 'react-icons/ai';
 
 const FooterContainer = styled.div`
   position: relative;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   bottom: 0;
   width: 100%;
   padding: 10px 0;
+  padding: 3rem;
   background-color: ${(props) => props.theme.palette.darkblue};
-`;
-const FooterInfo = styled.div`
-  text-align: flex-start;
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-const FooterNavTop = styled.div`
-  padding: 20px 0;
-  border-bottom: 1px solid ${(props) => props.theme.palette.white};
-`;
-const NavItem = styled(Link)`
   color: ${(props) => props.theme.palette.white};
-  font-size: 0.6em;
-  &:not(:last-child) {
-    margin-right: 15px;
+  p {
+    font-size: 11px;
+    line-height: 1.1rem;
+    margin-bottom: 0.4rem;
   }
 `;
-const FooterNavBottom = styled.div`
-  padding: 15px 0;
+
+const CopyrightContainer = styled.div`
+  width: 200px;
+  font-size: 11px;
+  padding-top: 1rem;
+  text-align: center;
 `;
 
-const Column = styled.div`
-  font-size: 0.6em;
-  color: ${(props) => props.theme.palette.white};
-  &:not(:last-child) {
-    margin-bottom: 13px;
+const GithubContainer = styled.a`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.palette.white};
+  color: ${(props) => props.theme.palette.darkblue};
+  font-size: 30px;
+  padding: 0.5rem;
+  cursor: pointer;
+`;
+
+const OurProfileContainer = styled.div`
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    height: 100%;
+    width: 80%;
   }
 `;
 
 const Footer = () => (
   <FooterContainer>
-    <FooterInfo>
-      <FooterNavTop>
-        <NavItem to="#">공지사항</NavItem>
-        <NavItem to="#">FAQ</NavItem>
-        <NavItem to="#">서비스 이용약관</NavItem>
-        <NavItem to="#">개인정보 취급방침</NavItem>
-        <NavItem to="#">전자금융 거래약관</NavItem>
-        <NavItem to="#">결제/환불약관</NavItem>
-      </FooterNavTop>
-      <FooterNavBottom>
-        <Column>
-          어썸크루 | 사업자등록번호 : 619-39-00615 | 대표 : 이승준
-        </Column>
-        <Column>
-          통신판매업신고 | 판매업신고번호 : 제 2020-서울마포-1796호
-        </Column>
-        <Column>서울특별시 마포구 신수동 22-35 하나테크노빌 1002호</Column>
-        <Column>
-          TEL : 070-8064-3497 | 개인정보담당자 : 이승준 | help@letspl.me
-        </Column>
-      </FooterNavBottom>
-    </FooterInfo>
+    <CopyrightContainer>
+      <AiFillCopyrightCircle />
+      Create By Team23
+    </CopyrightContainer>
+    <OurProfileContainer>
+      <a href="https://github.com/dhgu-dev" target="_blank" rel="noreferrer">
+        <AiFillGithub />
+        dhgu-dev
+      </a>
+      <a href="https://github.com/Yongveloper" target="_blank" rel="noreferrer">
+        <AiFillGithub />
+        Yongveloper
+      </a>
+      <a href="https://github.com/maru5mango" target="_blank" rel="noreferrer">
+        <AiFillGithub />
+        maru5mango
+      </a>
+    </OurProfileContainer>
+    <br />
+    <GithubContainer
+      href="https://github.com/LM-channel-team-project/team23"
+      target="_blank"
+    >
+      <FiGithub />
+    </GithubContainer>
+    <p>STUDY_WITH</p>
+    <p>Let&apos;s coding and improve your skill</p>
   </FooterContainer>
 );
 export default Footer;

@@ -76,10 +76,6 @@ const ModalContent = styled.div`
     background: ${(props) => props.theme.palette.red};
   }
 
-  & > .loginBtn.github {
-    background: ${(props) => props.theme.palette.gray};
-  }
-
   & > .signupBtn {
     position: absolute;
     bottom: 30px;
@@ -124,9 +120,6 @@ const LoginAndSignUpModal = ({
   const dispatch = useDispatch();
   const SuccessGoogleLogin = (result: any) => {
     const userEmail = result.profileObj.email;
-    const userGoogleID = result.googleId;
-    const GoogleTokenObj = result.tokenObj;
-    // token type, access_token, expires_at, expires_in, first_issued_at, id_token, idpId, login_hint
     axios
       .post(`${USER_SERVER}/login`, { email: userEmail })
       .then((response) => {
@@ -170,10 +163,6 @@ const LoginAndSignUpModal = ({
             </button>
           )}
         />
-        <button className="loginBtn github">
-          <FaGithub />
-          <span>깃허브 계정으로 {isLogin ? '로그인' : '가입하기'}</span>
-        </button>
         {!isLogin && (
           <div className="info">
             소셜 로그인으로 가입 시 <a href="#">이용약관</a>,{' '}

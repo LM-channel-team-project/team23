@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineMessage, AiFillMessage } from 'react-icons/ai';
+import { AlarmTransfer } from '../Common/PersonalAlarmData';
 
 const Container = styled.div`
   width: 100%;
@@ -48,11 +49,23 @@ const TextArea = styled.div`
   }
 `;
 
-interface Visited {
+interface IVisited {
   visited: boolean;
+  type: number;
+  _id: string;
+  senderNickname: string;
+  createdAt: Date;
+  content: string;
 }
 
-const alarmBox = ({ visited }: Visited) => {
+const alarmBox = ({
+  visited,
+  type,
+  _id,
+  senderNickname,
+  createdAt,
+  content,
+}: IVisited) => {
   return (
     <>
       {visited ? (
@@ -61,7 +74,9 @@ const alarmBox = ({ visited }: Visited) => {
             <AiOutlineMessage size="34" />
           </IconArea>
           <TextArea>
-            <h2>[프로젝트] TO_DO_LIST 정리 수정</h2>
+            <h2>
+              [{senderNickname}]{AlarmTransfer(type)}
+            </h2>
             <p>읽음</p>
           </TextArea>
         </VisitedContainer>
@@ -72,8 +87,9 @@ const alarmBox = ({ visited }: Visited) => {
           </IconArea>
           <TextArea>
             <p>새로운 알림 메세지가 있습니다.</p>
-            <h2>[쪽지]안녕하세요. 프로필 보고 연락드려요.</h2>
-            <p>2일전</p>
+            <h2>
+              [{senderNickname}]{AlarmTransfer(type)}
+            </h2>
           </TextArea>
         </Container>
       )}

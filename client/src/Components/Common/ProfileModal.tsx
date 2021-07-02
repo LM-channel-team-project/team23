@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import { USER_SERVER } from '../../Config';
 import { GoogleLogout } from 'react-google-login';
 import { GOOGLE_CLINET_ID } from '../../Config';
-import { PosData, LevelData } from './OptionData';
 import { useDispatch } from 'react-redux';
 import { getAuthThunk } from '../../modules/auth';
 import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';
+import { AlarmTransfer } from './PersonalAlarmData';
+import SimpleModal from './SimpleModal';
+import {
+  PostTransfer,
+  LevelTransfer,
+  LevelTextTransfer,
+} from './transformValue';
+import AlarmModalContents from './AlarmModalContents';
+import { IProject } from '../../api/users';
+import { IAlarm, IGetMyAlarm } from '../../api/types/alarm';
 
 const ProfileModalWrapper = styled.div`
   display: block;
@@ -42,6 +51,11 @@ const InfoWrapper = styled.div`
   align-items: left;
   justify-content: center;
   padding: 1rem 0 1rem 0.5rem;
+`;
+
+const ProjectContainer = styled.div`
+  width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const InfoUpper = styled.div`
@@ -178,18 +192,20 @@ interface Iprops extends RouteComponentProps {
   name: string;
   level: string;
   pos: string;
-  alarm: Array<string>;
-  join: string;
+  alarm: Array<IAlarm>;
+  joinData: Array<IProject>;
   avartarImg: string;
   setLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+type TypeNumber = 0 | 1 | 2;
 
 function ProfileModal({
   name,
   level,
   pos,
   alarm,
-  join,
+  joinData,
   avartarImg,
   history,
   setLoginSuccess,
@@ -210,8 +226,30 @@ function ProfileModal({
       }
     });
   };
-  const PosText = PosData.find((item) => item.value === pos && item);
-  const LevelText = LevelData.find((item) => item.value === level && item);
+  const [open, setOpen] = useState<boolean>(false);
+  const [sendNickname, setSendNickname] = useState<string>('');
+  const [alarmId, setAlarmId] = useState<string>('');
+  const [contents, setContents] = useState<string>('');
+  const [type, setType] = useState<TypeNumber>(0);
+  const [reset, setReset] = useState<boolean>(true);
+  const handleOnChange = () => {
+    setOpen(!open);
+  };
+  const handleReset = (state: boolean) => {
+    setReset(state);
+  };
+  const showAlarmInfo = (
+    _id: string,
+    sendNickname: string,
+    contents: string,
+    type: 0 | 1 | 2
+  ) => {
+    setOpen(true);
+    setSendNickname(sendNickname);
+    setContents(contents);
+    setAlarmId(_id);
+    setType(type);
+  };
   return (
     <ProfileModalWrapper>
       <ProfileWrapper>
@@ -229,10 +267,10 @@ function ProfileModal({
           </InfoUpper>
           <InfoLower>
             <span>본캐: </span>
-            <span className="job">{PosText?.label}</span> /{' '}
-            <span className="skill">{LevelText?.label}</span>
+            <span className="job">{PostTransfer(pos)}</span> /{' '}
+            <span className="skill">{LevelTransfer(level)}</span>
           </InfoLower>
-          <Smallp>{LevelText?.text}</Smallp>
+          <Smallp>{LevelTextTransfer(level)}</Smallp>
         </InfoWrapper>
       </ProfileWrapper>
       <BtnWrapper>
@@ -248,13 +286,19 @@ function ProfileModal({
       </BtnWrapper>
       <MyProjectWrapper>
         <MyProjectTitle>
-          내 프로젝트 <span className="projectCnt">(0)</span>
+          내 프로젝트
+          <span className="projectCnt">({joinData && joinData.length})</span>
         </MyProjectTitle>
         <MyProjectContent>
-          {join}
-          <p>프로젝트가 없습니다.</p>
-          <p>프로젝트가 없습니다.</p>
-          <p>프로젝트가 없습니다.</p>
+          {joinData && joinData.length > 0 ? (
+            joinData.map((item, index) => (
+              <ProjectContainer key={index}>
+                <Link to={`/project/${item._id}`}>{item.title}</Link>
+              </ProjectContainer>
+            ))
+          ) : (
+            <p>진행 중인 프로젝트가 없습니다.</p>
+          )}
           <CreateProjectText>
             <Link to="/BuildProject">프로젝트 만들기 &gt;</Link>
           </CreateProjectText>
@@ -262,13 +306,44 @@ function ProfileModal({
       </MyProjectWrapper>
       <NewNoticeWrapper>
         <NewNoticeTitle>
-          신규 알림 <span className="noticeCnt">({alarm.length})</span>
+          신규 알림
+          <span className="noticeCnt">({alarm && alarm.length})</span>
         </NewNoticeTitle>
         <NewNoticeContent>
-          {alarm}
-          <p>알림메시지가 없습니다</p>
-          <p>알림메시지가 없습니다</p>
-          <p>알림메시지가 없습니다</p>
+          {alarm && alarm.length > 0 ? (
+            alarm.map((item, index) => (
+              <p
+                key={index}
+                onClick={() =>
+                  showAlarmInfo(
+                    item._id,
+                    item.senderId.nickname,
+                    item.Contents,
+                    item.type
+                  )
+                }
+              >
+                {item.senderId.nickname} 님께 {AlarmTransfer(item.type)}
+              </p>
+            ))
+          ) : (
+            <p>알람이 없습니다.</p>
+          )}
+          <SimpleModal
+            open={open}
+            onToggle={handleOnChange}
+            reset={reset}
+            onResetToggle={handleReset}
+          >
+            <AlarmModalContents
+              id={alarmId}
+              sendNickname={sendNickname}
+              contents={contents}
+              type={type}
+              reset={reset}
+              onResetToggle={handleReset}
+            />
+          </SimpleModal>
         </NewNoticeContent>
       </NewNoticeWrapper>
     </ProfileModalWrapper>

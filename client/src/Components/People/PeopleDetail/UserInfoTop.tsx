@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../../Components/Common/Button';
 import { useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { RootState } from '../../../modules';
 import SimpleModal from '../../Common/SimpleModal';
 import ChattingModalContents from './ChattingModalContents';
 import ProjectInvitedContents from './ProjectInvitedContents';
+import { getProjectList } from '../../../api/users';
 
 const Container = styled.div`
   display: flex;
@@ -29,22 +30,41 @@ interface IProps {
 
 const UserInfoTop = ({ nickname }: IProps) => {
   const { auth } = useSelector((state: RootState) => state.auth);
-  // if (!auth.data?.isAuth) {
-  //   alert('로그인 후 사용 할 수 있는 기능입니다.');
-  // }
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(false);
+  const [projectList, setProjectList] = useState<Array<any>>();
   const handleOnChange = () => {
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    }
     setOpen(!open);
   };
   const ChattingModalOpen = () => {
-    setOpen(!open);
-    setMode(true);
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    } else {
+      setOpen(!open);
+      setMode(true);
+    }
   };
   const ProjectInvitedModalOpen = () => {
-    setOpen(!open);
-    setMode(false);
+    if (!auth.data?.isAuth) {
+      alert('로그인 후 사용 할 수 있는 기능입니다.');
+      setOpen(false);
+    } else {
+      setOpen(!open);
+      setMode(false);
+    }
   };
+  useEffect(() => {
+    if (auth.data) {
+      getProjectList(auth.data.name).then((response) =>
+        setProjectList(response.data)
+      );
+    }
+  }, []);
   return (
     <Container>
       <Username>{nickname}</Username>
@@ -68,7 +88,10 @@ const UserInfoTop = ({ nickname }: IProps) => {
         {mode ? (
           <ChattingModalContents nickname={nickname} />
         ) : (
-          <ProjectInvitedContents />
+          <ProjectInvitedContents
+            nickname={nickname}
+            projectList={projectList}
+          />
         )}
       </SimpleModal>
     </Container>
