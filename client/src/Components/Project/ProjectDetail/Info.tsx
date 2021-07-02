@@ -85,7 +85,7 @@ const Info = ({
       }
       setMemberList(res.data.result);
     });
-  }, [memberList]);
+  }, []);
 
   useEffect(() => {
     return () => setMemberList([]);
