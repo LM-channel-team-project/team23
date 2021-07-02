@@ -6,4 +6,4 @@ export interface IAlarm extends Document {
   isRead: boolean;
   Contents: string;
   type: number;
-};
+}

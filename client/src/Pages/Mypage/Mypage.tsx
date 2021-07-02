@@ -15,6 +15,10 @@ import {
 import { RootState } from '../../modules';
 import { getMyAlarm } from '../../api/alarm';
 import { IAlarm } from '../../api/types/alarm';
+import { sampleImages } from '../../Components/BuildProject/sampleImages';
+import { IProject } from '../../api/types';
+import axios from 'axios';
+import { PROJECT_SERVER } from '../../Config';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -41,6 +45,8 @@ function Mypage() {
     likeUsers: { users: likeUsers },
   } = useSelector((state: RootState) => state.like);
   const userId = localStorage.getItem('userId');
+  const [joined, setJoined] = useState<IProject[]>([]);
+  const [progress, setProgress] = useState<IProject[]>([]);
   const dispatch = useDispatch();
   const projectsArray = projects.map((project) => project.ProjectId);
   const userArray = users.map((user) => user.RecieveduserId);
@@ -74,6 +80,24 @@ function Mypage() {
   useEffect(() => {
     dispatch(fetchLikeProjects());
     dispatch(fetchLikeUsers());
+    axios.get(`${PROJECT_SERVER}/joined/${userId}`).then((res) => {
+      if (!res.data.success) {
+        alert(
+          `지원한 프로젝트 리스트를 가져오는 데 실패했습니다 (${res.data.err})`
+        );
+        return;
+      }
+      setJoined(res.data.result);
+    });
+    axios.get(`${PROJECT_SERVER}/progress/${userId}`).then((res) => {
+      if (!res.data.success) {
+        alert(
+          `진행 중인 프로젝트 리스트를 가져오는 데 실패했습니다 (${res.data.err})`
+        );
+        return;
+      }
+      setProgress(res.data.result);
+    });
   }, []);
 
   useEffect(() => {
@@ -101,13 +125,13 @@ function Mypage() {
           <>
             <InfoBox
               title="지원한 프로젝트"
-              array={[]}
+              array={joined}
               defaultText="지원한 프로젝트가 없습니다."
               type="project"
             />
             <InfoBox
               title="진행중인 프로젝트"
-              array={[]}
+              array={progress}
               defaultText="진행중인 프로젝트가 없습니다."
               type="project"
             />

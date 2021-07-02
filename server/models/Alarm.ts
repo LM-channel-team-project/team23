@@ -5,11 +5,11 @@ const AlarmSchema: mongoose.Schema<IAlarm> = new Schema(
   {
     senderId: {
       type: Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'user',
     },
     receivedId: {
       type: Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'user',
     },
     isRead: Boolean,
     Contents: String,

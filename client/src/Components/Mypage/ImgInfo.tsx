@@ -66,7 +66,7 @@ function ImgInfo({ value, submitValue }: IProps) {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [beforeUrl, setBeforeUrl] = useState<string | null>(null);
   useEffect(() => {
-    setBeforeUrl(`http://localhost:5000/${value}`);
+    setBeforeUrl(`${value}`);
   }, [value]);
 
   const handleChangeFile = (event: React.FormEvent<HTMLInputElement>) => {

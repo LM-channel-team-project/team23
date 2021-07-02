@@ -8,6 +8,7 @@ import InputBox from '../Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
 import TagInput from './TagInput';
 import PortfolioInput from './PortfolioInput';
+import { LOCAL_HOST } from '../../Config';
 
 const Container = styled.div`
   width: 95%;
@@ -179,7 +180,7 @@ function ProfilePage() {
       .then((response) => {
         if (response.data.success) {
           const FilePath = response.data.filePath;
-          const formdata = {
+          const formData = {
             _id: userId,
             tel: tel,
             position: pos,
@@ -187,12 +188,12 @@ function ProfilePage() {
             availableLocation: availableLocation,
             availableWeek: availableWeek,
             availableTime: availableTime,
-            avartarImg: FilePath,
+            avartarImg: `${LOCAL_HOST}/${FilePath}`,
             portfolio: portfolioes,
             intro: intro,
             interestSkills: interest,
           };
-          axios.post('/api/users/update', formdata).then((response) => {
+          axios.post('/api/users/update', formData).then((response) => {
             if (response.data.success) {
               alert('내 정보를 성공적으로 수정했습니다.');
             } else {

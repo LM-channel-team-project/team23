@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../Common/Button';
 import axios from 'axios';
-import { MANAGE_SERVER, USER_SERVER } from '../../../Config';
+import { MANAGE_SERVER, USER_SERVER, ALARM_SERVER } from '../../../Config';
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.palette.lightGray};
@@ -57,9 +57,10 @@ interface Ipos {
 interface IProps {
   position: Ipos[];
   projectId: string;
+  leaderId: string;
 }
 
-const Status = ({ position, projectId }: IProps) => {
+const Status = ({ position, projectId, leaderId }: IProps) => {
   const userId = localStorage.getItem('userId');
   const [pos, setPos] = useState('');
   const [isJoin, setIsJoin] = useState('');
@@ -120,6 +121,16 @@ const Status = ({ position, projectId }: IProps) => {
             alert(`프로젝트 지원 요청이 실패했습니다 (${res.data.err})`);
             return;
           }
+          axios
+            .post(`${ALARM_SERVER}/apply`, { sid: uid, rid: leaderId })
+            .then((response) => {
+              if (!response.data.success) {
+                alert(
+                  `프로젝트 리더에게 지원 요청 알람을 보내는 데 실패했습니다 (${response.data.err})`
+                );
+                return;
+              }
+            });
           alert('지원이 완료되었습니다');
         });
     }

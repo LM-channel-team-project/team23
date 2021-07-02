@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Comment from './Comment';
 import Button from '../../Common/Button';
 import axios from 'axios';
-import { COMMENT_SERVER, USER_SERVER } from '../../../Config';
+import { COMMENT_SERVER, USER_SERVER, ALARM_SERVER } from '../../../Config';
 
 const Container = styled.div``;
 
@@ -39,6 +39,7 @@ const Thumb = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  height: 100%;
 `;
 
 const TextInput = styled.textarea`
@@ -63,6 +64,7 @@ const P = styled.p`
 
 interface IProps {
   projectId: string;
+  leaderId: string;
 }
 
 interface IComment {
@@ -72,7 +74,7 @@ interface IComment {
   content: string;
 }
 
-const Question = ({ projectId }: IProps) => {
+const Question = ({ projectId, leaderId }: IProps) => {
   const userId = localStorage.getItem('userId');
   const [comments, setComments] = useState<IComment[]>([]);
   const [msg, setMsg] = useState('');
@@ -126,6 +128,18 @@ const Question = ({ projectId }: IProps) => {
         if (!response.data.success) {
           alert(`메시지 등록을 실패했습니다 (${response.data.err})`);
           return;
+        }
+        if (userId !== leaderId) {
+          axios
+            .post(`${ALARM_SERVER}/comment`, { sid: userId, rid: leaderId })
+            .then((res) => {
+              if (!res.data.success) {
+                alert(
+                  `프로젝트 리더에게 질문 알람을 보내는 데 실패했습니다 (${res.data.err})`
+                );
+                return;
+              }
+            });
         }
         axios.get(`${COMMENT_SERVER}/${projectId}`).then((res) => {
           if (!res.data.success) {
