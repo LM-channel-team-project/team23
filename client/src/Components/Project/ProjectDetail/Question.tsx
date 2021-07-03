@@ -134,7 +134,7 @@ const Question = ({ projectId, leaderId }: IProps) => {
             .post(`${ALARM_SERVER}/comment`, {
               sid: userId,
               rid: leaderId,
-              msg: msg,
+              contents: projectId,
             })
             .then((res) => {
               if (!res.data.success) {

@@ -7,10 +7,6 @@ const { UserRole } = require('../models/UserRole');
 import { IUserRole } from '../models/UserRole.interface';
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-  res.send('hello manage!');
-});
-
 router.post('/find', (req: Request, res: Response) => {
   UserRole.findOne(
     { projectId: req.body.pid, userId: req.body.uid },

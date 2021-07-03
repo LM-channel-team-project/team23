@@ -198,7 +198,7 @@ interface Iprops extends RouteComponentProps {
   setLoginSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-type TypeNumber = 0 | 1 | 2;
+type TypeNumber = 0 | 1 | 2 | 3;
 
 function ProfileModal({
   name,
@@ -242,7 +242,7 @@ function ProfileModal({
     _id: string,
     sendNickname: string,
     contents: string,
-    type: 0 | 1 | 2
+    type: 0 | 1 | 2 | 3
   ) => {
     setOpen(true);
     setSendNickname(sendNickname);

@@ -6,6 +6,7 @@ import ChattingModalContents from '../People/PeopleDetail/ChattingModalContents'
 import ChatRequest from './chatRequest';
 import InvitedProject from './InvitedProject';
 import Recruit from './Recruit';
+import Comment from './Comment';
 
 const Container = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ interface IProps {
   id: string;
   sendNickname: string;
   contents: string;
-  type: 0 | 1 | 2;
+  type: 0 | 1 | 2 | 3;
   reset: boolean;
   onResetToggle: (state: boolean) => void;
 }
@@ -61,7 +62,8 @@ const AlarmModalContents = ({
   const tab = {
     0: <ChatRequest sendNickname={sendNickname} contents={contents} />,
     1: <InvitedProject contents={contents} />,
-    2: <Recruit />,
+    2: <Recruit contents={contents} />,
+    3: <Comment contents={contents} />,
   };
   const onClick = () => {
     ReadAlarm(id).then((response) => {

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface IProps {
+  contents: string;
+}
+
 const Container = styled.a`
   width: 80%;
   height: 120px;
@@ -12,16 +16,13 @@ const Container = styled.a`
   align-items: center;
 `;
 
-interface IProps {
-  contents: string;
-}
-
-const Recruit = ({ contents }: IProps) => {
+const Comment = ({ contents }: IProps) => {
   return (
-    <Container href={`/project/${contents}`}>
-      지원자는 관리탭에서 확인해주세요.
+    <Container href={`project/${contents}`}>
+      <h2>댓글을 달았어요.</h2>
+      <h2>프로젝트에 가서 확인해주세요.</h2>
     </Container>
   );
 };
 
-export default Recruit;
+export default Comment;

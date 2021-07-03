@@ -125,7 +125,7 @@ const Status = ({ position, projectId, leaderId }: IProps) => {
             .post(`${ALARM_SERVER}/apply`, {
               sid: uid,
               rid: leaderId,
-              msg: msg,
+              contents: projectId,
             })
             .then((response) => {
               if (!response.data.success) {

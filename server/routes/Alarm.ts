@@ -74,23 +74,22 @@ router.post('/createAlarm', (req: Request, res: Response) => {
         isRead: false,
         Contents: req.body.contents,
         type: req.body.type,
-      };
-      const newAlarm = new Alarm(AlarmInfo);
-      newAlarm.save((err: Error | null, doc: IAlarm) => {
-        if (err) {
-          res.send({
-            success: false,
-            err,
-          });
-        } else {
-          res.send({
-            success: true,
-            msg: '알람이 성공적으로 전송되었습니다.',
-          });
-        }
-      });
-    }
-  );
+        };
+        const newAlarm = new Alarm(AlarmInfo);
+        newAlarm.save((err: Error | null, doc: IAlarm) => {
+          if (err) {
+            res.send({
+              success: false,
+              err,
+            });
+          } else {
+            res.send({
+              success: true,
+              msg: '알람이 성공적으로 전송되었습니다.',
+            });
+          }
+        });
+    })
 });
 
 router.post('/apply', (req: Request, res: Response) => {
@@ -98,7 +97,7 @@ router.post('/apply', (req: Request, res: Response) => {
     senderId: req.body.sid,
     receivedId: req.body.rid,
     isRead: false,
-    Contents: req.body.msg,
+    Contents: req.body.contents,
     type: 2,
   });
   alarm.save((err: Error | null, doc: IAlarm) => {
@@ -112,7 +111,7 @@ router.post('/comment', (req: Request, res: Response) => {
     senderId: req.body.sid,
     receivedId: req.body.rid,
     isRead: false,
-    Contents: req.body.msg,
+    Contents: req.body.contents,
     type: 3,
   });
   alarm.save((err: Error | null, doc: IAlarm) => {
