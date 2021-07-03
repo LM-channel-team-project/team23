@@ -89,13 +89,14 @@ router.post("/createAlarm",(req: Request, res: Response) => {
           }
         });
     })
+});
 
 router.post('/apply', (req: Request, res: Response) => {
   const alarm = new Alarm({
     senderId: req.body.sid,
     receivedId: req.body.rid,
     isRead: false,
-    Contents: `프로젝트에 지원 요청이 왔습니다`,
+    Contents: req.body.contents,
     type: 2,
   });
   alarm.save((err: Error | null, doc: IAlarm) => {
@@ -109,7 +110,7 @@ router.post('/comment', (req: Request, res: Response) => {
     senderId: req.body.sid,
     receivedId: req.body.rid,
     isRead: false,
-    Contents: `프로젝트에 질문이 왔습니다`,
+    Contents: req.body.contents,
     type: 3,
   });
   alarm.save((err: Error | null, doc: IAlarm) => {

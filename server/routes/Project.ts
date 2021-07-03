@@ -91,6 +91,7 @@ router.get('/info/:nickname', (req: Request, res: Response) => {
       project,
     });
   });
+});
 
 router.get('/joined/:uid', (req: Request, res: Response) => {
   UserRole.find(

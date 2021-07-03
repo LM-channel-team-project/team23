@@ -19,7 +19,7 @@ export interface IAlarm {
   isRead: boolean;
   receivedId: string;
   senderId: IUser;
-  type: 0 | 1 | 2;
+  type: 0 | 1 | 2 | 3;
 }
 
 export interface IAlarmResponse {

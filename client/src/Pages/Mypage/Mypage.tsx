@@ -108,8 +108,6 @@ function Mypage() {
     }
   }, []);
 
-  console.log(alarmArray);
-
   return (
     <Container>
       <Title subtitle="LET`s study" title="마이페이지" />

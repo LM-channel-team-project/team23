@@ -185,9 +185,17 @@ router.get('/show/projectList/:id', (req: Request, res: Response) => {
     if (err) {
       return  res.json({ success: false, err });
     }
-    UserRole.find()
+    if (!user) {
+      res.json({
+        success: true,
+        data: [''],
+      })
+    } else {
+      UserRole.find()
       .where('userId')
       .equals(user._id)
+      .where('role')
+      .equals(0)
       .populate('projectId')
       .exec((err: Error, result: any) => {
         const data = result.map((item: any) => {return item.projectId})
@@ -196,6 +204,7 @@ router.get('/show/projectList/:id', (req: Request, res: Response) => {
           data,
         }) 
       })
+    }
   });
 });
 
