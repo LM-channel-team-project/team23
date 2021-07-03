@@ -122,7 +122,11 @@ const Status = ({ position, projectId, leaderId }: IProps) => {
             return;
           }
           axios
-            .post(`${ALARM_SERVER}/apply`, { sid: uid, rid: leaderId })
+            .post(`${ALARM_SERVER}/apply`, {
+              sid: uid,
+              rid: leaderId,
+              msg: msg,
+            })
             .then((response) => {
               if (!response.data.success) {
                 alert(

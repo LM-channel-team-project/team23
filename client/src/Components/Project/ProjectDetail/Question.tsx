@@ -131,7 +131,11 @@ const Question = ({ projectId, leaderId }: IProps) => {
         }
         if (userId !== leaderId) {
           axios
-            .post(`${ALARM_SERVER}/comment`, { sid: userId, rid: leaderId })
+            .post(`${ALARM_SERVER}/comment`, {
+              sid: userId,
+              rid: leaderId,
+              msg: msg,
+            })
             .then((res) => {
               if (!res.data.success) {
                 alert(
