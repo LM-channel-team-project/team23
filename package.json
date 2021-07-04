@@ -6,7 +6,8 @@
   "scripts": {
     "client": "npm run start --prefix client",
     "server": "ts-node-dev --respawn --pretty --transpile-only server/app.ts",
-    "dev": "concurrently \"npm run server\" \"npm run start --prefix client\""
+    "dev": "concurrently \"npm run server\" \"npm run start --prefix client\"",
+    "start": "nodemon server/app.js"
   },
   "repository": {
     "type": "git",
