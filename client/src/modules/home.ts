@@ -42,7 +42,7 @@ export const fetchHomeList = createAsyncThunk<
       newUsers: newUsers.data.users,
       waitUsers: waitUsers.data.users,
     };
-  } catch (error: any) {
+  } catch (error) {
     return rejectWithValue(error.response.data);
   }
 });

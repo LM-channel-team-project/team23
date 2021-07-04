@@ -5,6 +5,7 @@ import { IUserMethods } from '../models/User.interface';
 import { auth } from '../middleware/auth.middleware';
 import UserRole from '../models/UserRole';
 import filterAsync from 'node-filter-async';
+const { LOCAL_HOST } = require('../../client/src/Config');
 
 const multer = require('multer');
 
@@ -183,27 +184,29 @@ router.get('/show/projectList/:id', (req: Request, res: Response) => {
   const reqNickname = req.params.id;
   User.findOne({ nickname: reqNickname }, (err: Error, user: IUserMethods) => {
     if (err) {
-      return  res.json({ success: false, err });
+      return res.json({ success: false, err });
     }
     if (!user) {
       res.json({
         success: true,
         data: [''],
-      })
+      });
     } else {
       UserRole.find()
-      .where('userId')
-      .equals(user._id)
-      .where('role')
-      .equals(0)
-      .populate('projectId')
-      .exec((err: Error, result: any) => {
-        const data = result.map((item: any) => {return item.projectId})
-        res.json({
-          user: user._id,
-          data,
-        }) 
-      })
+        .where('userId')
+        .equals(user._id)
+        .where('role')
+        .equals(0)
+        .populate('projectId')
+        .exec((err: Error, result: any) => {
+          const data = result.map((item: any) => {
+            return item.projectId;
+          });
+          res.json({
+            user: user._id,
+            data,
+          });
+        });
     }
   });
 });
@@ -300,7 +303,7 @@ router.post('/updateImg', (req: Request, res: Response) => {
     if (req.file) {
       return res.status(200).json({
         success: true,
-        filePath: req.file.path,
+        filePath: `${LOCAL_HOST}/${req.file.path}`,
       });
     } else {
       return res.status(200).json({
