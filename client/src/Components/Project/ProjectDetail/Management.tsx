@@ -30,6 +30,7 @@ const P = styled.p`
 
 interface IProps {
   projectId: string;
+  leaderId: string;
 }
 
 interface IUser extends Document {
@@ -46,7 +47,7 @@ interface IUser extends Document {
   msg?: string;
 }
 
-function Management({ projectId }: IProps) {
+function Management({ projectId, leaderId }: IProps) {
   const history = useHistory();
   const [joinList, setJoinList] = useState<IUser[]>([]);
   const [memberList, setMemberList] = useState<IUser[]>([]);
@@ -179,7 +180,7 @@ function Management({ projectId }: IProps) {
             ButtonMode="active"
             onClick={handleDelete}
           />
-          <Link to={`/updateProject/${projectId}`}>
+          <Link to={`/updateProject/${projectId}/${leaderId}`}>
             <Button
               ButtonName="프로젝트 수정"
               ButtonSize="medium"

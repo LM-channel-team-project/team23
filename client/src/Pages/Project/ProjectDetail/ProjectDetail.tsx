@@ -224,7 +224,7 @@ const ProjectDetail = () => {
             <Question projectId={id} leaderId={leader._id} />
           )}
           {currentTab === 2 && project.writer === userId.current && (
-            <Management projectId={id} />
+            <Management projectId={id} leaderId={leader._id} />
           )}
         </Contents>
         <RightMenu

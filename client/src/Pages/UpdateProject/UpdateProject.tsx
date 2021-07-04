@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -131,7 +131,7 @@ const RefWrapper = styled.div`
 `;
 
 function UpdateProject() {
-  const { id } = useParams<{ id: string }>();
+  const { id, uid } = useParams<{ id: string; uid: string }>();
   const [projectTitle, setProjectTitle] = useState('');
   const [thumbnailUrl, setThumbnailUrl] = useState(sampleImages[0].url);
   const [thumbImageFile, setThumbnailFile] = useState<null | File>(null);
@@ -146,39 +146,48 @@ function UpdateProject() {
   const [endDate, setEndDate] = useState(new Date());
   const [referencesUrl, setReferencesUrl] = useState(['']);
   const history = useHistory();
+  const userId = useRef(localStorage.getItem('userId'));
 
   useEffect(() => {
-    axios.post(`${PROJECT_SERVER}/info`, { _id: id }).then((res) => {
-      if (!res.data.success) {
-        alert(`프로젝트 데이터를 가져오는데 실패했습니다 (${res.data.err})`);
-        return;
-      }
-      const {
-        title,
-        thumb,
-        info,
-        field,
-        area,
-        position,
-        referenceURL,
-        startAt,
-        endAt,
-        projectLV,
-      } = res.data.project;
-
-      setProjectTitle(title);
-      setThumbnailUrl(thumb);
-      axios.get(`${info}`).then((response) => {
-        setDescription(response.data);
+    if (userId.current === null || userId.current !== uid) {
+      history.push(`/`);
+    } else {
+      axios.post(`${PROJECT_SERVER}/info`, { _id: id }).then((res) => {
+        if (!res.data.success) {
+          alert(`프로젝트 데이터를 가져오는데 실패했습니다 (${res.data.err})`);
+          return;
+        }
+        const {
+          title,
+          thumb,
+          info,
+          field,
+          area,
+          position,
+          writer,
+          referenceURL,
+          startAt,
+          endAt,
+          projectLV,
+        } = res.data.project;
+        if (userId.current !== writer) {
+          history.push(`/`);
+        } else {
+          setProjectTitle(title);
+          setThumbnailUrl(thumb);
+          axios.get(`${info}`).then((response) => {
+            setDescription(response.data);
+          });
+          setField(field);
+          setLocation(area);
+          setPositions(position);
+          setReferencesUrl(referenceURL);
+          setStartDate(new Date(startAt));
+          setEndDate(new Date(endAt));
+          setLevel(projectLV);
+        }
       });
-      setField(field);
-      setLocation(area);
-      setPositions(position);
-      setReferencesUrl(referenceURL);
-      setStartDate(new Date(startAt));
-      setEndDate(new Date(endAt));
-      setLevel(projectLV);
-    });
+    }
   }, []);
 
   const handleClickRadioButton = (value: string) => setField(value);

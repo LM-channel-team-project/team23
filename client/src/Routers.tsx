@@ -32,7 +32,7 @@ const Router = () => (
         <Route path="/my" component={Auth(Mypage, true)} />
         <Route path="/buildProject" component={Auth(BuildProject, true)} />
         <Route
-          path="/updateProject/:id"
+          path="/updateProject/:id/:uid"
           component={Auth(UpdateProject, true)}
         />
         <Redirect path="*" to="/" />
