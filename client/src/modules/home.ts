@@ -42,7 +42,7 @@ export const fetchHomeList = createAsyncThunk<
       newUsers: newUsers.data.users,
       waitUsers: waitUsers.data.users,
     };
-  } catch (error: any) {
+  } catch (error) {
     return rejectWithValue(error.response.data);
   }
 });
@@ -56,8 +56,12 @@ const homeSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchHomeList.fulfilled, (state, action) => {
-      const { recentProjects, recruitmentProjects, newUsers, waitUsers } =
-        action.payload;
+      const {
+        recentProjects,
+        recruitmentProjects,
+        newUsers,
+        waitUsers,
+      } = action.payload;
       return {
         recentProjects,
         recruitmentProjects,

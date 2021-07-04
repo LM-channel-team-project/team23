@@ -8,7 +8,6 @@ import InputBox from '../Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
 import TagInput from './TagInput';
 import PortfolioInput from './PortfolioInput';
-import { LOCAL_HOST } from '../../Config';
 
 const Container = styled.div`
   width: 95%;
@@ -188,7 +187,7 @@ function ProfilePage() {
             availableLocation: availableLocation,
             availableWeek: availableWeek,
             availableTime: availableTime,
-            avartarImg: `${LOCAL_HOST}/${FilePath}`,
+            avartarImg: FilePath,
             portfolio: portfolioes,
             intro: intro,
             interestSkills: interest,

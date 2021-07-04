@@ -78,7 +78,7 @@ function InfoBox({ title, array, defaultText, type }: InfoProps) {
     _id: string,
     sendNickname: string,
     contents: string,
-    type: 0 | 1 | 2 | 3,
+    type: 0 | 1 | 2 | 3
   ) => {
     setOpen(true);
     setSendNickname(sendNickname);
