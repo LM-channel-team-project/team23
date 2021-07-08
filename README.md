@@ -9,7 +9,6 @@
 https://studywithproject.herokuapp.com/
 
 <br/>
-<br/>
 
 # 📌 주요 기능
 
