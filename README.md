@@ -1,6 +1,10 @@
-# Team23 - Study_with (letsple Clone)
+# Team23 - Study with
 
 <img src = "https://user-images.githubusercontent.com/64254228/124480168-f3a52a80-dde1-11eb-85c6-beda53e30259.png" />
+⭐개발자들의 프로젝트형 스터디 모임 (letsple Clone Coding) ⭐
+<br/>
+<br/>
+배포:
 
 <br/>
 <br/>
@@ -171,9 +175,15 @@
 
   <br/>
 
+# 💻 API 예시
+
+https://documenter.getpostman.com/view/15993262/Tzm5HcHf
+
+  <br/>
+
 # 📚 기술 스택
 
-<img src = "https://user-images.githubusercontent.com/64254228/124478497-3534d600-dde0-11eb-97dc-3cf7ddf13d39.png" width="80%" height="400px"/>
+<img src = "https://user-images.githubusercontent.com/64254228/124903863-5cc5b180-e01f-11eb-8bf7-3d7c14d54623.png" width="85%" height="400px"/>
 
   <br/>
   
