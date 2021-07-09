@@ -1,14 +1,129 @@
 # Team23 - Study with
 
 <img src = "https://user-images.githubusercontent.com/64254228/124480168-f3a52a80-dde1-11eb-85c6-beda53e30259.png" />
-⭐개발자들의 프로젝트형 스터디 모임 (letsple Clone Coding) ⭐
 <br/>
 <br/>
-배포:
+⭐개발자들의 프로젝트형 스터디 모임 (letsple Clone Coding) ⭐   
 
-https://studywithproject.herokuapp.com/
+포트폴리오와 스터디를 결합한 ***프로젝트형 스터디 모임을 모집하고 관리***할 수 있는 웹 어플리케이션 입니다.     
+팀 프로젝트는 하고 싶은데 **프론트? 백엔드? 관심 기술 스택? 프로젝트 레벨?** 모든 것을 고려해서 팀원 찾기 힘드시죠? **🤬**     
+**STUDY_WITH**를 이용하면 기술로 자신을 이야기하고, 프로젝트형 스터디를 쉽게 모집할 수 있습니다.   
+웹, 앱, 게임 등 다양한 분야의 개발자와 협업의 기회를 찾아보세요!**🥰**
 
 <br/>
+
+# 프로젝트 기간
+2021.04.04 ~ 2021.07.09 ( 약 3개월 )
+
+<br />
+
+
+# 프로젝트 관리
+- PostMan을 이용하여 벡엔드 API 관리
+
+- 애자일 스크럼 방식을 이용하여 스프린트 단위의 개발 진행관리
+
+- ESLint, Prettier를 이용하여 코드 스타일 통일
+
+<br />
+
+# 디렉토리 구조
+```bash
+STUDY_WITH
+├── .gitignore
+├── .prettierrc
+├── README.md
+├── node_modules
+├── package-lock.json
+├── package.json
+├── .env
+├── types
+├── server
+│   ├── config
+│   │   └── env.ts
+│   ├── middleware
+│   │   └── auth.middleware.ts
+│   ├── models
+│   │   ├── UserRole.ts
+│   │   ├── UserRole.interface.ts
+│   │   ├── User.ts
+│   │   ├── User.interface.ts
+│   │   ├── Project.ts
+│   │   ├── Project.interface.ts
+│   │   ├── Like.ts
+│   │   ├── Like.interface.ts
+│   │   ├── Comment.ts
+│   │   ├── Comment.interface.ts
+│   │   ├── Alarm.ts
+│   │   └── Alarm.interface.ts
+│   ├── routes
+│   │   ├── Alarm.ts
+│   │   ├── Comment.ts
+│   │   ├── Like.ts
+│   │   ├── ManageProject.ts
+│   │   ├── Project.ts
+│   │   └── User.ts
+│   ├── app.ts
+│   └── db.ts
+├── client
+│   ├── node_modules
+│   ├── public
+│   ├── .eslintrc
+│   ├── .gitignore
+│   ├── .prettierrc
+│   ├── data.json
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tsconfig.json
+│   ├── src
+│   │   ├── api
+│   │   │   ├── types
+│   │   │   │    ├── index.ts
+│   │   │   │    └── alarm.ts
+│   │   │   ├── alarm.ts
+│   │   │   ├── auth.ts
+│   │   │   ├── home.ts
+│   │   │   ├── like.ts
+│   │   │   └── users.ts
+│   │   ├── Components
+│   │   │   ├── BuildProject
+│   │   │   ├── Common
+│   │   │   ├── Home
+│   │   │   ├── Mypage
+│   │   │   ├── People
+│   │   │   └── Project
+│   │   ├── hoc
+│   │   │   └── auth.tsx
+│   │   ├── hook
+│   │   │   └── useCreateAlarm.ts
+│   │   ├── img
+│   │   ├── modules
+│   │   │   ├── auth.ts
+│   │   │   ├── home.ts
+│   │   │   ├── signup.ts
+│   │   │   ├── userInfo.ts
+│   │   │   ├── index.ts
+│   │   │   ├── like.ts
+│   │   │   ├── login.ts
+│   │   │   └── logout.ts
+│   │   ├── Pages
+│   │   │   ├── BuildProject
+│   │   │   ├── Home
+│   │   │   ├── Mypage
+│   │   │   ├── People
+│   │   │   ├── Project
+│   │   │   ├── Signup
+│   │   │   └── UpdateProject
+│   │   ├── App.tsx
+│   │   ├── Config.ts
+│   │   ├── index.tsx
+│   │   ├── react-app-env.d.ts
+│   │   ├── Router.tsx
+│   │   ├── setupProxy.ts
+│   │   ├── styeld.d.ts
+│   │   └── theme.ts
+└── tsconfig.json
+```
 
 # 📌 주요 기능
 
@@ -176,7 +291,34 @@ https://studywithproject.herokuapp.com/
 
   <br/>
 
-# 💻 API 예시
+# 💻 프로젝트 실행하기
+1. .gitignore 파일
+```
+  /* .env 파일 */
+  DB_URL = mongodbatlas 연결 주소
+  
+  
+  /* client/src/Config.ts */
+  export const SERVER_URL = 서버 주소
+  export const USER_SERVER = '/api/users';
+  export const PROJECT_SERVER = '/api/projects';
+  export const LIKE_SERVER = '/api/like';
+  export const MANAGE_SERVER = '/api/manage';
+  export const COMMENT_SERVER = '/api/comment';
+  export const ALARM_SERVER = '/api/alarm';
+  export const LOCAL_HOST = 서버 주소
+  export const GOOGLE_CLINET_ID =
+   구글 클라이언트 아이디
+
+```
+2. root Dir: npm i
+3. /client Dir: npm i
+4. root Dir: npm run dev
+ - 클라이언트, 서버 동시 실행
+
+
+  <br/>
+# 💻 API 명세서
 
 https://documenter.getpostman.com/view/15993262/Tzm5HcHf
 
