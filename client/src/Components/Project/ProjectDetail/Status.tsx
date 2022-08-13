@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../Common/Button';
 import axios from 'axios';
-import { MANAGE_SERVER, USER_SERVER, ALARM_SERVER } from '../../../Config';
+import { MANAGE_SERVER, USER_SERVER, ALARM_SERVER } from '../../../config';
 
 const Container = styled.div`
   border: 1px solid ${(props) => props.theme.palette.lightGray};

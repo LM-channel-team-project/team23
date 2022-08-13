@@ -5,7 +5,7 @@ import SelectBox from '../../Components/Common/SelectBox';
 import Button from '../../Components/Common/Button';
 import InputBox from '../../Components/Common/InputBox';
 import { LevelData } from '../../Components/Common/OptionData';
-import { USER_SERVER } from '../../Config';
+import { USER_SERVER } from '../../config';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 

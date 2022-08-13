@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PeopleRecommendTable from '../../Components/People/Recommend/PeopleRecommendTable';
 import PeopleHeader from '../../Components/People/PeopleHeader';
 import PeopleList from '../../Components/People/PeopleList';
-import { USER_SERVER } from '../../Config';
+import { USER_SERVER } from '../../config';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch } from 'react-redux';

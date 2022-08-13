@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Comment from './Comment';
 import Button from '../../Common/Button';
 import axios from 'axios';
-import { COMMENT_SERVER, USER_SERVER, ALARM_SERVER } from '../../../Config';
+import { COMMENT_SERVER, USER_SERVER, ALARM_SERVER } from '../../../config';
 
 const Container = styled.div``;
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Checkbox from '../Common/Checkbox';
 import SelectBox from '../Common/SelectBox';
-import { PROJECT_SERVER } from '../../Config';
+import { PROJECT_SERVER } from '../../config';
 
 const SearchOption = styled.div`
   display: flex;

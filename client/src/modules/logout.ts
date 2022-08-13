@@ -16,7 +16,7 @@ export const getLogoutSuccess = (data: IResponse) => ({
   payload: data,
 });
 
-export const getLogoutError = (error: AxiosError) => ({
+export const getLogoutError = (error: unknown) => ({
   type: GET_LOGOUT_ERROR,
   payload: error,
 });
@@ -30,7 +30,7 @@ export type LogoutState = {
   logout: {
     loading: boolean;
     data: IResponse | null;
-    error: Error | null;
+    error: Error | unknown | null;
   };
 };
 

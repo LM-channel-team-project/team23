@@ -5,7 +5,7 @@ import logo from '../../img/logo.png';
 import LoginAndSignupModal from './LoginAndSignupModal';
 import ProfileModal from './ProfileModal';
 import Button from './Button';
-import { USER_SERVER } from '../../Config';
+import { USER_SERVER } from '../../config';
 import axios from 'axios';
 import { getNewMyAlarm } from '../../api/alarm';
 import { IAlarm } from '../../api/types/alarm';

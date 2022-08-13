@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_SERVER } from '../Config';
+import { USER_SERVER } from '../config';
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development' ? '/' : 'http://localhost:5000';

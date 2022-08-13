@@ -8,7 +8,7 @@ import RightMenu from '../../../Components/Project/ProjectDetail/RightMenu';
 import Management from '../../../Components/Project/ProjectDetail/Management';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { PROJECT_SERVER, USER_SERVER } from '../../../Config';
+import { PROJECT_SERVER, USER_SERVER } from '../../../config';
 
 const Container = styled.section``;
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ALARM_SERVER } from '../Config';
+import { ALARM_SERVER } from '../config';
 import { IAlarmRequest, IGetMyAlarm, IAlarmResponse } from './types/alarm';
 
 axios.defaults.baseURL =

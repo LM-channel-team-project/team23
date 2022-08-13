@@ -18,7 +18,7 @@ import { IAlarm } from '../../api/types/alarm';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { IProject } from '../../api/types';
 import axios from 'axios';
-import { PROJECT_SERVER } from '../../Config';
+import { PROJECT_SERVER } from '../../config';
 
 const Container = styled.div`
   max-width: 1200px;

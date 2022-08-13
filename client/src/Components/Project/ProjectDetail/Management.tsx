@@ -4,7 +4,7 @@ import UserInfo from './UserInfo';
 import Button from '../../../Components/Common/Button';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { MANAGE_SERVER, PROJECT_SERVER } from '../../../Config';
+import { MANAGE_SERVER, PROJECT_SERVER } from '../../../config';
 import { LevelTransfer } from '../../../Components/Common/transformValue';
 
 const Container = styled.div``;

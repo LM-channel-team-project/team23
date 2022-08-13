@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RecommendUser from './PeopleRecommendUser';
-import { USER_SERVER } from '../../../Config';
+import { USER_SERVER } from '../../../config';
 import axios from 'axios';
 
 const RecommendTab = styled.div`

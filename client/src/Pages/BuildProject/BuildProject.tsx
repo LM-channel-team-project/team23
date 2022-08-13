@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { LOCAL_HOST, PROJECT_SERVER } from '../../Config';
+import { LOCAL_HOST, PROJECT_SERVER } from '../../config';
 import { sampleImages } from '../../Components/BuildProject/sampleImages';
 import { FieldData } from '../../Components/Common/OptionData';
 import Button from '../../Components/Common/Button';

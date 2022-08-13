@@ -7,7 +7,7 @@ import ProjectBox from '../../Components/Project/ProjectBox';
 import ProjectBoxList from '../../Components/Project/ProjectBoxList';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { PROJECT_SERVER } from '../../Config';
+import { PROJECT_SERVER } from '../../config';
 import { fetchLikeProjects } from '../../modules/like';
 import { useDispatch } from 'react-redux';
 

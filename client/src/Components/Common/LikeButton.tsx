@@ -4,7 +4,7 @@ import fullHeart from '../../img/full-heart.svg';
 import emptyHeart from '../../img/empty-heart.svg';
 import borderHeart from '../../img/border-heart.svg';
 import axios from 'axios';
-import { LIKE_SERVER } from '../../Config';
+import { LIKE_SERVER } from '../../config';
 import { ILike } from '../../../../server/models/Like.interface';
 import { useDispatch } from 'react-redux';
 import { fetchLikeProjects, fetchLikeUsers } from '../../modules/like';

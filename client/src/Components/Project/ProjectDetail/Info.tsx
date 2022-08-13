@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import theme from '../../../theme';
 import PeopleListItem from '../../People/PeopleListItem';
 import axios from 'axios';
-import { PROJECT_SERVER } from '../../../Config';
+import { PROJECT_SERVER } from '../../../config';
 
 const Container = styled.div``;
 

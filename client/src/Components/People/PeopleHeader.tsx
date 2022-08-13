@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../Common/Title';
 import PeopleSearchOption from './PeopleSearchOption';
-import { USER_SERVER } from '../../Config';
+import { USER_SERVER } from '../../config';
 
 const Header = styled.div`
   display: flex;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PROJECT_SERVER } from '../../Config';
+import { PROJECT_SERVER } from '../../config';
 import axios from 'axios';
 import styled from 'styled-components';
 import { FieldTransfer } from './transformValue';

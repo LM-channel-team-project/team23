@@ -1,8 +1,8 @@
 node_modules
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-Config.ts
-Config.js
+config.ts
+config.js
 
 # dependencies
 /node_modules
@@ -25,4 +25,4 @@ Config.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
+

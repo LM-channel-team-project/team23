@@ -3,7 +3,7 @@ import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 import GoogleLogin from 'react-google-login';
-import { GOOGLE_CLINET_ID, USER_SERVER } from '../../Config';
+import { GOOGLE_CLINET_ID, USER_SERVER } from '../../config';
 import axios from 'axios';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useDispatch } from 'react-redux';

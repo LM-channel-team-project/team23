@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { LIKE_SERVER } from '../Config';
+import { LIKE_SERVER } from '../config';
 
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'development' ? '/' : 'http://localhost:5000';

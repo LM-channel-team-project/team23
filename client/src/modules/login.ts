@@ -16,7 +16,7 @@ export const postLoginSuccess = (data: IResponse) => ({
   payload: data,
 });
 
-export const postLoginError = (data: AxiosError) => ({
+export const postLoginError = (data: unknown) => ({
   type: POST_LOGIN_ERROR,
   payload: data,
 });
@@ -30,7 +30,7 @@ type LoginState = {
   login: {
     loading: boolean;
     data: IResponse | null;
-    error: Error | null;
+    error: Error | unknown | null;
   };
 };
 

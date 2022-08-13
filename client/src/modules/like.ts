@@ -70,7 +70,7 @@ export const fetchLikeProjects = createAsyncThunk<
       likeProjects: likeProjects.data.likes,
     };
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error);
   }
 });
 
@@ -87,7 +87,7 @@ export const fetchLikeUsers = createAsyncThunk<
       likeUsers: likeUsers.data.likes,
     };
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error);
   }
 });
 
@@ -104,7 +104,7 @@ export const fetchMyLikeProjects = createAsyncThunk<
       myLikeProjects: myLikeProjects.data.projects,
     };
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error);
   }
 });
 
@@ -121,7 +121,7 @@ export const fetchMyLikeUsers = createAsyncThunk<
       myLikeUsers: myLikeUsers.data.users,
     };
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error);
   }
 });
 
@@ -138,7 +138,7 @@ export const fetchProjectLikeUsers = createAsyncThunk<
       projectLikeUsers: projectLikeUsers.data.users,
     };
   } catch (error) {
-    return rejectWithValue(error.response.data);
+    return rejectWithValue(error);
   }
 });
 
